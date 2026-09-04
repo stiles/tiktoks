@@ -1,0 +1,14 @@
+title: Mystery map
+difficulty: medium
+prompt: What do these countries have in common?
+clue: One category. No labels.
+answer: Answer goes here
+answer_note: Add one sentence explaining the pattern.
+source: "Source: Add data source; Natural Earth boundaries."
+data: data.csv
+map_type: binary
+geo_key: name
+data_key: name
+value_column: value
+active_value: 1
+output_dir: output

@@ -1,0 +1,14 @@
+title: NATO members
+difficulty: easy
+prompt: What do these countries have in common?
+clue: Look across North America and Europe.
+answer: They are NATO members
+answer_note: NATO has 32 member countries, including Finland and Sweden after their recent accessions.
+source: "Source: NATO member countries list; Natural Earth boundaries."
+data: data.csv
+map_type: binary
+geo_key: name
+data_key: name
+value_column: nato_member
+active_value: 1
+output_dir: output
