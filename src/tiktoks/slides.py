@@ -186,6 +186,90 @@ class Slide:
             **font,
         )
 
+    # Cover slides
+
+    def backdrop_axes(self) -> tuple[Axes, float]:
+        """A full-canvas axes behind everything, for a cover slide's map.
+
+        The map here is wallpaper, not information. It runs edge to edge and takes
+        a scrim over it so the text stays readable.
+        """
+        axes = self.figure.add_axes([0, 0, 1, 1], zorder=0)
+        axes.set_axis_off()
+        axes.set_xticks([])
+        axes.set_yticks([])
+        return axes, self.width / self.height
+
+    def scrim(self, alpha: float = 0.62, color: str | None = None) -> None:
+        """Wash the backdrop toward the background color so type reads over it."""
+        self.canvas.add_patch(
+            plt.Rectangle(
+                (0, 0),
+                self.width,
+                self.height,
+                facecolor=color or self.theme.background,
+                edgecolor="none",
+                alpha=alpha,
+                zorder=0,
+            )
+        )
+
+    def centered_stack(
+        self, blocks: list[dict], *, top: float | None = None, bottom: float | None = None
+    ) -> None:
+        """Center a stack of text blocks in the band between `top` and `bottom`.
+
+        The normal flow is left-aligned and top-down. A cover reads better centered,
+        so this measures the whole stack first and then places it.
+
+        The default band stops above the button rail rather than at the footer.
+        Centered type runs to both edges, so a headline that reaches the rail's
+        vertical band collides with it, and narrowing a cover headline enough to
+        squeeze past the rail shrinks it to nothing.
+        """
+        top = self.cursor if top is None else top
+        if bottom is None:
+            bottom = min(self.floor, safe.RAIL_TOP - 24) if self.safe_area else self.floor
+        center_x = (self.left + self.right) / 2
+
+        measured = []
+        total = 0.0
+        for block in blocks:
+            font = {
+                "fontfamily": block.get("font", self.theme.body_font),
+                "fontweight": block.get("weight", "normal"),
+            }
+            lines, size = fit(
+                self.figure,
+                block["text"],
+                self.content_width,
+                size=block["size"],
+                min_size=block.get("min_size", block["size"]),
+                max_lines=block.get("max_lines", 3),
+                **font,
+            )
+            leading = block.get("leading", 1.15)
+            height = size * PT_TO_PX * leading * len(lines)
+            measured.append((block, lines, size, leading, height, font))
+            total += height + block.get("gap_after", 0)
+
+        cursor = top + max((bottom - top - total) / 2, 0)
+        for block, lines, size, leading, height, font in measured:
+            step = size * PT_TO_PX * leading
+            for index, line in enumerate(lines):
+                self._text(
+                    center_x,
+                    cursor + index * step,
+                    line,
+                    block.get("kind", "cover"),
+                    color=block.get("color", self.theme.text),
+                    fontsize=size,
+                    ha="center",
+                    va="top",
+                    **font,
+                )
+            cursor += height + block.get("gap_after", 0)
+
     # Map and chart
 
     def map_axes(

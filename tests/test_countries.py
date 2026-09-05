@@ -113,3 +113,28 @@ def test_ordinary_countries_do_not_get_a_ring():
     world = world_countries()
     for name in ("The Gambia", "Lesotho", "Brunei", "Italy"):
         assert not needs_locator(prepare_country(world, [name]))
+
+
+def test_a_rendered_batch_opens_on_a_cover(tmp_path):
+    """A quiz starts on a cover that states the stakes, not on the first map."""
+    import json
+
+    from tiktoks.geo_quiz import render_geo_quiz
+    from tiktoks.io import write_yaml
+
+    config = tmp_path / "quiz.yaml"
+    write_yaml(
+        config,
+        {
+            "slug": "cover-test",
+            "difficulty": "easy",
+            "output_dir": "output",
+            "countries": [{"name": "Italy", "fact": "A boot."}],
+        },
+    )
+    render_geo_quiz(config)
+
+    manifest = json.loads((tmp_path / "output" / "night" / "post.json").read_text())
+    kinds = [slide["kind"] for slide in manifest["slides"]]
+    assert kinds == ["cover", "prompt", "answer", "scorecard"]
+    assert manifest["layout_problems"] == []

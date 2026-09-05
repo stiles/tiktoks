@@ -1,7 +1,14 @@
 from pathlib import Path
 
 from tiktoks.io import read_yaml
-from tiktoks.maps import MapView, draw_highlight, prepare_country, world_countries
+from tiktoks.maps import (
+    MapView,
+    draw_backdrop,
+    draw_highlight,
+    prepare_country,
+    prepare_world,
+    world_countries,
+)
 from tiktoks.post import Post
 from tiktoks.slides import Slide, shared_slot
 from tiktoks.style import Theme, get_theme
@@ -50,6 +57,11 @@ def hook_for(item: dict, difficulty: str, index: int) -> str:
     return pool[(index - 1) % len(pool)]
 
 
+# The cover states the stakes before the first map. Starting on a map asks the
+# viewer to work out what the post even is; a cover tells them and asks for a
+# score in the same breath. Override with `cover_title` in the batch config.
+COVER_TITLE = "How many countries can you name?"
+
 SCORECARD = {
     "title": "How did you do?",
     "dek": "Count your correct answers and put the number in the comments. No looking it up.",
@@ -80,6 +92,20 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         hashtags=config.get("hashtags", ["geography", "geoguessr", "quiz", "maps"]),
         sources=[BOUNDARY_SOURCE],
         config_path=config_path,
+    )
+
+    cover = _cover(config, theme, difficulty, color, total)
+    backdrop, backdrop_aspect = cover.backdrop_axes()
+    draw_backdrop(
+        backdrop, prepare_world(countries), theme=theme, aspect=backdrop_aspect, zoom=1.9
+    )
+    cover.scrim(0.3)
+    post.add(
+        cover,
+        kind="cover",
+        alt=f"A world map behind the words: {config.get('cover_title', COVER_TITLE)} "
+        f"Difficulty {difficulty}, {total} countries.",
+        title=config.get("cover_title", COVER_TITLE),
     )
 
     for index, item in enumerate(items, start=1):
@@ -129,6 +155,48 @@ def _answer(item: dict, theme: Theme, difficulty: str, color: str, index: int, t
     slide.kicker("Answer")
     slide.title(item["name"])
     slide.dek(item.get("fact", ""))
+    return slide
+
+
+def _cover(config: dict, theme: Theme, difficulty: str, color: str, total: int) -> Slide:
+    slide = Slide(theme, source=BOUNDARY_SOURCE)
+    slide.centered_stack(
+        [
+            {
+                "text": config.get("cover_title", COVER_TITLE),
+                "size": int(theme.title_size * 1.05),
+                "min_size": theme.title_min_size,
+                "max_lines": 4,
+                "font": theme.title_font,
+                "weight": theme.title_weight,
+                "leading": theme.title_leading,
+                "color": theme.text,
+                "gap_after": 54,
+                "kind": "cover title",
+            },
+            {
+                "text": f"Difficulty: {difficulty.capitalize()}",
+                "size": 40,
+                "weight": "bold",
+                "color": color,
+                "gap_after": 22,
+                "kind": "cover difficulty",
+            },
+            {
+                "text": f"{total} countries",
+                "size": 36,
+                "color": theme.text,
+                "gap_after": 40,
+                "kind": "cover count",
+            },
+            {
+                "text": "Comment your score below",
+                "size": 32,
+                "color": theme.muted,
+                "kind": "cover cue",
+            },
+        ]
+    )
     return slide
 
 

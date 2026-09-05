@@ -87,3 +87,41 @@ def test_boxes_intersect_only_on_real_overlap():
     assert not Box(0, 0, 100, 100).intersects(Box(100, 100, 200, 200))
     # Touching within tolerance is not a collision.
     assert not Box(0, 0, 100, 100).intersects(Box(99, 0, 200, 100))
+
+
+def test_centered_stack_centers_in_its_band():
+    slide = Slide("night")
+    slide.centered_stack(
+        [
+            {"text": "Headline", "size": 80, "gap_after": 40},
+            {"text": "Subhead", "size": 36},
+        ],
+        top=200,
+        bottom=1000,
+    )
+    boxes = [box for kind, box in slide.boxes() if kind == "cover"]
+    assert boxes
+    top, bottom = min(b.y0 for b in boxes), max(b.y1 for b in boxes)
+    assert top > 200 and bottom < 1000
+    # Roughly centered in the band: equal slack above and below.
+    assert abs((top - 200) - (1000 - bottom)) < 30
+
+
+@pytest.mark.parametrize("theme", sorted(THEMES))
+def test_cover_slide_clears_the_interface(theme):
+    slide = Slide(theme, source="Boundaries: Natural Earth")
+    slide.scrim()
+    slide.centered_stack(
+        [
+            {
+                "text": "How many countries can you name?",
+                "size": 82,
+                "max_lines": 4,
+                "gap_after": 54,
+            },
+            {"text": "Difficulty: Expert", "size": 40, "weight": "bold", "gap_after": 22},
+            {"text": "10 countries", "size": 36, "gap_after": 40},
+            {"text": "Comment your score below", "size": 32},
+        ]
+    )
+    assert slide.check_layout() == []

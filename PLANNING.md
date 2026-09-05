@@ -75,6 +75,23 @@ ends on a scorecard.
 Finish rate is the metric `docs/roadmap.md` correctly identifies as the one worth
 reading, and a reason to reach the last slide is the cheapest way to move it.
 
+## 6b. Cover slide — `done`
+
+A quiz opened on its first map, which asks the viewer to work out what the post
+even is before deciding whether to stay. It opens on a cover now: a world map
+behind the question, the difficulty, the country count and a request for a score.
+
+This needed three new primitives, because the normal layout is left-aligned and
+top-down. `backdrop_axes()` is a full-bleed axes behind everything, `scrim()`
+washes it toward the background so type reads over it, and `centered_stack()`
+measures a stack of text and centers it in the band TikTok leaves visible.
+
+A 2:1 world map fitted to a 9:16 frame is a thin strip across the middle, so the
+backdrop takes a `zoom` that trades the far east and west for height. It is
+wallpaper; the crop does not matter.
+
+All 17 existing batches were re-rendered with a cover.
+
 ## 7. Content catalog instead of hand-written batches — `done`
 
 `docs/geo-quiz-rollout.md` holds 40 countries across four tiers as a markdown list,

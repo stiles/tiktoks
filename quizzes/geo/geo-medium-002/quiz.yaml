@@ -1,0 +1,20 @@
+slug: geo-medium-002
+title: Medium geography quiz
+difficulty: medium
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Philippines
+  fact: An archipelago of more than 7,000 islands in Southeast Asia.
+- name: South Korea
+  fact: It occupies the southern half of the Korean Peninsula.
+- name: Turkey
+  fact: It spans two continents, with Istanbul straddling Europe and Asia.
+- name: Vietnam
+  fact: It runs down the eastern edge of the Indochinese Peninsula.
+- name: Chile
+  fact: A long, narrow country pressed between the Andes and the Pacific.
+- name: Greece
+  fact: Thousands of islands scatter across the Aegean and Ionian seas.

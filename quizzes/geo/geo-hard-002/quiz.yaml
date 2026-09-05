@@ -1,0 +1,20 @@
+slug: geo-hard-002
+title: Hard geography quiz
+difficulty: hard
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Georgia
+  fact: It sits in the Caucasus, between the Black Sea and Russia.
+- name: Kyrgyzstan
+  fact: A mountainous Central Asian country bordering China.
+- name: Laos
+  fact: The only landlocked country in Southeast Asia.
+- name: Malawi
+  fact: Much of its eastern border is a lake that shares its name.
+- name: Slovenia
+  fact: It sits between the Alps and the Adriatic, south of Austria.
+- name: Tunisia
+  fact: The northernmost country in Africa.

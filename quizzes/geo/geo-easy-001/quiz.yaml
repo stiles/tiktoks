@@ -1,0 +1,20 @@
+slug: geo-easy-001
+title: Easy geography quiz
+difficulty: easy
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Australia
+  fact: It is both a country and the smallest continent.
+- name: Brazil
+  fact: It is the largest country in South America.
+- name: Canada
+  fact: It has the world's longest coastline.
+- name: Egypt
+  fact: The Nile runs through it before reaching the Mediterranean Sea.
+- name: India
+  fact: It is the most populous country in the world.
+- name: Italy
+  fact: The boot-shaped peninsula extends into the Mediterranean Sea.

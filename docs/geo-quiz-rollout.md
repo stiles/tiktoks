@@ -4,14 +4,16 @@ Geo quizzes are carousel posts with alternating prompt and answer slides. The de
 
 ## Format
 
-- Slide 1: country outline or highlighted country, no label.
-- Slide 2: same map with the country name, region and one short fact.
-- Slide 3: next country prompt.
-- Slide 4: next answer.
-- Slide 5: next country prompt.
-- Slide 6: next answer.
+- Slide 1: the cover. A world map behind the question, the difficulty, the country
+  count and a request for a score in the comments.
+- Slide 2: a highlighted country, no label.
+- Slide 3: the same map with the country name and one short fact.
+- Then a prompt and an answer per country.
+- Last slide: the scorecard.
 
-An intro slide is optional. Use it only when the theme needs context, such as "island countries" or "landlocked countries."
+The cover is not optional. Opening on a map asks the viewer to work out what the
+post is before deciding whether to stay. Override its headline with `cover_title`
+in the batch config when a batch has a theme, such as island countries.
 
 ## Difficulty
 

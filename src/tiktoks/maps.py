@@ -270,6 +270,34 @@ def draw_highlight(
         )
 
 
+def draw_backdrop(
+    ax: Axes,
+    view: MapView,
+    *,
+    theme: Theme | str | None = None,
+    aspect: float = 1.0,
+    zoom: float = 1.0,
+) -> None:
+    """A world map as wallpaper for a cover slide.
+
+    A 2:1 world map fitted to a 9:16 frame is a thin band across the middle.
+    `zoom` above 1 shrinks the window so the map takes more of the height, at the
+    cost of cropping the far east and west. It is wallpaper, so the crop is fine.
+    """
+    theme = get_theme(theme)
+    ax.set_facecolor(theme.water)
+    view.base.plot(ax=ax, color=theme.land, edgecolor=theme.border, linewidth=0.4)
+
+    bounds = view.bounds
+    if zoom != 1.0:
+        min_x, min_y, max_x, max_y = bounds
+        center_x, center_y = (min_x + max_x) / 2, (min_y + max_y) / 2
+        half_w = (max_x - min_x) / 2 / zoom
+        half_h = (max_y - min_y) / 2 / zoom
+        bounds = (center_x - half_w, center_y - half_h, center_x + half_w, center_y + half_h)
+    frame_axes(ax, bounds, aspect)
+
+
 def draw_binary(
     ax: Axes,
     view: MapView,

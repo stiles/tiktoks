@@ -1,0 +1,21 @@
+slug: geo-easy-002
+title: Easy geography quiz
+difficulty: easy
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Japan
+  fact: The island country sits east of the Korean Peninsula.
+- name: Mexico
+  fact: It borders the United States to the north and Guatemala and Belize to the
+    south.
+- name: South Africa
+  fact: It sits at the southern end of the African continent.
+- name: United Kingdom
+  fact: It includes England, Scotland, Wales and Northern Ireland.
+- name: Australia
+  fact: It is both a country and the smallest continent.
+- name: Brazil
+  fact: It is the largest country in South America.

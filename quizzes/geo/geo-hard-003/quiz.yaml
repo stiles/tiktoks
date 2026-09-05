@@ -1,0 +1,20 @@
+slug: geo-hard-003
+title: Hard geography quiz
+difficulty: hard
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Uruguay
+  fact: It sits between Brazil and Argentina on the Atlantic coast.
+- name: Belize
+  fact: The only country in Central America with English as its official language.
+- name: Croatia
+  fact: Its coastline runs down the Adriatic in a long, narrow curve.
+- name: Eritrea
+  fact: It runs along the Red Sea, north of Ethiopia.
+- name: Georgia
+  fact: It sits in the Caucasus, between the Black Sea and Russia.
+- name: Kyrgyzstan
+  fact: A mountainous Central Asian country bordering China.

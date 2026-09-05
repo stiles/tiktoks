@@ -75,6 +75,8 @@ Maps are projected before they are drawn. Country zooms use Lambert azimuthal eq
 
 A prompt and its answer share one map rect so the swipe reads as a reveal. See `shared_slot`.
 
+Cover slides break the top-down flow. `backdrop_axes()` puts a full-bleed map behind everything, `scrim()` washes it toward the background so type reads over it, and `centered_stack()` measures a stack of text and centers it in the space that TikTok does not cover.
+
 ## Posts and the manifest
 
 A render produces a `post.json` beside the PNGs, holding the slug, format, difficulty, slide order, alt text, sources, caption, render time, git SHA and config hash. That is what ties a rendered batch to a TikTok post later, so metrics can be attributed to a format instead of guessed at.
@@ -148,6 +150,8 @@ countries:
     context: world          # highlight on a world map instead of a regional zoom
 ```
 
-Prompt slides lead with a hook rather than an instruction, carry a question counter, and the batch ends on a scorecard that asks for a score in the comments. Hooks rotate through a per-tier pool so ten prompts do not read identically.
+A batch opens on a cover slide: a world map behind the question, the difficulty, the country count and a request for a score in the comments. Starting on the first map asks the viewer to work out what the post even is. Override the headline with `cover_title` in the batch config.
+
+Prompt slides then lead with a hook rather than an instruction, carry a question counter, and the batch ends on a scorecard. Hooks rotate through a per-tier pool so ten prompts do not read identically.
 
 A country that covers too little of its map window gets a locator ring drawn around it. That is what makes the expert island tier postable: Comoros needs a window wide enough to show Madagascar, at which point the country itself is specks.

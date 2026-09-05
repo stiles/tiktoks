@@ -1,0 +1,21 @@
+slug: geo-medium-001
+title: Medium geography quiz
+difficulty: medium
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Chile
+  fact: A long, narrow country pressed between the Andes and the Pacific.
+- name: Greece
+  fact: Thousands of islands scatter across the Aegean and Ionian seas.
+- name: Madagascar
+  fact: The world's fourth largest island, off the southeast coast of Africa.
+- name: Morocco
+  fact: It faces both the Atlantic and the Mediterranean, across the strait from Spain.
+- name: New Zealand
+  fact: Two main islands in the South Pacific, southeast of Australia across the Tasman
+    Sea.
+- name: Norway
+  fact: Its western coast is cut by deep glacial fjords.
