@@ -1,6 +1,6 @@
 # Visual style
 
-This project is not a CNN project. The style borrows newsroom habits: clear hierarchy, honest scales, direct labels and restrained color.
+This project style borrows from newsroom habits: clear hierarchy, honest scales, direct labels and restrained color.
 
 `night` is the default theme. `paper` and `poster` stay in `src/tiktoks/style.py` as alternates and as a way to check that a layout holds up under a different type scale. Run `make styles` to render all three against the same test slides.
 
@@ -77,7 +77,7 @@ Data maps need a source line. Quiz maps should include a boundary source unless 
 
 Keep source lines short:
 
-`Boundaries: Natural Earth, via CNN Visuals GIS files.`
+`Boundaries: Natural Earth`
 
 For data:
 

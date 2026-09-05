@@ -14,10 +14,10 @@ REFERENCE_DIR = DATA_DIR / "reference"
 OUTPUT_DIR = ROOT / "output"
 
 GIS_URLS = {
-    "countries": "https://ix.cnn.io/data/gis/cnn-country-polys-50m.geojson",
-    "country_lines": "https://ix.cnn.io/data/gis/cnn-country-lines-50m.geojson",
-    "disputed_lines": "https://ix.cnn.io/data/gis/cnn-disputed-lines-50m.geojson",
-    "world_land": "https://ix.cnn.io/data/gis/world_land_50m.geojson",
-    "us_states": "https://ix.cnn.io/data/gis/us_states.geojson",
-    "us_counties": "https://ix.cnn.io/data/gis/us_counties.zip",
+    "countries": "https://stilesdata.com/gis/cnn-country-polys-50m.geojson",
+    "country_lines": "https://stilesdata.com/gis/cnn-country-lines-50m.geojson",
+    "disputed_lines": "https://stilesdata.com/gis/cnn-disputed-lines-50m.geojson",
+    "world_land": "https://stilesdata.com/gis/world_land_50m.geojson",
+    "us_states": "https://stilesdata.com/gis/us_states.geojson",
+    "us_counties": "https://stilesdata.com/gis/us_counties.zip",
 }

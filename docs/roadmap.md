@@ -56,7 +56,6 @@ Small enough to keep in git. Mirror to S3 if it grows.
 
 - Island chains such as the Maldives and Fiji read as specks at any honest zoom. They need an inset before they belong in the expert pool.
 - The United States frames on the lower 48 plus Alaska, which leaves a lot of ocean. Works, but wants a `center` and `zoom` override.
-- No disputed-boundary layer yet. `cnn-disputed-lines-50m.geojson` is loaded but never drawn. It matters on any map covering Kashmir, the Western Sahara or the Korean DMZ.
 - No US state or county geography wired up, and much of the guess-the-map backlog is county level.
 - Choropleth binning is quantiles only. Some measures want natural breaks or fixed thresholds.
 

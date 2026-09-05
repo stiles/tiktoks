@@ -5,7 +5,7 @@ from tiktoks.maps import MapView, draw_highlight, prepare_country, world_countri
 from tiktoks.slides import Slide, shared_slot
 from tiktoks.style import Theme, get_theme
 
-BOUNDARY_SOURCE = "Boundaries: Natural Earth, via CNN Visuals GIS files."
+BOUNDARY_SOURCE = "Boundaries: Natural Earth"
 
 
 def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -> list[Path]:

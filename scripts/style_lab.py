@@ -27,7 +27,7 @@ from tiktoks.style import THEMES, Theme
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output" / "style-lab"
 NATO = ROOT / "quizzes" / "guess-map" / "nato-members"
-BOUNDARIES = "Boundaries: Natural Earth, via CNN Visuals GIS files."
+BOUNDARIES = "Boundaries: Natural Earth"
 
 
 def country_pair(theme: Theme, countries, name: str, fact: str, difficulty: str) -> list[Slide]:
