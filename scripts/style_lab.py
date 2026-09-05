@@ -26,7 +26,7 @@ from tiktoks.style import THEMES, Theme
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output" / "style-lab"
-NATO = ROOT / "quizzes" / "guess-map" / "nato-members"
+NATO = ROOT / "quizzes" / "guess-map" / "nato-members-csv"
 BOUNDARIES = "Boundaries: Natural Earth"
 
 
@@ -47,7 +47,7 @@ def country_pair(theme: Theme, countries, name: str, fact: str, difficulty: str)
     slot = shared_slot(prompt, answer)
     for slide in (prompt, answer):
         draw_highlight(
-            slide.map_axes(slot=slot), view, theme=theme, aspect=slide.map_aspect, color=color
+            slide.map_axes(slot=slot)[0], view, theme=theme, aspect=slide.map_aspect, color=color
         )
     return [prompt, answer]
 
@@ -63,8 +63,8 @@ def nato_mystery(theme: Theme, geography) -> Slide:
     slide.kicker("Guess the map")
     slide.title("What do these countries have in common?", hero=True)
     view = prepare_world(geography)
-    axes = slide.map_axes(data_aspect=view.aspect, bleed=True)
-    draw_binary(axes, view, value_column="nato_member", theme=theme, aspect=slide.map_aspect)
+    axes, aspect = slide.map_axes(data_aspect=view.aspect, bleed=True)
+    draw_binary(axes, view, value_column="nato_member", theme=theme, aspect=aspect)
     return slide
 
 
@@ -80,8 +80,8 @@ def gdp_choropleth(theme: Theme, geography) -> Slide:
     slide.dek("Purchasing power parity, current international dollars.")
     slide.legend(list(theme.sequential), ["$400", "$140,000"], no_data=True)
     view = prepare_world(geography)
-    axes = slide.map_axes(data_aspect=view.aspect, bleed=True)
-    draw_choropleth(axes, view, value_column="gdp_pc", theme=theme, aspect=slide.map_aspect)
+    axes, aspect = slide.map_axes(data_aspect=view.aspect, bleed=True)
+    draw_choropleth(axes, view, value_column="gdp_pc", theme=theme, aspect=aspect)
     return slide
 
 

@@ -1,3 +1,6 @@
+# The CSV path, kept as a worked example. The catalog entry `nato-members`
+# builds the same map from a Wikidata query and is the one to copy.
+slug: nato-members-csv
 title: NATO members
 difficulty: easy
 prompt: What do these countries have in common?

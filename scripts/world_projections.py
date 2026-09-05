@@ -38,7 +38,7 @@ def main() -> None:
     countries = world_countries()
     nato = join_values(
         countries,
-        pd.read_csv(ROOT / "quizzes/guess-map/nato-members/data.csv"),
+        pd.read_csv(ROOT / "quizzes/guess-map/nato-members-csv/data.csv"),
         geo_key="name",
         data_key="name",
     )
@@ -58,8 +58,8 @@ def main() -> None:
         )
         slide.kicker("Guess the map")
         slide.title("What do these countries have in common?")
-        axes = slide.map_axes(data_aspect=view.aspect, bleed=True)
-        draw_binary(axes, view, value_column="nato_member", theme=PAPER, aspect=slide.map_aspect)
+        axes, aspect = slide.map_axes(data_aspect=view.aspect, bleed=True)
+        draw_binary(axes, view, value_column="nato_member", theme=PAPER, aspect=aspect)
         paths.append(slide.save(OUT / f"{name}.png"))
 
     print(contact_sheet(paths, OUT / "sheet.png", columns=4))

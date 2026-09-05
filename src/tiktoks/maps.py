@@ -17,7 +17,7 @@ from matplotlib.axes import Axes
 from matplotlib.colors import ListedColormap
 from shapely.ops import transform
 
-from tiktoks.config import GIS_URLS, REFERENCE_DIR
+from tiktoks.config import CROSSWALK_PATH, GIS_URLS, REFERENCE_DIR
 from tiktoks.style import Theme, get_theme
 
 WORLD_CRS = "+proj=eqearth +lon_0=0 +datum=WGS84 +units=m +no_defs"
@@ -296,6 +296,54 @@ def join_values(
     unmatched = set(values[data_key]) - set(geography[geo_key])
     if len(unmatched) > len(values) * 0.1:
         raise ValueError(f"Join dropped {len(unmatched)} rows. Check keys: {sorted(unmatched)[:8]}")
+    return joined
+
+
+@lru_cache(maxsize=1)
+def country_crosswalk() -> pd.DataFrame:
+    """Polygon name to ISO 3166-1 alpha-3 and Wikidata QID.
+
+    Built by `scripts/build_crosswalk.py`. The boundary file carries no codes, so
+    without this there is nothing to join a Wikidata or World Bank result to.
+    """
+    if not CROSSWALK_PATH.exists():
+        raise FileNotFoundError(
+            f"{CROSSWALK_PATH} is missing. Run: uv run python scripts/build_crosswalk.py"
+        )
+    return pd.read_csv(CROSSWALK_PATH, keep_default_na=False)
+
+
+def with_codes(geography: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Add an `iso3` column to country polygons."""
+    codes = country_crosswalk()[["name", "iso3"]]
+    return geography.merge(codes, on="name", how="left")
+
+
+def join_codes(
+    geography: gpd.GeoDataFrame,
+    values: pd.DataFrame,
+    *,
+    value_column: str,
+    fill: float | int | None = None,
+    min_coverage: float = 0.25,
+) -> gpd.GeoDataFrame:
+    """Join a frame keyed by ISO3 onto country polygons.
+
+    Joining on codes rather than names is what makes an outside dataset usable
+    without hand-editing its country column.
+    """
+    frame = with_codes(geography)
+    incoming = values.drop_duplicates("iso3")[["iso3", value_column]]
+    joined = frame.merge(incoming, on="iso3", how="left")
+    if fill is not None:
+        joined[value_column] = joined[value_column].fillna(fill)
+
+    coverage = joined[value_column].notna().mean()
+    if coverage < min_coverage:
+        raise ValueError(
+            f"Only {coverage:.0%} of polygons got a value for {value_column!r}. "
+            "Check the ISO3 codes in the source data."
+        )
     return joined
 
 

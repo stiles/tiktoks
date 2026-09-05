@@ -1,17 +1,14 @@
-from pathlib import Path
+from tiktoks.paths import repo_root
 
 CANVAS_SIZE = (1080, 1920)
-SAFE_AREA = {
-    "left": 96,
-    "right": 96,
-    "top": 150,
-    "bottom": 180,
-}
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = repo_root()
 DATA_DIR = ROOT / "data"
 REFERENCE_DIR = DATA_DIR / "reference"
+CONTENT_DIR = ROOT / "content"
 OUTPUT_DIR = ROOT / "output"
+
+CROSSWALK_PATH = REFERENCE_DIR / "country_crosswalk.csv"
 
 GIS_URLS = {
     "countries": "https://stilesdata.com/gis/cnn-country-polys-50m.geojson",

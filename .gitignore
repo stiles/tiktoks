@@ -16,5 +16,3 @@ __pycache__/
 
 # Credentials for the metrics collector.
 .env
-
-PLANNING.md

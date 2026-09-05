@@ -1,0 +1,141 @@
+# Guess-the-map posts, one entry per post.
+#
+# Each entry names a query instead of shipping a CSV. Rendering fetches the data,
+# joins it on ISO 3166-1 alpha-3 through data/reference/country_crosswalk.csv and
+# writes the slides to quizzes/guess-map/<slug>/output/<theme>/.
+#
+#   uv run tiktoks catalog --list
+#   uv run tiktoks catalog --slug euro-countries
+#   uv run tiktoks catalog --all
+#
+# Wikidata property and value IDs used below:
+#   P463 member of        Q7184  NATO
+#   P38  currency         Q4916  euro
+#   P1622 driving side    Q11920728 left
+#   P463 member of        Q7795  OPEC
+#
+# `expect` fails the render when a query returns the wrong number of countries.
+# `include` and `exclude` correct Wikidata where it is wrong or out of date; each
+# one carries a comment saying why.
+
+defaults:
+  hide_antarctica: true
+  hashtags: [maps, geography, dataviz, guessthemap]
+
+posts:
+  - slug: euro-countries
+    difficulty: easy
+    topic: currency
+    map_type: binary
+    prompt: What do these countries have in common?
+    clue: All of them are in Europe, but not every EU member is shaded.
+    answer: They use the euro
+    answer_note: Twenty-one of the 27 EU members use the euro, along with several microstates and overseas territories. Bulgaria joined in 2026.
+    source: "Source: Wikidata currency property. Boundaries: Natural Earth."
+    challenge: Name an EU member that does not use the euro.
+    challenge_note: There are six. Most people get two.
+    expect:
+      min_countries: 35
+    fetch:
+      kind: wikidata_members
+      property: P38
+      value: Q4916
+      # Wikidata records the Netherlands' currency on the kingdom, not the country.
+      include: [NLD]
+
+  - slug: nato-members
+    difficulty: easy
+    topic: alliances
+    map_type: binary
+    prompt: What do these countries have in common?
+    clue: Look across North America and Europe.
+    answer: They are NATO members
+    answer_note: NATO has 32 members. Finland joined in 2023 and Sweden in 2024.
+    source: "Source: Wikidata membership property. Boundaries: Natural Earth."
+    challenge: Name the two newest NATO members.
+    expect:
+      count: 32
+    fetch:
+      kind: wikidata_members
+      property: P463
+      value: Q7184
+      # Both record the membership on the kingdom rather than the country.
+      include: [DNK, NLD]
+
+  - slug: drives-on-the-left
+    difficulty: medium
+    topic: transportation
+    map_type: binary
+    prompt: What do these countries have in common?
+    clue: It has more to do with empire than with geography.
+    answer: They drive on the left
+    answer_note: About a third of the world's population drives on the left. Most of these countries were once British colonies. Japan, Thailand and Indonesia were not.
+    source: "Source: Wikidata driving side property. Boundaries: Natural Earth."
+    challenge: Name a country that drives on the left and was never a British colony.
+    expect:
+      min_countries: 70
+    fetch:
+      kind: wikidata_members
+      property: P1622
+      value: Q11920728
+
+  - slug: opec-members
+    difficulty: hard
+    topic: energy
+    map_type: binary
+    prompt: What do these countries have in common?
+    clue: Twelve countries, three continents, one commodity.
+    answer: They are OPEC members
+    answer_note: OPEC has 12 members and no producer in North America. Angola left in 2024.
+    source: "Source: Wikidata membership property. Boundaries: Natural Earth."
+    challenge: Name the only OPEC member in South America.
+    expect:
+      count: 12
+    fetch:
+      kind: wikidata_members
+      property: P463
+      value: Q7795
+      # Angola left OPEC in January 2024; Wikidata still has no end date on it.
+      exclude: [AGO]
+
+  - slug: gdp-per-capita
+    difficulty: medium
+    topic: economy
+    prompt: What does this map measure?
+    clue: Darker means more of it. Luxembourg and Switzerland are at the top.
+    answer: GDP per capita
+    answer_note: The gap between the richest and poorest countries is roughly a hundredfold.
+    source: "Source: World Bank, NY.GDP.PCAP.CD. Boundaries: Natural Earth."
+    legend_format: "${:,.0f}"
+    challenge: Guess which country ranks first. It is smaller than Rhode Island.
+    fetch:
+      kind: worldbank
+      indicator: NY.GDP.PCAP.CD
+
+  - slug: life-expectancy
+    difficulty: medium
+    topic: health
+    prompt: What does this map measure?
+    clue: The range runs from the low 50s to the mid 80s.
+    answer: Life expectancy at birth
+    answer_note: Japan, Switzerland and Spain sit near the top. The lowest figures are in central and western Africa.
+    source: "Source: World Bank, SP.DYN.LE00.IN. Boundaries: Natural Earth."
+    legend_format: "{:,.0f} yrs"
+    challenge: Name the country with the highest life expectancy in the Americas.
+    fetch:
+      kind: worldbank
+      indicator: SP.DYN.LE00.IN
+
+  - slug: forest-share
+    difficulty: hard
+    topic: climate
+    prompt: What does this map measure?
+    clue: It is not population, and it is not income.
+    answer: Share of land covered by forest
+    answer_note: Suriname, Guyana and Gabon are more than 80 percent forest. Several countries are under one percent.
+    source: "Source: World Bank, AG.LND.FRST.ZS. Boundaries: Natural Earth."
+    legend_format: "{:,.0f}%"
+    challenge: Name the most forested country in South America. It is not Brazil.
+    fetch:
+      kind: worldbank
+      indicator: AG.LND.FRST.ZS

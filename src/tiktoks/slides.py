@@ -10,12 +10,18 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.axes import Axes  # noqa: E402
 from matplotlib.patches import FancyBboxPatch  # noqa: E402
 
+from tiktoks import safe  # noqa: E402
 from tiktoks.config import CANVAS_SIZE  # noqa: E402
 from tiktoks.paths import ensure_dir  # noqa: E402
+from tiktoks.safe import Box  # noqa: E402
 from tiktoks.style import Theme, get_theme  # noqa: E402
 from tiktoks.text import fit, measure  # noqa: E402
 
 PT_TO_PX = 100 / 72
+
+# The footer stack (legend, source, call-to-action) never runs taller than this, so
+# the rail-clearance test can be done once instead of per element.
+FOOTER_BAND = 420
 
 
 def shared_slot(*slides: "Slide", min_height: int = 620) -> tuple[float, float]:
@@ -28,7 +34,12 @@ def shared_slot(*slides: "Slide", min_height: int = 620) -> tuple[float, float]:
 
 class Slide:
     """Stacks a kicker, title and dek from the top, a footer from the bottom, and
-    hands whatever vertical space is left to the map."""
+    hands whatever vertical space is left to the map.
+
+    Margins are widened to clear TikTok's own interface. See `safe.py`; pass
+    `safe_area=False` to lay out against the theme margins alone, which is only
+    useful for style tests.
+    """
 
     def __init__(
         self,
@@ -38,12 +49,18 @@ class Slide:
         cue: str | None = None,
         badge: str | None = None,
         badge_color: str | None = None,
+        safe_area: bool = True,
         width: int = CANVAS_SIZE[0],
         height: int = CANVAS_SIZE[1],
     ) -> None:
         self.theme = get_theme(theme)
         self.width = width
         self.height = height
+        self.safe_area = safe_area
+        self.map_aspect = 1.0
+
+        self._texts: list[tuple[str, object]] = []
+        self._boxes: list[tuple[str, Box]] = []
 
         self.figure = plt.figure(
             figsize=(width / 100, height / 100),
@@ -56,11 +73,20 @@ class Slide:
         self.canvas.set_ylim(height, 0)
         self.canvas.patch.set_visible(False)
 
-        self.left = self.theme.margin_left
-        self.right = width - self.theme.margin_right
+        pad_left, pad_right, pad_top, pad_bottom = self._margins()
+        self.left = pad_left
+        self.right = width - pad_right
         self.content_width = self.right - self.left
-        self.cursor = self.theme.margin_top
-        self.floor = height - self.theme.margin_bottom
+        self.cursor = pad_top
+        self.floor = height - pad_bottom
+
+        # Content that sits low in the frame has to clear the button rail as well
+        # as the caption band.
+        self.footer_right = (
+            safe.right_edge_at(self.floor - FOOTER_BAND, self.floor, self.right)
+            if safe_area
+            else self.right
+        )
 
         if badge:
             self._draw_badge(badge, badge_color or self.theme.highlight)
@@ -69,16 +95,28 @@ class Slide:
         if cue:
             self._draw_cue(cue)
 
+    def _margins(self) -> tuple[float, float, float, float]:
+        theme = self.theme
+        if not self.safe_area:
+            return theme.margin_left, theme.margin_right, theme.margin_top, theme.margin_bottom
+        return (
+            max(theme.margin_left, safe.SIDE),
+            max(theme.margin_right, safe.SIDE),
+            max(theme.margin_top, safe.TOP),
+            max(theme.margin_bottom, safe.BOTTOM),
+        )
+
     # Top-down blocks
 
     def kicker(self, text: str) -> None:
         if not text:
             return
         label = text.upper() if self.theme.kicker_upper else text
-        self.canvas.text(
+        self._text(
             self.left,
             self.cursor,
             label,
+            "kicker",
             color=self.theme.muted,
             fontsize=self.theme.kicker_size,
             fontweight="bold",
@@ -92,35 +130,63 @@ class Slide:
             return
         scale = self.theme.hero_scale if hero else 1.0
         font = {"fontfamily": self.theme.title_font, "fontweight": self.theme.title_weight}
-        lines, size = fit(
-            self.figure,
+        lines, size = self._fit_block(
             text,
-            self.content_width,
             size=int(self.theme.title_size * scale),
             min_size=self.theme.title_min_size,
             max_lines=self.theme.hero_lines if hero else self.theme.title_lines,
-            **font,
+            leading=self.theme.title_leading,
+            font=font,
         )
-        self._draw_lines(lines, size, self.theme.title_leading, self.theme.text, font)
+        self._draw_lines(lines, size, self.theme.title_leading, self.theme.text, font, "title")
         self.cursor += self.theme.gap_title
 
     def dek(self, text: str) -> None:
         if not text:
             return
         font = {"fontfamily": self.theme.body_font, "fontweight": "normal"}
-        lines, size = fit(
-            self.figure,
+        lines, size = self._fit_block(
             text,
-            self.content_width,
             size=self.theme.dek_size,
             min_size=self.theme.dek_size - 8,
             max_lines=self.theme.dek_lines,
-            **font,
+            leading=self.theme.dek_leading,
+            font=font,
         )
-        self._draw_lines(lines, size, self.theme.dek_leading, self.theme.muted, font)
+        self._draw_lines(lines, size, self.theme.dek_leading, self.theme.muted, font, "dek")
         self.cursor += self.theme.gap_dek
 
-    # Map
+    def _fit_block(
+        self, text: str, *, size: int, min_size: int, max_lines: int, leading: float, font: dict
+    ) -> tuple[list[str], int]:
+        """Wrap to the content width, then rewrap narrower if the block would reach
+        into the button rail. A long dek under a hero title lands in that band."""
+        lines, fitted = fit(
+            self.figure,
+            text,
+            self.content_width,
+            size=size,
+            min_size=min_size,
+            max_lines=max_lines,
+            **font,
+        )
+        if not self.safe_area:
+            return lines, fitted
+        block = fitted * PT_TO_PX * leading * len(lines)
+        narrowed = safe.right_edge_at(self.cursor, self.cursor + block, self.right) - self.left
+        if narrowed >= self.content_width:
+            return lines, fitted
+        return fit(
+            self.figure,
+            text,
+            narrowed,
+            size=size,
+            min_size=min_size,
+            max_lines=max_lines,
+            **font,
+        )
+
+    # Map and chart
 
     def map_axes(
         self,
@@ -129,8 +195,11 @@ class Slide:
         slot: tuple[float, float] | None = None,
         bleed: bool = False,
         min_height: int = 620,
-    ) -> Axes:
+    ) -> tuple[Axes, float]:
         """Place a map axes between the last text block and the footer.
+
+        Returns the axes and its width/height ratio, which the `draw_*` helpers
+        need in order to fill the box instead of letterboxing inside it.
 
         `data_aspect` shrinks the box to the shape of the data rather than cropping
         it to a portrait slot, which matters for world maps. `slot` forces an exact
@@ -179,7 +248,7 @@ class Slide:
         axes.set_xticks([])
         axes.set_yticks([])
         self.map_aspect = width / height
-        return axes
+        return axes, self.map_aspect
 
     def chart_axes(
         self,
@@ -214,7 +283,8 @@ class Slide:
     def legend(self, colors: list[str], labels: list[str], *, no_data: bool = False) -> None:
         """Bin strip above the footer, with a label at each end. Call before map_axes."""
         bar_height = 26
-        step = self.content_width / len(colors)
+        span = self.footer_right - self.left
+        step = span / len(colors)
         label_size = self.theme.source_size
         top = self.floor - bar_height - label_size * PT_TO_PX * 1.5
 
@@ -230,11 +300,16 @@ class Slide:
                     zorder=3,
                 )
             )
-        for x, label, align in ((self.left, labels[0], "left"), (self.right, labels[-1], "right")):
-            self.canvas.text(
+        self._record("legend bar", Box(self.left, top, self.footer_right, top + bar_height))
+        for x, label, align in (
+            (self.left, labels[0], "left"),
+            (self.footer_right, labels[-1], "right"),
+        ):
+            self._text(
                 x,
                 top + bar_height + 12,
                 label,
+                "legend label",
                 color=self.theme.muted,
                 fontsize=label_size,
                 fontfamily=self.theme.body_font,
@@ -254,10 +329,11 @@ class Slide:
                     zorder=3,
                 )
             )
-            self.canvas.text(
+            self._text(
                 self.left + bar_height + 14,
                 chip_top + bar_height / 2,
                 "No data",
+                "no-data chip",
                 color=self.theme.muted,
                 fontsize=label_size,
                 fontfamily=self.theme.body_font,
@@ -273,20 +349,25 @@ class Slide:
         lines = fit(
             self.figure,
             text,
-            self.content_width,
+            self.footer_right - self.left,
             size=self.theme.source_size,
             min_size=self.theme.source_size,
             max_lines=2,
             **font,
         )[0]
         leading = self.theme.source_size * PT_TO_PX * 1.28
-        block = leading * len(lines)
+        # Measure the last line rather than assuming it is one leading tall. The
+        # leading estimate ignores glyph descent, which pushed the source a few
+        # pixels into the caption band.
+        _, line_height = measure(self.figure, "Hgy", fontsize=self.theme.source_size, **font)
+        block = leading * (len(lines) - 1) + line_height
         top = self.floor - block
         for index, line in enumerate(lines):
-            self.canvas.text(
+            self._text(
                 self.left,
                 top + index * leading,
                 line,
+                "source",
                 color=self.theme.muted,
                 fontsize=self.theme.source_size,
                 va="top",
@@ -313,6 +394,9 @@ class Slide:
                 zorder=3,
             )
         )
+        self._record(
+            "cue pill", Box(self.left, top, self.left + width + pad_x * 2, top + box_height)
+        )
         self.canvas.text(
             self.left + pad_x + width / 2,
             top + box_height / 2,
@@ -336,7 +420,7 @@ class Slide:
         pad_x, pad_y = 26, 14
         box_width = width + pad_x * 2
         box_height = size * PT_TO_PX + pad_y * 2
-        top = self.theme.margin_top - pad_y
+        top = self.cursor
         self.canvas.add_patch(
             FancyBboxPatch(
                 (self.right - box_width, top),
@@ -348,6 +432,7 @@ class Slide:
                 zorder=3,
             )
         )
+        self._record("badge", Box(self.right - box_width, top, self.right, top + box_height))
         self.canvas.text(
             self.right - box_width / 2,
             top + box_height / 2,
@@ -360,18 +445,62 @@ class Slide:
             va="center",
             zorder=4,
         )
+        # The text stack starts below the badge rather than beside it, so a long
+        # headline can never run into it.
+        self.cursor = top + box_height + 22
+
+    # Layout checking
+
+    def _text(self, x: float, y: float, label: str, kind: str, **kwargs):
+        artist = self.canvas.text(x, y, label, **kwargs)
+        self._texts.append((kind, artist))
+        return artist
+
+    def _record(self, kind: str, box: Box) -> None:
+        self._boxes.append((kind, box))
+
+    def boxes(self) -> list[tuple[str, Box]]:
+        """Every text run and interface chip the slide drew, in slide coordinates."""
+        renderer = self.figure.canvas.get_renderer()
+        found = list(self._boxes)
+        for kind, artist in self._texts:
+            extent = artist.get_window_extent(renderer=renderer)
+            # Display coordinates put the origin at the bottom left; slide
+            # coordinates put it at the top left.
+            found.append(
+                (kind, Box(extent.x0, self.height - extent.y1, extent.x1, self.height - extent.y0))
+            )
+        return found
+
+    def check_layout(self) -> list[str]:
+        """Text or chips that land where TikTok's interface will cover them.
+
+        A pixel scan would flag world maps, which bleed to the canvas edge on
+        purpose, so the check runs on element bounds instead.
+        """
+        if not self.safe_area:
+            return []
+        problems = []
+        for kind, box in self.boxes():
+            for zone in safe.collisions(box):
+                problems.append(
+                    f"{kind} at ({box.x0:.0f}, {box.y0:.0f})-({box.x1:.0f}, {box.y1:.0f}) "
+                    f"overlaps the {zone}"
+                )
+        return problems
 
     # Internals
 
     def _draw_lines(
-        self, lines: list[str], size: int, leading: float, color: str, font: dict
+        self, lines: list[str], size: int, leading: float, color: str, font: dict, kind: str
     ) -> None:
         step = size * PT_TO_PX * leading
         for index, line in enumerate(lines):
-            self.canvas.text(
+            self._text(
                 self.left,
                 self.cursor + index * step,
                 line,
+                kind,
                 color=color,
                 fontsize=size,
                 va="top",
