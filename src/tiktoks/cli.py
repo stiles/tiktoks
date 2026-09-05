@@ -3,7 +3,7 @@ from shutil import copytree
 
 import click
 
-from tiktoks import catalog
+from tiktoks import batches, catalog, countries
 from tiktoks.geo_quiz import render_geo_quiz
 from tiktoks.guess_map import CATALOG_PATH, render_catalog, render_guess_map
 from tiktoks.style import THEMES
@@ -67,6 +67,48 @@ def catalog_command(
     if not slug and not render_all:
         raise click.UsageError("Pass --slug, --all or --list.")
     _echo(render_catalog(catalog_path, slug=slug, theme=theme))
+
+
+@main.group("quiz")
+def quiz() -> None:
+    """Build geography quiz batches from the country pool."""
+
+
+@quiz.command("next")
+@click.option("--tier", type=click.Choice(countries.TIERS), required=True)
+@click.option("--count", default=3, show_default=True, help="Countries in the batch.")
+@click.option("--slug", default=None, help="Batch directory name. Auto-numbered by default.")
+@click.option("--dry-run", is_flag=True, help="Show the picks without writing anything.")
+@click.option("--no-render", is_flag=True, help="Write the batch config but do not render.")
+@theme_option
+def quiz_next(
+    tier: str, count: int, slug: str | None, dry_run: bool, no_render: bool, theme: str | None
+) -> None:
+    """Pick the least-recently-used countries in a tier and build a batch."""
+    config_path, names = batches.build(tier, count, slug=slug, commit=not dry_run)
+    for position, name in enumerate(names, start=1):
+        click.echo(f"{position:2}. {name}")
+    if dry_run:
+        click.echo(f"(dry run) would write {config_path}")
+        return
+
+    click.echo(config_path)
+    if not no_render:
+        _echo(render_geo_quiz(config_path, theme=theme))
+
+
+@quiz.command("status")
+@click.option("--validate", is_flag=True, help="Check every name against the boundary file.")
+def quiz_status(validate: bool) -> None:
+    """Show pool depth per tier."""
+    pool = countries.load()
+    click.echo(countries.status(pool).to_string(index=False))
+    if validate:
+        problems = countries.validate(pool)
+        click.echo("")
+        for problem in problems:
+            click.echo(problem)
+        click.echo(f"{len(problems)} name problem(s) in {len(pool)} countries")
 
 
 @main.command("story")

@@ -1,0 +1,15 @@
+slug: geo-expert-001
+title: Expert geography quiz
+difficulty: expert
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Bhutan
+  fact: A Himalayan kingdom between India and China.
+- name: Brunei
+  fact: A small, oil-rich state on the island of Borneo.
+- name: Comoros
+  fact: Islands in the channel between Madagascar and Mozambique.
+  zoom: 4.5

@@ -1,0 +1,14 @@
+slug: geo-hard-001
+title: Hard geography quiz
+difficulty: hard
+topic: world geography
+built_from: content/geo-quiz/countries.csv
+built_on: '2026-09-05'
+output_dir: output
+countries:
+- name: Belize
+  fact: The only country in Central America with English as its official language.
+- name: Croatia
+  fact: Its coastline runs down the Adriatic in a long, narrow curve.
+- name: Eritrea
+  fact: It runs along the Red Sea, north of Ethiopia.

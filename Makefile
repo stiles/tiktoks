@@ -1,4 +1,4 @@
-.PHONY: setup story quiz guess-map catalog catalog-list crosswalk styles example test lint format check
+.PHONY: setup story quiz quiz-status guess-map catalog catalog-list crosswalk styles example test lint format check
 
 setup:
 	uv sync --extra dev
@@ -6,8 +6,12 @@ setup:
 story:
 	uv run tiktoks story --slug $(SLUG)
 
+# Build the next batch from the country pool and render it.
 quiz:
-	uv run tiktoks geo-quiz --config quizzes/geo/world-countries-001/quiz.yaml
+	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3)
+
+quiz-status:
+	uv run tiktoks quiz status --validate
 
 guess-map:
 	uv run tiktoks guess-map --config quizzes/guess-map/nato-members-csv/guess_map.yaml

@@ -16,7 +16,8 @@ The crosswalk step is required once. The boundary file carries no ISO codes, so 
 ## Commands
 
 ```bash
-make quiz            # render the example geo-quiz batch
+make quiz TIER=medium    # build and render the next quiz batch
+make quiz-status         # pool depth per tier, and validate every name
 make catalog         # render every guess-the-map post from the query catalog
 make catalog-list    # show what is in the catalog
 make crosswalk       # rebuild the country code crosswalk
@@ -28,7 +29,10 @@ make check           # lint and test
 The CLI directly:
 
 ```bash
-uv run tiktoks geo-quiz --config quizzes/geo/world-countries-001/quiz.yaml
+uv run tiktoks quiz next --tier medium --count 3
+uv run tiktoks quiz next --tier expert --count 3 --dry-run
+uv run tiktoks quiz status --validate
+uv run tiktoks geo-quiz --config quizzes/geo/geo-medium-001/quiz.yaml
 uv run tiktoks catalog --slug nato-members
 uv run tiktoks catalog --all
 uv run tiktoks guess-map --config quizzes/guess-map/nato-members-csv/guess_map.yaml
@@ -42,6 +46,7 @@ Render commands take `--theme night|paper|poster` and write to `<config dir>/out
 - `src/tiktoks/` has the slide layout, mapping, style and CLI helpers.
 - `src/tiktoks/sources/` has the Wikidata and World Bank fetchers.
 - `content/guess-map/catalog.yaml` is the query catalog: one entry per guess-the-map post.
+- `content/geo-quiz/countries.csv` is the country pool that quiz batches are drawn from.
 - `templates/` has starter files for new one-off stories, geography quizzes and guess-map posts.
 - `stories/` has dated one-off stories.
 - `quizzes/geo/` has country quiz batches. `quizzes/guess-map/` has mystery map output.
@@ -113,18 +118,36 @@ Wikidata is not a membership registry, and a map with the wrong countries shaded
 5. Check the batch at thumbnail size before opening any single slide.
 6. Add a row to `data/publish-log.csv` when it goes out, and fill in the `publish` block in `post.json`.
 
+## The country pool
+
+Quiz batches are drawn from `content/geo-quiz/countries.csv` rather than written by hand, so batch 020 does not repeat batch 003.
+
+```bash
+uv run tiktoks quiz status                       # depth per tier
+uv run tiktoks quiz next --tier hard --count 3   # build, render, record
+```
+
+Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `quizzes/geo/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained.
+
+Columns: `name` is what the answer slide says, `match_name` is the polygon to look up when the two differ (the boundary file still calls Eswatini "Swaziland"), and `center_lon`, `center_lat`, `zoom` and `context` override the default framing.
+
+Run `uv run tiktoks quiz status --validate` after editing the pool. It resolves every name against the boundary file, which beats a batch failing halfway through a render.
+
 ## Config options
 
-Geo quiz entries take a `name` and `fact`, plus optional overrides when the default framing is wrong. Match on the polygon `name` column, which uses short forms: `United States`, not `United States of America`.
+A batch config takes a `name` and `fact` per country, plus optional overrides. Match on the polygon `name` column, which uses short forms: `United States`, not `United States of America`.
 
 ```yaml
 countries:
   - name: United States
     fact: It has the world's third largest population.
+    match_name: United States   # polygon lookup, when it differs from the display name
     hook: Everyone thinks this one is easy.   # overrides the per-difficulty hook
     center: [-98.5, 39.5]   # projection center, lon/lat
     zoom: 1.4               # >1 pulls back, <1 moves in
     context: world          # highlight on a world map instead of a regional zoom
 ```
 
-Prompt slides lead with a hook rather than an instruction, carry a question counter, and the batch ends on a scorecard that asks for a score in the comments.
+Prompt slides lead with a hook rather than an instruction, carry a question counter, and the batch ends on a scorecard that asks for a score in the comments. Hooks rotate through a per-tier pool so ten prompts do not read identically.
+
+A country that covers too little of its map window gets a locator ring drawn around it. That is what makes the expert island tier postable: Comoros needs a window wide enough to show Madagascar, at which point the country itself is specks.

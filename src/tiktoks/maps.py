@@ -15,6 +15,7 @@ import pandas as pd
 import requests
 from matplotlib.axes import Axes
 from matplotlib.colors import ListedColormap
+from matplotlib.patches import Circle
 from shapely.ops import transform
 
 from tiktoks.config import CROSSWALK_PATH, GIS_URLS, REFERENCE_DIR
@@ -212,6 +213,24 @@ def frame_axes(ax: Axes, bounds, aspect: float) -> None:
     ax.set_axis_off()
 
 
+# Share of the window the highlight has to fill before it can be found unaided.
+# Measured across the country pool, the two island nations that need a ring sit at
+# 0.0002 and the smallest country that does not (the Gambia) at 0.0085, so anything
+# in between separates them. Bounding box does not work here: a scattered
+# archipelago has a wide box and almost no ink in it.
+LOCATOR_THRESHOLD = 0.002
+LOCATOR_RADIUS = 0.07
+
+
+def needs_locator(view: MapView, threshold: float = LOCATOR_THRESHOLD) -> bool:
+    """Whether the highlighted country is too small to find unaided."""
+    if view.target is None or view.target.empty:
+        return False
+    min_x, min_y, max_x, max_y = view.bounds
+    window = max((max_x - min_x) * (max_y - min_y), 1e-6)
+    return float(view.target.area.sum()) / window < threshold
+
+
 def draw_highlight(
     ax: Axes,
     view: MapView,
@@ -219,6 +238,7 @@ def draw_highlight(
     theme: Theme | str | None = None,
     aspect: float = 1.0,
     color: str | None = None,
+    locator: bool = True,
 ) -> None:
     theme = get_theme(theme)
     ax.set_facecolor(theme.water)
@@ -232,6 +252,22 @@ def draw_highlight(
         linewidth=theme.highlight_edge_width,
     )
     frame_axes(ax, view.bounds, aspect)
+
+    # A ring beats an inset for the cost. It keeps one map, one projection and one
+    # shared rect across the prompt and the answer.
+    if locator and needs_locator(view):
+        left, right = ax.get_xlim()
+        centroid = view.target.union_all().centroid
+        ax.add_patch(
+            Circle(
+                (centroid.x, centroid.y),
+                radius=(right - left) * LOCATOR_RADIUS,
+                facecolor="none",
+                edgecolor=color or theme.highlight,
+                linewidth=3.5,
+                zorder=4,
+            )
+        )
 
 
 def draw_binary(

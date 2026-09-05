@@ -86,7 +86,9 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         center = item.get("center")
         view = prepare_country(
             countries,
-            [item["name"]],
+            # The polygon name and the name on the answer slide are not always the
+            # same. The boundary file still calls Eswatini "Swaziland".
+            [item.get("match_name") or item["name"]],
             context=item.get("context", "regional"),
             center=tuple(center) if center else None,
             zoom=item.get("zoom", 1.0),

@@ -75,21 +75,27 @@ ends on a scorecard.
 Finish rate is the metric `docs/roadmap.md` correctly identifies as the one worth
 reading, and a reason to reach the last slide is the cheapest way to move it.
 
-## 7. Content catalog instead of hand-written batches — `next`
+## 7. Content catalog instead of hand-written batches — `done`
 
 `docs/geo-quiz-rollout.md` holds 40 countries across four tiers as a markdown list,
 and `quizzes/geo/world-countries-001/quiz.yaml` repeats ten of them. That works for
 batch 001 and breaks by batch 020, when the question becomes which countries have
 already run.
 
-Move the content to `content/countries.csv`: name, tier, fact, source, center and
-zoom overrides, times used, last posted. A batch becomes a query.
+The pool lives in `content/geo-quiz/countries.csv`. A batch is a query against it:
 
 ```
+tiktoks quiz status --validate
 tiktoks quiz next --tier medium --count 3
 ```
 
-Batch YAML then holds only what is specific to one post.
+Selection is least-recently-used, recency ahead of use count. Rendering writes the
+usage back, so the next batch does not repeat the last one. The batch YAML still
+lands on disk as the record of what a post contained.
+
+Two things this surfaced. The pool needs `match_name` separate from `name`, because
+the boundary file still calls Eswatini "Swaziland" and the answer slide should not.
+And the expert tier was rendering unpostable slides, which is item 12 below.
 
 ## 8. Metrics collector — `open`
 
@@ -126,11 +132,20 @@ guess-the-map backlog is county level.
 Needs an Albers projection for the lower 48, an inset scheme for Alaska and Hawaii,
 and a FIPS join.
 
-## 12. Island insets — `open`
+## 12. Island insets — `partly done`
 
-The Maldives and Fiji read as specks at any honest zoom. They need an inset before
-the expert tier is postable. Noted in both `docs/roadmap.md` and
-`docs/visual-style.md`.
+Comoros and Sao Tome need a window wide enough to show a reference coastline, at
+which point the country is specks. Rather than an inset, `draw_highlight` now rings
+a highlight that covers too little of its window. One map, one projection, one
+shared rect across the prompt and the answer.
+
+The threshold is an area share, not a bounding box: a scattered archipelago has a
+wide box and almost no ink in it. Measured across the pool, the two island nations
+that need a ring sit at 0.0002 and the smallest country that does not (the Gambia)
+at 0.0085.
+
+A true inset is still the better answer for the Maldives and Fiji, which are not in
+the pool yet.
 
 ## 13. Choropleth binning beyond quantiles — `open`
 
@@ -150,7 +165,9 @@ obvious thing gets nods. Worth making misdirection a selection criterion in
 - `Slide.map_aspect` was set as a side effect of `map_axes()` and read by every
   caller afterward. Now returned. `done`
 - No tests existed. `fit`, `country_match`, `core_parts` and `pad_bounds` are pure
-  and now covered. `done`
+  and now covered, alongside the pool, batch building and the locator rule. `done`
+- The hook was one string per tier, so ten prompt slides read identically on the
+  contact sheet. It rotates through a pool now. `done`
 
 ---
 
