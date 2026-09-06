@@ -1,0 +1,119 @@
+{
+  "slug": "geo-hard-005",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "hard",
+  "topic": "world geography",
+  "title": "Hard geography quiz",
+  "caption": "Hard geography quiz Difficulty: hard. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 12,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-hard-005-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty hard, 5 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-hard-005-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Albania"
+    },
+    {
+      "index": 3,
+      "file": "geo-hard-005-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Albania highlighted and named. It faces Italy across the Adriatic, north of Greece.",
+      "title": "Albania"
+    },
+    {
+      "index": 4,
+      "file": "geo-hard-005-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Bolivia"
+    },
+    {
+      "index": 5,
+      "file": "geo-hard-005-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Bolivia highlighted and named. One of two landlocked countries in South America.",
+      "title": "Bolivia"
+    },
+    {
+      "index": 6,
+      "file": "geo-hard-005-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Ecuador"
+    },
+    {
+      "index": 7,
+      "file": "geo-hard-005-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Ecuador highlighted and named. It is named for the equator, which crosses it.",
+      "title": "Ecuador"
+    },
+    {
+      "index": 8,
+      "file": "geo-hard-005-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Ghana"
+    },
+    {
+      "index": 9,
+      "file": "geo-hard-005-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Ghana highlighted and named. It sits on the Gulf of Guinea, with the prime meridian running through it.",
+      "title": "Ghana"
+    },
+    {
+      "index": 10,
+      "file": "geo-hard-005-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Guyana"
+    },
+    {
+      "index": 11,
+      "file": "geo-hard-005-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Guyana highlighted and named. The only South American country with English as its official language.",
+      "title": "Guyana"
+    },
+    {
+      "index": 12,
+      "file": "geo-hard-005-12-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T02:18:47+00:00",
+  "git_sha": "3502b9b0204aaed1945a29badd3c8817d17abd87",
+  "config": "posts/geo-quiz/geo-hard-005/quiz.yaml",
+  "config_hash": "9f4c4d4beeaadf8f",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

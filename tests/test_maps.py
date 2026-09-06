@@ -95,3 +95,20 @@ def test_verify_accepts_a_floor():
     frame = pd.DataFrame({"iso3": ["FRA", "DEU"], "member": [1, 1]})
     with pytest.raises(ValueError, match="at least 5"):
         _verify(frame, {"slug": "x", "expect": {"min_countries": 5}}, "member")
+
+
+def test_far_side_of_the_globe_is_dropped_before_projecting(countries):
+    """LAEA sends the antipode to infinity, so far-side polygons project into the
+    frame as artifacts. Centered on Palau, they washed the whole map flat."""
+    view = prepare_country(countries, ["Palau"], zoom=14)
+    names = set(view.base["name"])
+    assert "Philippines" in names
+    assert "Brazil" not in names
+
+
+def test_a_normal_country_keeps_its_neighbors(countries):
+    """The antipodal filter must not cost an ordinary map its context."""
+    view = prepare_country(countries, ["Japan"])
+    # The boundary file names these "Korea" and "Dem. Rep. Korea".
+    assert {"Korea", "China", "Russia"} <= set(view.base["name"])
+    assert len(view.base) > len(countries) * 0.9

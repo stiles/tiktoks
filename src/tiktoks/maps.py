@@ -11,6 +11,7 @@ from functools import lru_cache
 from pathlib import Path
 
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 import requests
 from matplotlib.axes import Axes
@@ -30,6 +31,30 @@ NAME_COLUMNS = ("name", "name_long", "sovereignt", "NAME", "STATE_NAME")
 CONTEXT_MULTIPLE = 4.0
 MIN_SPAN_M = 250_000
 MAX_SPAN_M = 1_100_000
+
+
+# Lambert azimuthal equal area sends the antipode to infinity, so polygons on the
+# far side of the globe project into the frame as enormous artifacts. Centered on
+# Palau, the Atlantic washes the whole map flat. Drop anything past this angular
+# distance from the center before projecting; nothing that far away can be visible.
+MAX_ANGULAR_DEGREES = 140.0
+
+
+def angular_distance(lon1, lat1, lon2: float, lat2: float):
+    """Great-circle distance in degrees, vectorized over the first pair."""
+    lon1, lat1 = np.radians(lon1), np.radians(lat1)
+    lon2, lat2 = np.radians(lon2), np.radians(lat2)
+    cosine = np.sin(lat1) * np.sin(lat2) + np.cos(lat1) * np.cos(lat2) * np.cos(lon1 - lon2)
+    return np.degrees(np.arccos(np.clip(cosine, -1.0, 1.0)))
+
+
+def near_center(
+    frame: gpd.GeoDataFrame, center: tuple[float, float], within: float = MAX_ANGULAR_DEGREES
+) -> gpd.GeoDataFrame:
+    """Geometries close enough to the center to survive an azimuthal projection."""
+    points = frame.geometry.representative_point()
+    distance = angular_distance(points.x.to_numpy(), points.y.to_numpy(), center[0], center[1])
+    return frame.loc[distance <= within]
 
 
 def laea_crs(lon: float, lat: float) -> str:
@@ -180,7 +205,7 @@ def prepare_country(
         center = center_of(core)
 
     crs = laea_crs(*center)
-    base = countries.to_crs(crs)
+    base = near_center(countries, center).to_crs(crs)
     target = selected.to_crs(crs)
     core = core_parts(target).total_bounds
     span = max(core[2] - core[0], core[3] - core[1])
@@ -214,11 +239,12 @@ def frame_axes(ax: Axes, bounds, aspect: float) -> None:
 
 
 # Share of the window the highlight has to fill before it can be found unaided.
-# Measured across the country pool, the two island nations that need a ring sit at
-# 0.0002 and the smallest country that does not (the Gambia) at 0.0085, so anything
-# in between separates them. Bounding box does not work here: a scattered
-# archipelago has a wide box and almost no ink in it.
-LOCATOR_THRESHOLD = 0.002
+# Measured across the pool: Comoros 0.0002, San Marino 0.0011, Liechtenstein 0.0022
+# and Seychelles 0.0028 all read as slivers at thumbnail size, while Malta 0.0044,
+# Andorra 0.0071 and the Gambia 0.0085 are legible without help. The threshold sits
+# in that gap. Bounding box does not work here: a scattered archipelago has a wide
+# box and almost no ink in it.
+LOCATOR_THRESHOLD = 0.0035
 LOCATOR_RADIUS = 0.07
 
 

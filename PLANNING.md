@@ -177,8 +177,26 @@ wide box and almost no ink in it. Measured across the pool, the two island natio
 that need a ring sit at 0.0002 and the smallest country that does not (the Gambia)
 at 0.0085.
 
-A true inset is still the better answer for the Maldives and Fiji, which are not in
-the pool yet.
+The Maldives, Seychelles, Palau and Vanuatu now sit in the pool with a `zoom` that
+pulls back to a reference coastline, and the ring finds them. A true inset would
+still be better, and would let the zoom stay tight.
+
+Worth doing properly at some point: the ring triggers on how small the highlight
+is, not on whether there is anything to locate it against. Seychelles at the
+default zoom is a visible shape in an empty ocean, which is unanswerable but does
+not trip the rule. Measuring reference land in the window is the right test, and it
+needs the antipodal filter below to be trustworthy.
+
+## 12b. Antipodal projection artifacts — `done`
+
+Lambert azimuthal equal area sends the antipode to infinity, so polygons on the far
+side of the globe projected into the frame as enormous artifacts. Centered on
+Palau, the Atlantic washed the whole map flat, and Vanuatu did the same. It also
+made any measurement of land area in the window meaningless.
+
+`prepare_country` now drops geometry more than 140 degrees from the center before
+projecting. An ordinary map keeps more than 90 percent of its polygons, so nothing
+loses context.
 
 ## 13. Choropleth binning beyond quantiles — `open`
 

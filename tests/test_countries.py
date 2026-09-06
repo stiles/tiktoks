@@ -107,11 +107,15 @@ def test_tiny_island_nations_get_a_locator_ring():
     world = world_countries()
     assert needs_locator(prepare_country(world, ["Comoros"], zoom=4.5))
     assert needs_locator(prepare_country(world, ["Sao Tome and Principe"], zoom=3.0))
+    assert needs_locator(prepare_country(world, ["Maldives"], zoom=6))
+    assert needs_locator(prepare_country(world, ["Palau"], zoom=14))
+    # A landlocked sliver needs one too, not just an island.
+    assert needs_locator(prepare_country(world, ["Liechtenstein"]))
 
 
 def test_ordinary_countries_do_not_get_a_ring():
     world = world_countries()
-    for name in ("The Gambia", "Lesotho", "Brunei", "Italy"):
+    for name in ("The Gambia", "Lesotho", "Brunei", "Italy", "Malta", "Andorra"):
         assert not needs_locator(prepare_country(world, [name]))
 
 

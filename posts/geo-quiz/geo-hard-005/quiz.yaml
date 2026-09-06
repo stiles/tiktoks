@@ -1,0 +1,17 @@
+slug: geo-hard-005
+title: Hard geography quiz
+difficulty: hard
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-05'
+countries:
+- name: Albania
+  fact: It faces Italy across the Adriatic, north of Greece.
+- name: Bolivia
+  fact: One of two landlocked countries in South America.
+- name: Ecuador
+  fact: It is named for the equator, which crosses it.
+- name: Ghana
+  fact: It sits on the Gulf of Guinea, with the prime meridian running through it.
+- name: Guyana
+  fact: The only South American country with English as its official language.

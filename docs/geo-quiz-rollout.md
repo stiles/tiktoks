@@ -61,11 +61,18 @@ Run `uv run tiktoks quiz status --validate` after editing the pool. It checks ev
 name against the boundary file, which is cheaper than a batch failing halfway
 through a render.
 
+Island nations and microstates need a `zoom` that pulls back far enough to show a
+reference coastline, or the map is an unanswerable patch of ocean. Anything that
+then covers too little of its window gets a locator ring automatically. Render a
+new one and look at it before adding it to a batch.
+
 ## Country pools
 
-The pools moved to `content/countries.csv`, ten countries per tier to
-start. Add rows there rather than here, so `quiz status` can report depth and
-selection can avoid repeats.
+The pools live in `content/countries.csv`, 25 countries per tier. Add rows there
+rather than here, so `quiz status` can report depth and selection can avoid repeats.
+
+At three countries a post, each tier holds roughly eight posts before it starts
+repeating. `quiz status` is the signal for when to add more.
 
 Difficulty should reflect the audience, not geography trivia purity. If the map
 needs a hint to be fair, lower the difficulty or make it a themed post.
