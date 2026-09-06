@@ -2,7 +2,11 @@
 
 from dataclasses import dataclass, field, replace
 
-SANS = ("Avenir Next", "Avenir", "Helvetica Neue", "Arial", "DejaVu Sans")
+# Every family listed here has to carry the weights the themes ask for. Matplotlib
+# resolves the whole stack to build a fallback chain, not just the first hit, so a
+# family missing a weight warns on every render even when it is never used.
+# Plain "Avenir" has 300/400/500/800 and no 700, which is what warned on bold.
+SANS = ("Avenir Next", "Helvetica Neue", "Arial", "DejaVu Sans")
 CONDENSED = ("Barlow Condensed", "Archivo Narrow", "Arial Narrow", "DejaVu Sans")
 
 

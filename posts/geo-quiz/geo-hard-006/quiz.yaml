@@ -1,0 +1,21 @@
+slug: geo-hard-006
+title: Hard geography quiz
+difficulty: hard
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-05'
+countries:
+- name: Latvia
+  fact: The middle of the three Baltic states.
+- name: Mongolia
+  fact: Landlocked between Russia and China.
+- name: Mozambique
+  fact: Its long Indian Ocean coast faces Madagascar.
+- name: Nepal
+  fact: Mount Everest sits on its border with China.
+- name: Oman
+  fact: It sits at the eastern corner of the Arabian Peninsula.
+- name: Paraguay
+  fact: Landlocked between Brazil, Argentina and Bolivia.
+- name: Senegal
+  fact: It wraps around the Gambia on Africa's westernmost coast.

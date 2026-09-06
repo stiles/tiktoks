@@ -125,3 +125,28 @@ def test_cover_slide_clears_the_interface(theme):
         ]
     )
     assert slide.check_layout() == []
+
+
+def test_theme_fonts_resolve_without_weight_substitution(caplog):
+    """Every family in a theme's stack must carry the weights that theme asks for.
+
+    Matplotlib resolves the whole stack to build a fallback chain, not just the
+    first family that matches, so one family missing a weight warns on every
+    render even though it is never the one drawn.
+    """
+    import logging
+
+    from tiktoks.style import THEMES
+
+    with caplog.at_level(logging.WARNING, logger="matplotlib.font_manager"):
+        for theme in THEMES.values():
+            slide = Slide(theme, badge="hard", cue="Swipe", source="Source: x")
+            slide.kicker("kicker")
+            slide.title("A headline in the title face")
+            slide.dek("A dek in the body face")
+            slide.figure.canvas.get_renderer()
+            slide.boxes()
+            slide.figure.clf()
+
+    substitutions = [r.getMessage() for r in caplog.records if "font weight" in r.getMessage()]
+    assert substitutions == []

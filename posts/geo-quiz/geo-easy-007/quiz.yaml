@@ -1,0 +1,23 @@
+slug: geo-easy-007
+title: Easy geography quiz
+difficulty: easy
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-05'
+countries:
+- name: Sweden
+  fact: It runs down the eastern side of the Scandinavian Peninsula.
+- name: Ukraine
+  fact: The largest country lying entirely within Europe.
+- name: United States
+  fact: It stretches from the Atlantic to the Pacific, with Alaska reaching toward
+    Russia.
+- name: Argentina
+  fact: It runs from the subtropics down to Tierra del Fuego.
+- name: China
+  fact: It borders 14 countries, from Russia to Vietnam.
+- name: France
+  fact: It borders both the Atlantic Ocean and the Mediterranean Sea.
+- name: Germany
+  fact: It borders nine countries, from Denmark in the north to Switzerland in the
+    south.
