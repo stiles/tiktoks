@@ -1,0 +1,133 @@
+{
+  "slug": "geo-medium-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "medium",
+  "topic": "world geography",
+  "title": "Medium geography quiz",
+  "caption": "Medium geography quiz Difficulty: medium. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-medium-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty medium, 6 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-medium-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Chile"
+    },
+    {
+      "index": 3,
+      "file": "geo-medium-001-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Chile highlighted and named. A long, narrow country pressed between the Andes and the Pacific.",
+      "title": "Chile"
+    },
+    {
+      "index": 4,
+      "file": "geo-medium-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Greece"
+    },
+    {
+      "index": 5,
+      "file": "geo-medium-001-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Greece highlighted and named. Thousands of islands scatter across the Aegean and Ionian seas.",
+      "title": "Greece"
+    },
+    {
+      "index": 6,
+      "file": "geo-medium-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Madagascar"
+    },
+    {
+      "index": 7,
+      "file": "geo-medium-001-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Madagascar highlighted and named. The world's fourth largest island, off the southeast coast of Africa.",
+      "title": "Madagascar"
+    },
+    {
+      "index": 8,
+      "file": "geo-medium-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Morocco"
+    },
+    {
+      "index": 9,
+      "file": "geo-medium-001-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Morocco highlighted and named. It faces both the Atlantic and the Mediterranean, across the strait from Spain.",
+      "title": "Morocco"
+    },
+    {
+      "index": 10,
+      "file": "geo-medium-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "New Zealand"
+    },
+    {
+      "index": 11,
+      "file": "geo-medium-001-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with New Zealand highlighted and named. Two main islands in the South Pacific, southeast of Australia across the Tasman Sea.",
+      "title": "New Zealand"
+    },
+    {
+      "index": 12,
+      "file": "geo-medium-001-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Norway"
+    },
+    {
+      "index": 13,
+      "file": "geo-medium-001-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Norway highlighted and named. Its western coast is cut by deep glacial fjords.",
+      "title": "Norway"
+    },
+    {
+      "index": 14,
+      "file": "geo-medium-001-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T02:00:39+00:00",
+  "git_sha": "73f8d6afa90f39e703fdd96ef16cc117db4302ff",
+  "config": "posts/geo-quiz/geo-medium-001/quiz.yaml",
+  "config_hash": "032dfa13565e6713",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

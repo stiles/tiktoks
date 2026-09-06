@@ -3,11 +3,18 @@ from tiktoks.paths import repo_root
 CANVAS_SIZE = (1080, 1920)
 
 ROOT = repo_root()
+
+# Everything written by hand lives under content/. Everything the renderer makes
+# lives under posts/, data/ or review/, and is regenerable.
+CONTENT_DIR = ROOT / "content"
+POSTS_DIR = ROOT / "posts"
 DATA_DIR = ROOT / "data"
 REFERENCE_DIR = DATA_DIR / "reference"
-CONTENT_DIR = ROOT / "content"
-OUTPUT_DIR = ROOT / "output"
+REVIEW_DIR = ROOT / "review"
 
+COUNTRY_POOL_PATH = CONTENT_DIR / "countries.csv"
+GUESS_MAP_CATALOG_PATH = CONTENT_DIR / "guess-map.yaml"
+STORIES_DIR = CONTENT_DIR / "stories"
 CROSSWALK_PATH = REFERENCE_DIR / "country_crosswalk.csv"
 
 GIS_URLS = {

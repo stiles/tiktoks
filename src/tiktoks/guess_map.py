@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 from tiktoks import catalog
-from tiktoks.config import ROOT
+from tiktoks.config import GUESS_MAP_CATALOG_PATH, POSTS_DIR, ROOT
 from tiktoks.io import read_yaml
 from tiktoks.maps import (
     draw_binary,
@@ -19,8 +19,8 @@ from tiktoks.post import Post
 from tiktoks.slides import Slide, shared_slot
 from tiktoks.style import Theme, get_theme
 
-CATALOG_PATH = ROOT / "content" / "guess-map" / "catalog.yaml"
-CATALOG_OUTPUT = ROOT / "quizzes" / "guess-map"
+CATALOG_PATH = GUESS_MAP_CATALOG_PATH
+CATALOG_OUTPUT = POSTS_DIR / "guess-map"
 
 
 def render_guess_map(config_path: Path | str, theme: Theme | str | None = None) -> list[Path]:
@@ -28,7 +28,9 @@ def render_guess_map(config_path: Path | str, theme: Theme | str | None = None) 
     config_path = Path(config_path)
     entry = read_yaml(config_path)
     entry.setdefault("slug", config_path.parent.name)
-    output_dir = config_path.parent / entry.get("output_dir", "output")
+    override = entry.get("output_dir")
+    # A relative path in a config means relative to the repo, not the shell's cwd.
+    output_dir = (ROOT / override) if override else CATALOG_OUTPUT / entry["slug"]
     return _render(entry, output_dir, theme, base_dir=config_path.parent, config_path=config_path)
 
 
@@ -54,7 +56,7 @@ def render_catalog(
     for entry in chosen:
         rendered += _render(
             entry,
-            root / entry["slug"] / "output",
+            root / entry["slug"],
             theme,
             base_dir=catalog_path.parent,
             config_path=catalog_path,

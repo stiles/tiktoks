@@ -1,9 +1,11 @@
 from pathlib import Path
 
 from tiktoks.charts import style_axes
+from tiktoks.paths import story_posts
 from tiktoks.slides import Slide
 
 HERE = Path(__file__).resolve().parent
+SLUG = HERE.name
 
 
 def main() -> None:
@@ -15,7 +17,7 @@ def main() -> None:
     axes = style_axes(slide.chart_axes(), slide.theme)
     axes.plot([], [])
 
-    slide.save(HERE / "output" / "story-01.png")
+    slide.save(story_posts(SLUG) / "story-01.png")
 
 
 if __name__ == "__main__":

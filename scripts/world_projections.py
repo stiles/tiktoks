@@ -24,7 +24,7 @@ from tiktoks.slides import Slide
 from tiktoks.style import PAPER
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "output" / "world-projections"
+OUT = ROOT / "review" / "world-projections"
 
 OPTIONS = {
     "eqearth": "+proj=eqearth +lon_0=10",
@@ -38,7 +38,7 @@ def main() -> None:
     countries = world_countries()
     nato = join_values(
         countries,
-        pd.read_csv(ROOT / "quizzes/guess-map/nato-members-csv/data.csv"),
+        pd.read_csv(ROOT / "content/guess-map-csv-example/data.csv"),
         geo_key="name",
         data_key="name",
     )

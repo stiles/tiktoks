@@ -17,6 +17,7 @@ The crosswalk step is required once. The boundary file carries no ISO codes, so 
 
 ```bash
 make quiz TIER=medium    # build and render the next quiz batch
+make rebuild             # re-render every post from content/
 make quiz-status         # pool depth per tier, and validate every name
 make catalog         # render every guess-the-map post from the query catalog
 make catalog-list    # show what is in the catalog
@@ -32,32 +33,53 @@ The CLI directly:
 uv run tiktoks quiz next --tier medium --count 3
 uv run tiktoks quiz next --tier expert --count 3 --dry-run
 uv run tiktoks quiz status --validate
-uv run tiktoks geo-quiz --config quizzes/geo/geo-medium-001/quiz.yaml
+uv run tiktoks geo-quiz --config posts/geo-quiz/geo-medium-001/quiz.yaml
 uv run tiktoks catalog --slug nato-members
 uv run tiktoks catalog --all
-uv run tiktoks guess-map --config quizzes/guess-map/nato-members-csv/guess_map.yaml
+uv run tiktoks guess-map --config content/guess-map-csv-example/guess_map.yaml
 uv run tiktoks story --slug 2026-new-story
 ```
 
-Render commands take `--theme night|paper|poster` and write to `<config dir>/output/<theme>/`. The default is `night`.
+Render commands take `--theme night|paper|poster` and write to `<post dir>/<theme>/`. The default is `night`.
 
 ## Repo layout
 
-- `src/tiktoks/` has the slide layout, mapping, style and CLI helpers.
-- `src/tiktoks/sources/` has the Wikidata and World Bank fetchers.
-- `content/guess-map/catalog.yaml` is the query catalog: one entry per guess-the-map post.
-- `content/geo-quiz/countries.csv` is the country pool that quiz batches are drawn from.
-- `templates/` has starter files for new one-off stories, geography quizzes and guess-map posts.
-- `stories/` has dated one-off stories.
-- `quizzes/geo/` has country quiz batches. `quizzes/guess-map/` has mystery map output.
-- `scripts/` has review tools. `style_lab.py` renders test slides in every theme,
-  `world_projections.py` compares world projections, `safe_overlay.py` draws the
-  assumed TikTok interface zones over a slide, `build_crosswalk.py` rebuilds the
-  country code table.
-- `tests/` covers text fitting, map framing, the crosswalk and the layout rules.
-- `docs/` has idea lists, rollout notes, the visual style guide and the roadmap.
-- `PLANNING.md` is the roadmap and menu of work.
-- `data/reference/` caches boundary files, API responses and the crosswalk. Generated data stays out of git.
+Two rules cover most of it. You write in `content/`. The code writes to `posts/`,
+`data/` and `review/`, and everything it writes can be rebuilt.
+
+```
+content/                     everything written by hand
+  countries.csv                the geo-quiz country pool
+  guess-map.yaml               the guess-the-map query catalog
+  guess-map-csv-example/       a map built from a local CSV instead of a query
+  stories/<slug>/              story config and its fetch, process and render scripts
+
+posts/                       one directory per post, rebuildable from content/
+  geo-quiz/<slug>/
+    quiz.yaml                  tracked: what this post contained
+    night/
+      post.json                tracked: the key that ties this to a TikTok post ID
+      *.png                    ignored
+  guess-map/<slug>/
+  stories/<slug>/
+
+data/                        fetched and derived, ignored
+  reference/                   boundary files, API caches, the country crosswalk
+  stories/<slug>/              a story's raw and processed data
+
+review/                      throwaway renders from the review scripts, ignored
+
+src/tiktoks/                 the library
+  sources/                     Wikidata and World Bank fetchers
+scripts/                     one-off and review tools
+templates/story/             starter files for `tiktoks story`
+tests/
+docs/                        style guide, idea lists, metrics design
+PLANNING.md                  the ordered list of what to build next
+```
+
+Nothing under `posts/` is precious. `make rebuild` regenerates every batch and
+catalog entry from `content/`.
 
 ## How a slide is built
 
@@ -118,18 +140,18 @@ Wikidata is not a membership registry, and a map with the wrong countries shaded
 3. Fetch and process the data with scripts or a notebook.
 4. Render the slides. The contact sheet is written automatically.
 5. Check the batch at thumbnail size before opening any single slide.
-6. Add a row to `data/publish-log.csv` when it goes out, and fill in the `publish` block in `post.json`.
+6. When it goes out, fill in the `publish` block in that post's `post.json`. That is the only thing the renderer cannot know, and it is what the metrics work in `docs/metrics.md` joins on.
 
 ## The country pool
 
-Quiz batches are drawn from `content/geo-quiz/countries.csv` rather than written by hand, so batch 020 does not repeat batch 003.
+Quiz batches are drawn from `content/countries.csv` rather than written by hand, so batch 020 does not repeat batch 003.
 
 ```bash
 uv run tiktoks quiz status                       # depth per tier
 uv run tiktoks quiz next --tier hard --count 3   # build, render, record
 ```
 
-Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `quizzes/geo/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained.
+Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained.
 
 Columns: `name` is what the answer slide says, `match_name` is the polygon to look up when the two differ (the boundary file still calls Eswatini "Swaziland"), and `center_lon`, `center_lat`, `zoom` and `context` override the default framing.
 

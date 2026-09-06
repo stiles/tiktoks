@@ -1,0 +1,49 @@
+{
+  "slug": "nato-members-csv",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "easy",
+  "topic": null,
+  "title": "They are NATO members",
+  "caption": "They are NATO members Difficulty: easy. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: NATO member countries list; Natural Earth boundaries."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 2,
+  "slides": [
+    {
+      "index": 1,
+      "file": "nato-members-csv-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled world map with countries shaded. The subject is not named.",
+      "title": "They are NATO members"
+    },
+    {
+      "index": 2,
+      "file": "nato-members-csv-02-answer.png",
+      "kind": "answer",
+      "alt": "A world map. They are NATO members. NATO has 32 member countries, including Finland and Sweden after their recent accessions.",
+      "title": "They are NATO members"
+    }
+  ],
+  "rendered_at": "2026-09-06T02:00:57+00:00",
+  "git_sha": "73f8d6afa90f39e703fdd96ef16cc117db4302ff",
+  "config": "content/guess-map-csv-example/guess_map.yaml",
+  "config_hash": "02bc24473101d4be",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

@@ -3,7 +3,7 @@
 `docs/geo-quiz-rollout.md` held 40 countries as a markdown list and the batch
 config repeated ten of them. That works for batch 001 and breaks by batch 020,
 when the question becomes which countries have already run. The pool lives in
-`content/geo-quiz/countries.csv` instead, and a batch is a query against it.
+`content/countries.csv` instead, and a batch is a query against it.
 
 Selection is least-recently-used: never-used countries first, then the ones that
 ran longest ago. Rendering a batch writes the usage back, so the next call picks
@@ -17,9 +17,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from tiktoks.config import CONTENT_DIR
+from tiktoks.config import COUNTRY_POOL_PATH
 
-CATALOG_PATH = CONTENT_DIR / "geo-quiz" / "countries.csv"
+CATALOG_PATH = COUNTRY_POOL_PATH
 TIERS = ("easy", "medium", "hard", "expert")
 
 COLUMNS = [

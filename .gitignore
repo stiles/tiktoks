@@ -3,16 +3,25 @@
 __pycache__/
 .ipynb_checkpoints/
 .ruff_cache/
+.pytest_cache/
 
-# Leading ** so these match inside stories/ and quizzes/ too, not just the repo root.
-**/data/raw/
-**/data/processed/
-**/data/reference/
-**/output/
-**/exports/
+# Rendered slides and contact sheets. They are regenerable from content/, and a
+# batch of 1080x1920 PNGs is not worth versioning.
 *.png
 *.jpg
 *.jpeg
+
+# Throwaway renders from the review scripts.
+review/
+
+# Fetched and derived data. Rebuild with the fetch and process scripts, or
+# scripts/build_crosswalk.py for the reference files.
+data/reference/
+data/stories/
+
+# What stays tracked under posts/: quiz.yaml, because it is the record of what a
+# post contained, and post.json, because it is the key that ties a rendered batch
+# to its TikTok post ID when the metrics land. See docs/metrics.md.
 
 # Credentials for the metrics collector.
 .env

@@ -128,13 +128,12 @@ def test_a_rendered_batch_opens_on_a_cover(tmp_path):
         {
             "slug": "cover-test",
             "difficulty": "easy",
-            "output_dir": "output",
             "countries": [{"name": "Italy", "fact": "A boot."}],
         },
     )
     render_geo_quiz(config)
 
-    manifest = json.loads((tmp_path / "output" / "night" / "post.json").read_text())
+    manifest = json.loads((tmp_path / "night" / "post.json").read_text())
     kinds = [slide["kind"] for slide in manifest["slides"]]
     assert kinds == ["cover", "prompt", "answer", "scorecard"]
     assert manifest["layout_problems"] == []

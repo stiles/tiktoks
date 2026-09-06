@@ -40,7 +40,7 @@ loop, save. The post itself existed only as a filename convention.
 the PNGs: slug, format, difficulty, slide order, alt text, sources, caption,
 render time, git SHA, config hash.
 
-That is the join key `docs/roadmap.md` calls "the join problem." The roadmap
+That is the join key `docs/metrics.md` calls "the join problem." The roadmap
 proposed solving it with a CSV filled in by hand at publish time. It should be free
 at render time. The only field a human adds later is the TikTok post ID.
 
@@ -72,7 +72,7 @@ default. The map gets more of the canvas because the dek is gone from prompts.
 The difficulty badge was decoration. It is now a running counter, and each batch
 ends on a scorecard.
 
-Finish rate is the metric `docs/roadmap.md` correctly identifies as the one worth
+Finish rate is the metric `docs/metrics.md` correctly identifies as the one worth
 reading, and a reason to reach the last slide is the cheapest way to move it.
 
 ## 6b. Cover slide — `done`
@@ -95,11 +95,11 @@ All 17 existing batches were re-rendered with a cover.
 ## 7. Content catalog instead of hand-written batches — `done`
 
 `docs/geo-quiz-rollout.md` holds 40 countries across four tiers as a markdown list,
-and `quizzes/geo/world-countries-001/quiz.yaml` repeats ten of them. That works for
+and `quizzes/geo/world-countries-001/quiz.yaml` repeated ten of them. That works for
 batch 001 and breaks by batch 020, when the question becomes which countries have
 already run.
 
-The pool lives in `content/geo-quiz/countries.csv`. A batch is a query against it:
+The pool lives in `content/countries.csv`. A batch is a query against it:
 
 ```
 tiktoks quiz status --validate
@@ -114,9 +114,25 @@ Two things this surfaced. The pool needs `match_name` separate from `name`, beca
 the boundary file still calls Eswatini "Swaziland" and the answer slide should not.
 And the expert tier was rendering unpostable slides, which is item 12 below.
 
+## 7b. Repo layout — `done`
+
+Content, configs and output had grown into three different couplings across three
+formats, plus a `quizzes/` tree that held guess-maps. Worse, `**/output/` in
+`.gitignore` was swallowing every `post.json`, so the manifest built as the metrics
+join key was not actually in the repo.
+
+Now: `content/` is everything written by hand, `posts/` is one directory per post,
+`data/` is fetched and derived, `review/` is throwaway. Under `posts/`, `quiz.yaml`
+and `post.json` are tracked and the PNGs are not. `make rebuild` regenerates the
+lot from `content/`.
+
+Also folded in: the dead `templates/geo_quiz` and `templates/guess_map`, which
+nothing had referenced since the pool and catalog landed, and `docs/roadmap.md`,
+which duplicated this file. Its metrics design moved to `docs/metrics.md`.
+
 ## 8. Metrics collector — `open`
 
-Scoped in detail in `docs/roadmap.md`. TikTok analytics do not backfill, so this
+Scoped in detail in `docs/metrics.md`. TikTok analytics do not backfill, so this
 comes before a posting schedule, not after it.
 
 Item 3 removes the hard part. `post.json` already carries the format, difficulty

@@ -1,0 +1,133 @@
+{
+  "slug": "geo-expert-003",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "expert",
+  "topic": "world geography",
+  "title": "Expert geography quiz",
+  "caption": "Expert geography quiz Difficulty: expert. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-expert-003-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 6 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-expert-003-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Timor-Leste"
+    },
+    {
+      "index": 3,
+      "file": "geo-expert-003-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Timor-Leste highlighted and named. It occupies the eastern half of an island north of Australia.",
+      "title": "Timor-Leste"
+    },
+    {
+      "index": 4,
+      "file": "geo-expert-003-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 5,
+      "file": "geo-expert-003-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Bhutan highlighted and named. A Himalayan kingdom between India and China.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 6,
+      "file": "geo-expert-003-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Brunei"
+    },
+    {
+      "index": 7,
+      "file": "geo-expert-003-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Brunei highlighted and named. A small, oil-rich state on the island of Borneo.",
+      "title": "Brunei"
+    },
+    {
+      "index": 8,
+      "file": "geo-expert-003-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Comoros"
+    },
+    {
+      "index": 9,
+      "file": "geo-expert-003-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Comoros highlighted and named. Islands in the channel between Madagascar and Mozambique.",
+      "title": "Comoros"
+    },
+    {
+      "index": 10,
+      "file": "geo-expert-003-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Djibouti"
+    },
+    {
+      "index": 11,
+      "file": "geo-expert-003-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Djibouti highlighted and named. It sits at the mouth of the Red Sea, across from Yemen.",
+      "title": "Djibouti"
+    },
+    {
+      "index": 12,
+      "file": "geo-expert-003-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Eswatini"
+    },
+    {
+      "index": 13,
+      "file": "geo-expert-003-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Eswatini highlighted and named. Landlocked between South Africa and Mozambique. It was called Swaziland until 2018.",
+      "title": "Eswatini"
+    },
+    {
+      "index": 14,
+      "file": "geo-expert-003-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T02:00:23+00:00",
+  "git_sha": "73f8d6afa90f39e703fdd96ef16cc117db4302ff",
+  "config": "posts/geo-quiz/geo-expert-003/quiz.yaml",
+  "config_hash": "9d02737786f438dd",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

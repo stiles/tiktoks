@@ -11,10 +11,10 @@ from datetime import date
 from pathlib import Path
 
 from tiktoks import countries
-from tiktoks.config import ROOT
+from tiktoks.config import POSTS_DIR
 from tiktoks.io import write_yaml
 
-QUIZ_ROOT = ROOT / "quizzes" / "geo"
+QUIZ_ROOT = POSTS_DIR / "geo-quiz"
 
 
 def build(
@@ -42,9 +42,8 @@ def build(
         "title": f"{tier.capitalize()} geography quiz",
         "difficulty": tier,
         "topic": "world geography",
-        "built_from": "content/geo-quiz/countries.csv",
+        "built_from": "content/countries.csv",
         "built_on": date.today().isoformat(),
-        "output_dir": "output",
         "countries": countries.to_entries(chosen),
     }
 

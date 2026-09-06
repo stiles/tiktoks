@@ -1,0 +1,56 @@
+{
+  "slug": "drives-on-the-left",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "medium",
+  "topic": "transportation",
+  "title": "They drive on the left",
+  "caption": "They drive on the left Difficulty: medium. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: Wikidata driving side property. Boundaries: Natural Earth."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "drives-on-the-left-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled world map with countries shaded. The subject is not named.",
+      "title": "They drive on the left"
+    },
+    {
+      "index": 2,
+      "file": "drives-on-the-left-02-answer.png",
+      "kind": "answer",
+      "alt": "A world map. They drive on the left. About a third of the world's population drives on the left. Most of these countries were once British colonies. Japan, Thailand and Indonesia were not.",
+      "title": "They drive on the left"
+    },
+    {
+      "index": 3,
+      "file": "drives-on-the-left-03-challenge.png",
+      "kind": "challenge",
+      "alt": "Name a country that drives on the left and was never a British colony.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T02:00:54+00:00",
+  "git_sha": "73f8d6afa90f39e703fdd96ef16cc117db4302ff",
+  "config": "content/guess-map.yaml",
+  "config_hash": "5d1183a5fc0367e5",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

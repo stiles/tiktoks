@@ -26,7 +26,7 @@ Difficulty should reflect the audience, not geography trivia purity. If the map 
 
 ## Batch workflow
 
-The country pool lives in `content/geo-quiz/countries.csv`, not in this file. A
+The country pool lives in `content/countries.csv`, not in this file. A
 batch is a query against it, and rendering records which countries were used, so
 the next batch does not repeat them.
 
@@ -36,7 +36,7 @@ uv run tiktoks quiz next --tier medium --count 3 --dry-run
 uv run tiktoks quiz next --tier medium --count 3
 ```
 
-That writes `quizzes/geo/geo-<tier>-NNN/quiz.yaml`, renders the slides and bumps
+That writes `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml`, renders the slides and bumps
 the usage counters. The batch config stays on disk as the record of what the post
 contained, and can be edited before re-rendering.
 
@@ -63,7 +63,7 @@ through a render.
 
 ## Country pools
 
-The pools moved to `content/geo-quiz/countries.csv`, ten countries per tier to
+The pools moved to `content/countries.csv`, ten countries per tier to
 start. Add rows there rather than here, so `quiz status` can report depth and
 selection can avoid repeats.
 

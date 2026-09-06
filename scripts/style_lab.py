@@ -25,8 +25,8 @@ from tiktoks.slides import Slide, shared_slot
 from tiktoks.style import THEMES, Theme
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "output" / "style-lab"
-NATO = ROOT / "quizzes" / "guess-map" / "nato-members-csv"
+OUT = ROOT / "review" / "style-lab"
+NATO = ROOT / "content" / "guess-map-csv-example"
 BOUNDARIES = "Boundaries: Natural Earth"
 
 

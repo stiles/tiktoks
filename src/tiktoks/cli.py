@@ -4,6 +4,7 @@ from shutil import copytree
 import click
 
 from tiktoks import batches, catalog, countries
+from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
 from tiktoks.guess_map import CATALOG_PATH, render_catalog, render_guess_map
 from tiktoks.style import THEMES
@@ -115,8 +116,8 @@ def quiz_status(validate: bool) -> None:
 @click.option("--slug", required=True)
 def story(slug: str) -> None:
     """Scaffold a new one-off story from the template."""
-    template = Path("templates/story")
-    destination = Path("stories") / slug
+    template = ROOT / "templates" / "story"
+    destination = STORIES_DIR / slug
     if destination.exists():
         raise click.ClickException(f"{destination} already exists")
     copytree(template, destination)
