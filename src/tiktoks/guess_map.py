@@ -163,7 +163,9 @@ def _mystery(entry: dict, theme: Theme, difficulty: str) -> Slide:
         badge_color=theme.color_for(difficulty),
     )
     slide.kicker("Guess the map")
-    slide.title(entry.get("prompt", "What does this map show?"), hero=True)
+    # Not a hero title. The hero size was chosen when a world map filled less than
+    # half the frame; it is what was keeping the map small.
+    slide.title(entry.get("prompt", "What does this map show?"), max_lines=2)
     slide.dek(entry.get("clue", ""))
     return slide
 
@@ -176,7 +178,8 @@ def _answer(entry: dict, theme: Theme, difficulty: str) -> Slide:
         badge_color=theme.color_for(difficulty),
     )
     slide.kicker("Answer")
-    slide.title(entry["answer"])
+    # Two lines, so a long answer shrinks instead of eating the map's space.
+    slide.title(entry["answer"], max_lines=2)
     slide.dek(entry.get("answer_note", ""))
     return slide
 

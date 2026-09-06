@@ -18,6 +18,8 @@ A slide stacks blocks from the top and the footer from the bottom, and the map t
 - Source sits at the bottom, with an optional call-to-action pill above it and a difficulty badge in the top right.
 - A prompt and its answer share one map rect, so the swipe reads as a reveal instead of a jump. `shared_slot()` works out the largest box that fits both, and never returns more than the space actually left, so the map cannot cover the legend or the source line.
 - A map is scaled to fit its slot on both axes. A slot shorter than the data shrinks the map rather than cropping it.
+- World maps trim a little of the empty Pacific rather than framing to the antimeridian. Judge that trade in rendered pixels, not in shares of a country: everything currently clipped covers under 40 square pixels on screen, while New Zealand and the United States stay whole.
+- Keep the title on a guess-map slide to two lines. The map is the payoff, and a three-line headline at full size takes most of its room.
 - Titles wrap against measured glyph widths and shrink until they fit the line budget. Do not wrap by character count; a 24-character line at 78pt runs off the canvas.
 
 Set `hero=True` on a title when the slide carries a world map. A world map is 2.25:1 and fills less than half the frame, so the headline takes the top third.

@@ -132,7 +132,7 @@ class Slide:
         )
         self.cursor += self.theme.kicker_size * PT_TO_PX + self.theme.gap_kicker
 
-    def title(self, text: str, *, hero: bool = False) -> None:
+    def title(self, text: str, *, hero: bool = False, max_lines: int | None = None) -> None:
         if not text:
             return
         scale = self.theme.hero_scale if hero else 1.0
@@ -141,7 +141,7 @@ class Slide:
             text,
             size=int(self.theme.title_size * scale),
             min_size=self.theme.title_min_size,
-            max_lines=self.theme.hero_lines if hero else self.theme.title_lines,
+            max_lines=max_lines or (self.theme.hero_lines if hero else self.theme.title_lines),
             leading=self.theme.title_leading,
             font=font,
         )
@@ -382,10 +382,21 @@ class Slide:
     def legend(self, colors: list[str], labels: list[str], *, no_data: bool = False) -> None:
         """Bin strip above the footer, with a label at each end. Call before map_axes."""
         bar_height = 26
-        span = self.footer_right - self.left
-        step = span / len(colors)
         label_size = self.theme.source_size
         top = self.floor - bar_height - label_size * PT_TO_PX * 1.5
+
+        # The no-data chip sits beside the ramp, on its row. Stacked above it cost
+        # nearly 60px of map; centered beneath it read as a middle class of the
+        # scale, which is the one thing gray must never look like.
+        span = self.footer_right - self.left
+        chip = bar_height * 0.8
+        if no_data:
+            chip_label, _ = measure(
+                self.figure, "No data", fontsize=label_size, fontfamily=self.theme.body_font
+            )
+            span -= chip + 10 + chip_label + 18
+        step = span / len(colors)
+        bar_right = self.left + span
 
         for index, color in enumerate(colors):
             self.canvas.add_patch(
@@ -399,10 +410,10 @@ class Slide:
                     zorder=3,
                 )
             )
-        self._record("legend bar", Box(self.left, top, self.footer_right, top + bar_height))
+        self._record("legend bar", Box(self.left, top, bar_right, top + bar_height))
         for x, label, align in (
             (self.left, labels[0], "left"),
-            (self.footer_right, labels[-1], "right"),
+            (bar_right, labels[-1], "right"),
         ):
             self._text(
                 x,
@@ -416,12 +427,12 @@ class Slide:
                 va="top",
             )
         if no_data:
-            chip_top = top - 58
+            chip_x = bar_right + 18
             self.canvas.add_patch(
                 plt.Rectangle(
-                    (self.left, chip_top),
-                    bar_height,
-                    bar_height,
+                    (chip_x, top + (bar_height - chip) / 2),
+                    chip,
+                    chip,
                     facecolor=self.theme.no_data,
                     edgecolor=self.theme.border,
                     linewidth=1,
@@ -429,8 +440,8 @@ class Slide:
                 )
             )
             self._text(
-                self.left + bar_height + 14,
-                chip_top + bar_height / 2,
+                chip_x + chip + 10,
+                top + bar_height / 2,
                 "No data",
                 "no-data chip",
                 color=self.theme.muted,
@@ -438,7 +449,6 @@ class Slide:
                 fontfamily=self.theme.body_font,
                 va="center",
             )
-            top = chip_top
         self.floor = top - 30
 
     # Bottom-up blocks

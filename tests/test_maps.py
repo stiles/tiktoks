@@ -9,6 +9,7 @@ from tiktoks.maps import (
     drop_antarctica,
     pad_bounds,
     prepare_country,
+    prepare_world,
     quantile_edges,
     with_codes,
     world_countries,
@@ -112,3 +113,31 @@ def test_a_normal_country_keeps_its_neighbors(countries):
     # The boundary file names these "Korea" and "Dem. Rep. Korea".
     assert {"Korea", "China", "Russia"} <= set(view.base["name"])
     assert len(view.base) > len(countries) * 0.9
+
+
+def test_world_trim_keeps_every_country_that_is_visible(countries):
+    """The trim buys map by dropping empty Pacific. It must not cost a country
+    anyone could see: at 1080px wide, everything it clips is under 40 square
+    pixels, while New Zealand and the United States stay essentially whole."""
+    from shapely.geometry import box
+
+    view = prepare_world(countries)
+    low, high = view.bounds[0], view.bounds[2]
+    scale = 1080 / (high - low)
+    window = box(low, -9e6, high, 9e6)
+
+    kept = {}
+    for _, row in view.base.iterrows():
+        area = row.geometry.area
+        if area:
+            kept[row["name"]] = (row.geometry.intersection(window).area / area, area * scale**2)
+
+    assert kept["New Zealand"][0] > 0.99
+    assert kept["United States"][0] > 0.99
+    clipped = [(name, px) for name, (share, px) in kept.items() if share < 0.9]
+    assert clipped, "the trim should be doing something"
+    assert max(px for _, px in clipped) < 40
+
+
+def test_world_trim_can_be_switched_off(countries):
+    assert prepare_world(countries, trim=0).aspect > prepare_world(countries).aspect

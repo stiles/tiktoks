@@ -213,10 +213,55 @@ def prepare_country(
     return MapView(base, pad_bounds(core, 0.18, min_span=context), target)
 
 
-def prepare_world(geography: gpd.GeoDataFrame, *, hide_antarctica: bool = True) -> MapView:
+# Share of land area allowed to fall outside each side of a world map's frame.
+#
+# The full extent runs to the antimeridian, which spends the outer fifth of the
+# width on equatorial Pacific. Trimming takes the aspect from 2.24 to 1.84 and the
+# full-bleed height from 482px to 587px, so the continents get materially bigger.
+#
+# What that costs, measured in pixels on a 1080-wide render rather than as a share
+# of each country: New Zealand keeps 99.7 percent and the United States 99.7. Every
+# country clipped past that covers under 40 square pixels on screen — Fiji 24,
+# Samoa 3, Kiribati 1 — which is below the size at which anything is visible or
+# could inform an answer. They are still shaded; they sit outside the frame.
+#
+# Going further does have a real cost: at 0.002 New Zealand drops to 70 percent.
+WORLD_TRIM = 0.0005
+
+
+def ink_bounds(frame: gpd.GeoDataFrame, trim: float) -> tuple[float, float, float, float]:
+    """Bounds holding all but `trim` of the land area on each side, horizontally.
+
+    Vertical extent is left alone. The north is set by Greenland and the south by
+    Tierra del Fuego, and both are real countries a reader will look for.
+    """
+    min_x, min_y, max_x, max_y = frame.total_bounds
+    if trim <= 0:
+        return min_x, min_y, max_x, max_y
+
+    parts = frame.explode(index_parts=False, ignore_index=True)
+    area = parts.area.to_numpy()
+    total = area.sum()
+    if total <= 0:
+        return min_x, min_y, max_x, max_y
+    edges = np.array([geometry.bounds for geometry in parts.geometry])
+
+    def edge(values, ascending: bool) -> float:
+        order = np.argsort(values)
+        if not ascending:
+            order = order[::-1]
+        share = np.cumsum(area[order]) / total
+        return float(values[order[min(int(np.searchsorted(share, trim)), len(order) - 1)]])
+
+    return edge(edges[:, 0], True), min_y, edge(edges[:, 2], False), max_y
+
+
+def prepare_world(
+    geography: gpd.GeoDataFrame, *, hide_antarctica: bool = True, trim: float = WORLD_TRIM
+) -> MapView:
     frame = drop_antarctica(geography) if hide_antarctica else geography
     frame = frame.to_crs(WORLD_CRS)
-    return MapView(frame, tuple(pad_bounds(frame.total_bounds, 0.01)))
+    return MapView(frame, tuple(pad_bounds(ink_bounds(frame, trim), 0.01)))
 
 
 # Drawing

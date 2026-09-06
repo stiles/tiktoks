@@ -218,6 +218,29 @@ forest map the Sahara glows and the Amazon sinks into the slide. The `paper` the
 reads correctly. Whether the guess-map format switches to `paper` is an editorial
 call about feed consistency, not a bug.
 
+## 12d. Give the world map the frame — `done`
+
+The map on a guess-map answer was 596 by 266 in a 1080 by 1920 slide. Three things
+were taking the space.
+
+The mystery slide used a hero title, sized when a world map filled less than half
+the frame. That reasoning had inverted: the hero was the reason the map was small.
+Guess-map titles are two lines now, on both slides, so a long answer shrinks
+rather than eating the map.
+
+The no-data chip was stacked above the legend, which cost nearly 60px. It sits
+beside the ramp now, which is also where it belongs: centered underneath, gray
+reads as a middle class of the scale.
+
+The frame ran to the antimeridian, spending the outer fifth of the width on empty
+Pacific. `prepare_world` takes a `trim`, set so the aspect goes from 2.24 to 1.84.
+Measured in pixels on a 1080-wide render rather than as a share of each country,
+everything it clips is under 40 square pixels: Fiji 24, Samoa 3, Kiribati 1. New
+Zealand keeps 99.7 percent and the United States 99.7. Going further does cost
+something real, so it stops here: at 0.002 New Zealand drops to 70 percent.
+
+Together: 1042 by 567, about 3.7 times the area.
+
 ## 13. Choropleth binning beyond quantiles — `open`
 
 `draw_choropleth` hardcodes the quantiles scheme. Some measures want natural breaks
