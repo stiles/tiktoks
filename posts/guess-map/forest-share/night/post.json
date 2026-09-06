@@ -32,7 +32,7 @@
       "index": 2,
       "file": "forest-share-02-answer.png",
       "kind": "answer",
-      "alt": "A world map. Share of land covered by forest. Suriname, Guyana and Gabon are more than 80 percent forest. Several countries are under one percent.",
+      "alt": "A world map. Share of land covered by forest. Suriname, Guyana and Gabon are more than 80 percent forest.",
       "title": "Share of land covered by forest"
     },
     {
@@ -43,10 +43,10 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T02:35:04+00:00",
-  "git_sha": "88a1e6884cdd071be9212a9a8cc97388aac04d93",
+  "rendered_at": "2026-09-06T02:56:20+00:00",
+  "git_sha": "7d9ecdfcad1188bb580b35c18d2b6bc11a4cb870",
   "config": "content/guess-map.yaml",
-  "config_hash": "5d1183a5fc0367e5",
+  "config_hash": "10217ba507231faf",
   "layout_problems": [],
   "publish": {
     "post_id": null,

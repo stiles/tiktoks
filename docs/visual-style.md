@@ -16,7 +16,8 @@ A slide stacks blocks from the top and the footer from the bottom, and the map t
 
 - Kicker, then title, then dek, then map.
 - Source sits at the bottom, with an optional call-to-action pill above it and a difficulty badge in the top right.
-- A prompt and its answer share one map rect, so the swipe reads as a reveal instead of a jump. `shared_slot()` works out the largest box that fits both.
+- A prompt and its answer share one map rect, so the swipe reads as a reveal instead of a jump. `shared_slot()` works out the largest box that fits both, and never returns more than the space actually left, so the map cannot cover the legend or the source line.
+- A map is scaled to fit its slot on both axes. A slot shorter than the data shrinks the map rather than cropping it.
 - Titles wrap against measured glyph widths and shrink until they fit the line budget. Do not wrap by character count; a 24-character line at 78pt runs off the canvas.
 
 Set `hero=True` on a title when the slide carries a world map. A world map is 2.25:1 and fills less than half the frame, so the headline takes the top third.
@@ -65,11 +66,19 @@ Island chains such as the Maldives and Fiji still read as specks at any honest z
 
 ## Choropleths
 
-- Use 5 to 7 bins.
-- Use a sequential scale for low-to-high values.
-- Use a diverging scale only when there is a real midpoint, such as zero change or normal rainfall.
-- Keep gray outside the scale for missing data, and label the no-data chip in the legend.
+- Use 5 to 7 bins. The default is 6.
+- One hue, with lightness carrying the value: light for low, dark for high. Two
+  hues make a reader hunt for a category boundary that is not there.
+- Ramps live in `src/tiktoks/palettes.py`, from ColorBrewer. Pick one per map with
+  `palette:` in the catalog entry and match it to the subject where there is an
+  obvious fit, such as Greens for forest cover.
+- The ramp should still read low-to-high in grayscale.
+- Keep gray outside the scale for missing data, and label the no-data chip in the
+  legend.
 - Do not use rainbow scales.
+- On a dark background a light-to-dark ramp inverts the emphasis: the low values
+  glow and the high values sink into the slide. Render choropleths on `paper`
+  unless there is a reason not to.
 
 ## Source lines
 

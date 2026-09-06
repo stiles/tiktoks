@@ -24,12 +24,18 @@ PT_TO_PX = 100 / 72
 FOOTER_BAND = 420
 
 
-def shared_slot(*slides: "Slide", min_height: int = 620) -> tuple[float, float]:
-    """The largest (top, height) map box that fits every slide passed in."""
+def shared_slot(*slides: "Slide") -> tuple[float, float]:
+    """The largest (top, height) map box that fits every slide passed in.
+
+    This used to force a minimum height, which meant an overstuffed slide got a
+    map taller than the space left for it. The map then ran over the legend, the
+    source line and the call-to-action pill. A short map is a worse graphic; a map
+    drawn on top of the legend is a broken one.
+    """
     slots = [slide.content_slot() for slide in slides]
     top = max(slot[0] for slot in slots)
     bottom = min(slot[0] + slot[1] for slot in slots)
-    return top, max(bottom - top, min_height)
+    return top, max(bottom - top, 0.0)
 
 
 class Slide:
@@ -61,6 +67,7 @@ class Slide:
 
         self._texts: list[tuple[str, object]] = []
         self._boxes: list[tuple[str, Box]] = []
+        self._map_rect: Box | None = None
 
         self.figure = plt.figure(
             figsize=(width / 100, height / 100),
@@ -300,10 +307,17 @@ class Slide:
         width = self.width if bleed else self.content_width
 
         if data_aspect:
-            fitted = width / data_aspect
-            if fitted < height:
-                top += (height - fitted) / 2
-                height = fitted
+            # Fit the data inside the slot on both axes. Shrinking only the height
+            # meant a slot shorter than the data cropped the map instead of scaling
+            # it, which sliced the top and bottom off a world map.
+            fitted_height = width / data_aspect
+            if fitted_height <= height:
+                top += (height - fitted_height) / 2
+                height = fitted_height
+            else:
+                fitted_width = height * data_aspect
+                left += (width - fitted_width) / 2
+                width = fitted_width
 
         if self.theme.map_panel and not bleed:
             self.canvas.add_patch(
@@ -331,6 +345,7 @@ class Slide:
         axes.set_axis_off()
         axes.set_xticks([])
         axes.set_yticks([])
+        self._map_rect = Box(left, top, left + width, top + height)
         self.map_aspect = width / height
         return axes, self.map_aspect
 
@@ -562,15 +577,22 @@ class Slide:
         A pixel scan would flag world maps, which bleed to the canvas edge on
         purpose, so the check runs on element bounds instead.
         """
-        if not self.safe_area:
-            return []
         problems = []
-        for kind, box in self.boxes():
-            for zone in safe.collisions(box):
-                problems.append(
-                    f"{kind} at ({box.x0:.0f}, {box.y0:.0f})-({box.x1:.0f}, {box.y1:.0f}) "
-                    f"overlaps the {zone}"
-                )
+        if self.safe_area:
+            for kind, box in self.boxes():
+                for zone in safe.collisions(box):
+                    problems.append(
+                        f"{kind} at ({box.x0:.0f}, {box.y0:.0f})-({box.x1:.0f}, {box.y1:.0f}) "
+                        f"overlaps the {zone}"
+                    )
+        # A map drawn over the legend or the source line is the other way this
+        # breaks, and no safe zone catches it.
+        if self._map_rect is not None:
+            for kind, box in self.boxes():
+                if kind.startswith("cover"):
+                    continue
+                if box.intersects(self._map_rect, tolerance=6.0):
+                    problems.append(f"the map overlaps the {kind}")
         return problems
 
     # Internals

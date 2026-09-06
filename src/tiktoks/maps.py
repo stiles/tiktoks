@@ -354,9 +354,11 @@ def draw_choropleth(
     aspect: float = 1.0,
     scheme: str = "quantiles",
     bins: int | None = None,
+    colors: list[str] | None = None,
 ) -> None:
+    """Bin a measure into a light-to-dark ramp. The last color is the highest bin."""
     theme = get_theme(theme)
-    colors = list(theme.sequential[: bins or len(theme.sequential)])
+    colors = list(colors or theme.sequential[: bins or len(theme.sequential)])
     ax.set_facecolor(theme.water)
     view.base.plot(
         ax=ax,

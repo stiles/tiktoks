@@ -20,6 +20,8 @@
 
 defaults:
   hide_antarctica: true
+  # Single hue, light for low and dark for high. See src/tiktoks/palettes.py.
+  palette: Blues
   hashtags: [maps, geography, dataviz, guessthemap]
 
 posts:
@@ -104,7 +106,7 @@ posts:
     prompt: What does this map measure?
     clue: Darker means more of it. Luxembourg and Switzerland are at the top.
     answer: GDP per capita
-    answer_note: The gap between the richest and poorest countries is roughly a hundredfold.
+    answer_note: The richest and poorest countries differ roughly a hundredfold.
     source: "Source: World Bank, NY.GDP.PCAP.CD. Boundaries: Natural Earth."
     legend_format: "${:,.0f}"
     challenge: Guess which country ranks first. It is smaller than Rhode Island.
@@ -118,8 +120,9 @@ posts:
     prompt: What does this map measure?
     clue: The range runs from the low 50s to the mid 80s.
     answer: Life expectancy at birth
-    answer_note: Japan, Switzerland and Spain sit near the top. The lowest figures are in central and western Africa.
+    answer_note: Japan and Switzerland sit near the top, central Africa at the bottom.
     source: "Source: World Bank, SP.DYN.LE00.IN. Boundaries: Natural Earth."
+    palette: Purples
     legend_format: "{:,.0f} yrs"
     challenge: Name the country with the highest life expectancy in the Americas.
     fetch:
@@ -132,8 +135,9 @@ posts:
     prompt: What does this map measure?
     clue: It is not population, and it is not income.
     answer: Share of land covered by forest
-    answer_note: Suriname, Guyana and Gabon are more than 80 percent forest. Several countries are under one percent.
+    answer_note: Suriname, Guyana and Gabon are more than 80 percent forest.
     source: "Source: World Bank, AG.LND.FRST.ZS. Boundaries: Natural Earth."
+    palette: Greens
     legend_format: "{:,.0f}%"
     challenge: Name the most forested country in South America. It is not Brazil.
     fetch:

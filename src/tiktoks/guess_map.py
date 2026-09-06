@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from tiktoks import catalog
+from tiktoks import catalog, palettes
 from tiktoks.config import GUESS_MAP_CATALOG_PATH, POSTS_DIR, ROOT
 from tiktoks.io import read_yaml
 from tiktoks.maps import (
@@ -96,7 +96,10 @@ def _render(
         joined = join_values(geography, values, geo_key=entry.get("geo_key", "name"), data_key=key)
     view = prepare_world(joined, hide_antarctica=entry.get("hide_antarctica", True))
 
-    bins = entry.get("bins", len(theme.sequential))
+    bins = entry.get("bins", 6)
+    # One hue, light for low and dark for high. The theme ramps run dark to light,
+    # which reads as darker meaning less.
+    colors = palettes.sequential(entry.get("palette"), bins)
     difficulty = entry.get("difficulty", "medium")
 
     post = Post(
@@ -119,7 +122,7 @@ def _render(
         edges = quantile_edges(view.base[column], bins)
         template = entry.get("legend_format", "{:,.0f}")
         answer.legend(
-            list(theme.sequential[:bins]),
+            colors,
             [template.format(edges[0]), template.format(edges[-1])],
             no_data=view.base[column].isna().any(),
         )
@@ -138,7 +141,9 @@ def _render(
                 aspect=aspect,
             )
         else:
-            draw_choropleth(axes, view, value_column=column, theme=theme, aspect=aspect, bins=bins)
+            draw_choropleth(
+                axes, view, value_column=column, theme=theme, aspect=aspect, colors=colors
+            )
         post.add(slide, kind=kind, alt=_alt(entry, kind), title=entry.get("answer"))
 
     # A falsifiable challenge outpulls "what do you think?" in the comments.

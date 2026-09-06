@@ -150,3 +150,25 @@ def test_theme_fonts_resolve_without_weight_substitution(caplog):
 
     substitutions = [r.getMessage() for r in caplog.records if "font weight" in r.getMessage()]
     assert substitutions == []
+
+
+def test_the_map_never_covers_the_legend_or_the_footer():
+    """An overstuffed slide used to get a map taller than the space left for it,
+    which drew over the legend, the source line and the call-to-action pill."""
+    slide = Slide("night", source="Source: World Bank. Boundaries: Natural Earth.", cue="Swipe")
+    slide.kicker("Answer")
+    slide.title("A three line answer headline that eats most of the frame here")
+    slide.dek("A dek that runs to three full lines and leaves very little room below it.")
+    slide.legend(["#eff3ff", "#9ecae1", "#08519c"], ["low", "high"], no_data=True)
+
+    top, height = slide.content_slot()
+    slide.map_axes(slot=(top, height), data_aspect=2.25, bleed=True)
+    assert slide.check_layout() == []
+
+
+def test_a_wide_map_scales_down_rather_than_cropping():
+    """A slot shorter than the data must shrink the map, not slice its top off."""
+    slide = Slide("night")
+    slide.title("Short")
+    _, aspect = slide.map_axes(slot=(400, 200), data_aspect=2.25, bleed=True)
+    assert aspect == pytest.approx(2.25, abs=0.01)

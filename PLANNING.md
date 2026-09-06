@@ -198,6 +198,26 @@ made any measurement of land area in the window meaningless.
 projecting. An ordinary map keeps more than 90 percent of its polygons, so nothing
 loses context.
 
+## 12c. Choropleth color and map overlap — `done`
+
+Two bugs on the guess-map answer slides.
+
+`shared_slot` forced a minimum map height of 620px. On a slide with a three-line
+title, a three-line dek, a legend and a two-line source there were about 320px
+left, so the map was drawn over the legend, the source and the call-to-action
+pill. It now returns the space that is actually left, and `map_axes` scales a map
+to fit its slot on both axes rather than cropping it. `check_layout` grew a test
+for the map rect against every text run, which is what would have caught this.
+
+The ramps ran dark to light, so darker read as less. Choropleths now take a
+single-hue ColorBrewer ramp from `palettes.py`, light for low and dark for high,
+selected per map with `palette:`.
+
+Still open: on a dark background a light-to-dark ramp inverts the emphasis. In the
+forest map the Sahara glows and the Amazon sinks into the slide. The `paper` theme
+reads correctly. Whether the guess-map format switches to `paper` is an editorial
+call about feed consistency, not a bug.
+
 ## 13. Choropleth binning beyond quantiles — `open`
 
 `draw_choropleth` hardcodes the quantiles scheme. Some measures want natural breaks

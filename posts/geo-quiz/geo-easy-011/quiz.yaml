@@ -1,0 +1,21 @@
+slug: geo-easy-011
+title: Easy geography quiz
+difficulty: easy
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-05'
+countries:
+- name: Nigeria
+  fact: It has the largest population in Africa.
+- name: Poland
+  fact: It sits between Germany and Ukraine, with a coast on the Baltic.
+- name: Portugal
+  fact: It faces the Atlantic on the western edge of the Iberian Peninsula.
+- name: Russia
+  fact: It spans eleven time zones and two continents.
+- name: Saudi Arabia
+  fact: It covers most of the Arabian Peninsula.
+- name: South Africa
+  fact: It sits at the southern end of the African continent.
+- name: Spain
+  fact: It shares the Iberian Peninsula with Portugal.

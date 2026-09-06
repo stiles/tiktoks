@@ -1,0 +1,22 @@
+slug: geo-expert-009
+title: Expert geography quiz
+difficulty: expert
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-05'
+countries:
+- name: Tajikistan
+  fact: Mostly mountains. The Pamir range covers its eastern half.
+- name: Togo
+  fact: One of Africa's narrowest countries, running inland from the Gulf of Guinea.
+- name: Turkmenistan
+  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.
+- name: Vanuatu
+  fact: An island chain in the South Pacific, east of Australia.
+  zoom: 4.0
+- name: Andorra
+  fact: A microstate in the Pyrenees between France and Spain.
+- name: Benin
+  fact: A narrow strip of West Africa between Togo and Nigeria.
+- name: Brunei
+  fact: A small, oil-rich state on the island of Borneo.

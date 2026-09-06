@@ -32,7 +32,7 @@
       "index": 2,
       "file": "gdp-per-capita-02-answer.png",
       "kind": "answer",
-      "alt": "A world map. GDP per capita. The gap between the richest and poorest countries is roughly a hundredfold.",
+      "alt": "A world map. GDP per capita. The richest and poorest countries differ roughly a hundredfold.",
       "title": "GDP per capita"
     },
     {
@@ -43,10 +43,10 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T02:35:03+00:00",
-  "git_sha": "88a1e6884cdd071be9212a9a8cc97388aac04d93",
+  "rendered_at": "2026-09-06T02:56:19+00:00",
+  "git_sha": "7d9ecdfcad1188bb580b35c18d2b6bc11a4cb870",
   "config": "content/guess-map.yaml",
-  "config_hash": "5d1183a5fc0367e5",
+  "config_hash": "10217ba507231faf",
   "layout_problems": [],
   "publish": {
     "post_id": null,
