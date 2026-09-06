@@ -2,19 +2,18 @@ slug: geo-hard-004
 title: Hard geography quiz
 difficulty: hard
 topic: world geography
-built_from: content/geo-quiz/countries.csv
-built_on: '2026-09-05'
-output_dir: output
+built_from: content/countries.csv
+built_on: '2026-09-06'
 countries:
-- name: Laos
-  fact: The only landlocked country in Southeast Asia.
-- name: Malawi
-  fact: Much of its eastern border is a lake that shares its name.
-- name: Slovenia
-  fact: It sits between the Alps and the Adriatic, south of Austria.
-- name: Tunisia
-  fact: The northernmost country in Africa.
-- name: Uruguay
-  fact: It sits between Brazil and Argentina on the Atlantic coast.
-- name: Belize
-  fact: The only country in Central America with English as its official language.
+- name: Croatia
+  fact: Its coastline runs down the Adriatic in a long, narrow curve.
+- name: Ecuador
+  fact: It is named for the equator, which crosses it.
+- name: Eritrea
+  fact: It runs along the Red Sea, north of Ethiopia.
+- name: Georgia
+  fact: It sits in the Caucasus, between the Black Sea and Russia.
+- name: Ghana
+  fact: It sits on the Gulf of Guinea, with the prime meridian running through it.
+- name: Guyana
+  fact: The only South American country with English as its official language.

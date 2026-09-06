@@ -143,3 +143,104 @@ posts:
     fetch:
       kind: worldbank
       indicator: AG.LND.FRST.ZS
+
+  - slug: black-population-share
+    difficulty: medium
+    topic: demographics
+    geography: https://stilesdata.com/gis/usa_counties_demos_generations.geojson
+    boundary_overlay: https://stilesdata.com/gis/us_states.geojson
+    boundary_color: "#d8d8d8"
+    boundary_width: 1.4
+    region_bounds: [-125, 24, -66, 50]
+    prompt: What does this map measure?
+    clue: Darker counties have a larger share of this group.
+    answer: Non-Hispanic Black population share
+    answer_note: The highest shares cluster across the Black Belt, from eastern Texas to the Atlantic coast.
+    source: "Source: Esri demographics, accessed via stilesdata.com."
+    palette: Reds
+    scheme: FisherJenks
+    legend_format: "{:.0%}"
+    challenge: Name the state with the largest Black population.
+    mystery_alt: An unlabeled map of the contiguous United States, with counties shaded from light to dark red.
+    answer_alt: A county map showing the Black share of each county's population, highest across much of the South.
+    value:
+      numerator: NHSPBLK_CY
+      denominator: TOTPOP_CY
+
+  - slug: hispanic-population-share
+    difficulty: medium
+    topic: demographics
+    geography: https://stilesdata.com/gis/usa_counties_demos_generations.geojson
+    boundary_overlay: https://stilesdata.com/gis/us_states.geojson
+    boundary_color: "#d8d8d8"
+    boundary_width: 1.4
+    region_bounds: [-125, 24, -66, 50]
+    prompt: What does this map measure?
+    clue: Darker counties have a larger share of this group.
+    answer: Hispanic population share
+    answer_note: The highest shares stretch along the Southwest border and through parts of Texas and Florida.
+    source: "Source: Esri demographics, accessed via stilesdata.com."
+    palette: Greens
+    scheme: FisherJenks
+    legend_format: "{:.0%}"
+    challenge: Name the state with the largest Hispanic population.
+    mystery_alt: An unlabeled map of the contiguous United States, with counties shaded from light to dark green.
+    answer_alt: A county map showing the Hispanic share of each county's population, highest in the Southwest and South Texas.
+    value:
+      numerator: HISPPOP_CY
+      denominator: TOTPOP_CY
+
+  - slug: average-household-size
+    difficulty: hard
+    topic: demographics
+    geography: https://stilesdata.com/gis/usa_counties_demos_generations.geojson
+    boundary_overlay: https://stilesdata.com/gis/us_states.geojson
+    boundary_color: "#d8d8d8"
+    boundary_width: 1.4
+    region_bounds: [-125, 24, -66, 50]
+    prompt: What does this map measure?
+    clue: Darker counties have more of this.
+    answer: Average household size
+    answer_note: Household sizes tend to be largest in the Southwest and parts of the South.
+    source: "Source: Esri demographics, accessed via stilesdata.com."
+    palette: Blues
+    legend_format: "{:.1f} people"
+    challenge: Which state has the largest average household size?
+    mystery_alt: An unlabeled map of the contiguous United States, with counties shaded from light to dark blue.
+    answer_alt: A county map showing average household size, highest in parts of the Southwest and South.
+    value:
+      field: AVGHHSZ_CY
+
+  - slug: population
+    difficulty: easy
+    topic: demographics
+    prompt: What does this map measure?
+    clue: The two darkest countries together are home to more than a third of humanity.
+    answer: Population
+    answer_note: India and China are the world's two most populous countries.
+    source: "Source: World Bank, SP.POP.TOTL. Boundaries: Natural Earth."
+    palette: Oranges
+    scheme: FisherJenks
+    legend_format: "{:,.0f}"
+    challenge: Name the world's third most populous country.
+    fetch:
+      kind: worldbank
+      indicator: SP.POP.TOTL
+      year: 2024
+
+  - slug: in-n-out-locations
+    difficulty: easy
+    topic: food
+    map_kind: points
+    geography: https://stilesdata.com/gis/us_states.geojson
+    points: https://raw.githubusercontent.com/stiles/locations/refs/heads/main/in-n-out/data/processed/in-n-out_locations.geojson
+    region_bounds: [-125, 24, -66, 50]
+    point_size: 18
+    prompt: What do these dots represent?
+    clue: The chain started in California in 1948 and has not reached most of the East.
+    answer: In-N-Out Burger locations
+    answer_note: Its restaurants remain concentrated in California, Texas and the Southwest.
+    source: "Source: In-N-Out Burger locations compiled by Matt Stiles. State boundaries: U.S. Census Bureau."
+    challenge: Which state has the most In-N-Out locations?
+    mystery_alt: An unlabeled map of the contiguous United States with dots marking store locations.
+    answer_alt: A map of In-N-Out Burger locations, concentrated in California, Texas and the Southwest.

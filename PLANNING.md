@@ -143,13 +143,13 @@ Build order: `metrics auth` to store the TikAPI key, `metrics pull` for one date
 snapshot, a daily GitHub Action shaped like the bots repo, then `metrics report`
 to rank formats by finish rate.
 
-## 9. Video assembly — `open`
+## 9. Video assembly — `partly done`
 
-The rig already produces the frames. An ffmpeg pass that turns a slide sequence
-into an MP4 (a slow push on the map, a cut on the reveal) is a small amount of code
-and doubles the surface the post can occupy.
+The rig already produces the frames. `tiktoks video` turns a slide sequence into
+a 9:16 MP4 with a hold per kind and a cut on the reveal. `tiktoks youtube upload`
+sends that file through `videos.insert`. Default privacy is private.
 
-Worth doing after item 8, so there is a way to tell whether it helped.
+A slow push on the map is still open. Holds are enough to post.
 
 ## 10. Delay the reveal — `open`
 

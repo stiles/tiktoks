@@ -1,0 +1,30 @@
+default: comfortable-mystery
+beds:
+  - slug: comfortable-mystery
+    file: bed.mp3
+    title: Comfortable Mystery 2
+    artist: Kevin MacLeod
+    license: CC BY 3.0
+    license_url: https://creativecommons.org/licenses/by/3.0/
+    source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537
+    isrc: USUAN1100537
+    attribution: |
+      Music: "Comfortable Mystery 2" Kevin MacLeod (incompetech.com)
+      Licensed under Creative Commons: By Attribution 3.0 License
+      http://creativecommons.org/licenses/by/3.0/
+  - slug: here-for-a-good-time
+    file: Ben Fox - Here for a Good Time.mp3
+    title: Here for a Good Time
+    artist: Ben Fox
+    license: Artlist
+    source: https://artlist.io/royalty-free-music
+    attribution: |
+      Music: "Here for a Good Time" by Ben Fox via Artlist
+  - slug: groovy-panda
+    file: IamDayLight - Groovy Panda.mp3
+    title: Groovy Panda
+    artist: IamDayLight
+    license: Artlist
+    source: https://artlist.io/royalty-free-music
+    attribution: |
+      Music: "Groovy Panda" by IamDayLight via Artlist

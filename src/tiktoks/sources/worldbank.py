@@ -48,7 +48,9 @@ def indicator(code: str, *, year: int | None = None, mrv: int = 5) -> pd.DataFra
     `mrv` is how many recent years to consider before giving up on a country, which
     matters because World Bank coverage lags unevenly by country.
     """
-    params = {"format": "json", "per_page": 20000}
+    # The API intermittently returns 502 for oversized pages. Four hundred rows
+    # covers a year in one response and keeps multi-year requests manageable.
+    params = {"format": "json", "per_page": 400}
     if year:
         params["date"] = str(year)
     else:
@@ -61,6 +63,15 @@ def indicator(code: str, *, year: int | None = None, mrv: int = 5) -> pd.DataFra
         payload = json.loads(cache.read_text(encoding="utf-8"))
     else:
         payload = _get(f"{BASE}/country/all/indicator/{code}", params).json()
+        pages = int(payload[0].get("pages", 1)) if payload else 1
+        if pages > 1:
+            rows = list(payload[1] or [])
+            for page in range(2, pages + 1):
+                page_payload = _get(
+                    f"{BASE}/country/all/indicator/{code}", {**params, "page": page}
+                ).json()
+                rows.extend(page_payload[1] or [])
+            payload[1] = rows
         cache.parent.mkdir(parents=True, exist_ok=True)
         cache.write_text(json.dumps(payload), encoding="utf-8")
     if len(payload) < 2 or not payload[1]:

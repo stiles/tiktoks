@@ -2,8 +2,8 @@
 
 Rendering writes `post.json` next to the PNGs. That file is what lets a view count
 pulled three weeks later be attributed to a format, a difficulty and a batch.
-`docs/roadmap.md` calls this the join problem and proposes a CSV filled in by hand
-at publish time; everything except the TikTok post ID is known at render time.
+`docs/metrics.md` calls this the join problem. Everything except the platform
+post IDs is known at render time.
 """
 
 from __future__ import annotations
@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from copy import deepcopy
 from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,6 +21,13 @@ from tiktoks.export import contact_sheet, validate_export
 from tiktoks.paths import ensure_dir
 from tiktoks.slides import Slide
 from tiktoks.style import Theme
+
+EMPTY_PUBLISH = {
+    "post_id": None,
+    "url": None,
+    "posted_at": None,
+    "youtube": {"video_id": None, "url": None, "posted_at": None},
+}
 
 
 class LayoutError(RuntimeError):
@@ -77,7 +85,9 @@ class Post:
             contact_sheet(self.paths, directory / f"{self.slug}-contact-sheet.png")
 
         manifest = directory / "post.json"
-        manifest.write_text(json.dumps(self.manifest(), indent=2) + "\n", encoding="utf-8")
+        payload = self.manifest()
+        payload["publish"] = merge_publish(payload["publish"], _existing_publish(manifest))
+        manifest.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
         if self.problems and self.strict:
             raise LayoutError(
@@ -104,9 +114,9 @@ class Post:
             "config": _relative(self.config_path),
             "config_hash": file_hash(self.config_path),
             "layout_problems": self.problems,
-            # Filled in by hand after posting. This is the only part that cannot be
-            # known at render time.
-            "publish": {"post_id": None, "url": None, "posted_at": None},
+            # Platform IDs are filled in after posting. Re-rendering keeps whatever
+            # is already on disk, so a YouTube upload survives a slide tweak.
+            "publish": deepcopy(EMPTY_PUBLISH),
         }
 
     def default_caption(self) -> str:
@@ -116,6 +126,31 @@ class Post:
         if self.hashtags:
             parts.append(" ".join(f"#{tag.lstrip('#')}" for tag in self.hashtags))
         return " ".join(parts)
+
+
+def merge_publish(base: dict | None, overlay: dict | None) -> dict:
+    """Copy overlay keys that have values onto base. Nested `youtube` merges the same way."""
+    merged = dict(base or {})
+    if not overlay:
+        return merged
+    for key, value in overlay.items():
+        if key == "youtube" and isinstance(value, dict):
+            current = merged.get("youtube")
+            merged["youtube"] = merge_publish(current if isinstance(current, dict) else {}, value)
+        elif value not in (None, ""):
+            merged[key] = value
+    return merged
+
+
+def _existing_publish(manifest: Path) -> dict | None:
+    if not manifest.exists():
+        return None
+    try:
+        payload = json.loads(manifest.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    publish = payload.get("publish")
+    return publish if isinstance(publish, dict) else None
 
 
 def _relative(path: Path | None) -> str | None:

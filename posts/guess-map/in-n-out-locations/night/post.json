@@ -1,0 +1,56 @@
+{
+  "slug": "in-n-out-locations",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "easy",
+  "topic": "food",
+  "title": "In-N-Out Burger locations",
+  "caption": "In-N-Out Burger locations Difficulty: easy. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: In-N-Out Burger locations compiled by Matt Stiles. State boundaries: U.S. Census Bureau."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "in-n-out-locations-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled map of the contiguous United States with dots marking store locations.",
+      "title": "In-N-Out Burger locations"
+    },
+    {
+      "index": 2,
+      "file": "in-n-out-locations-02-answer.png",
+      "kind": "answer",
+      "alt": "A map of In-N-Out Burger locations, concentrated in California, Texas and the Southwest.",
+      "title": "In-N-Out Burger locations"
+    },
+    {
+      "index": 3,
+      "file": "in-n-out-locations-03-challenge.png",
+      "kind": "challenge",
+      "alt": "Which state has the most In-N-Out locations?",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T14:26:41+00:00",
+  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "config": "content/guess-map.yaml",
+  "config_hash": "56756df2480bdd9c",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

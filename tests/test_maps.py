@@ -1,14 +1,19 @@
 """Framing and joining rules that are easy to break and hard to see."""
 
+import geopandas as gpd
 import pandas as pd
 import pytest
+from shapely.geometry import box
 
 from tiktoks.catalog import _patch, _verify
 from tiktoks.maps import (
+    classification_edges,
     country_match,
+    derive_value,
     drop_antarctica,
     pad_bounds,
     prepare_country,
+    prepare_region,
     prepare_world,
     quantile_edges,
     with_codes,
@@ -61,6 +66,35 @@ def test_quantile_edges_span_the_data():
     edges = quantile_edges(pd.Series([1, 2, 3, 4, 5]), 4)
     assert len(edges) == 5
     assert edges[0] == 1 and edges[-1] == 5
+
+
+def test_fisher_jenks_edges_match_the_data_range():
+    edges = classification_edges(pd.Series([1, 2, 3, 30, 31, 32]), 3, "FisherJenks")
+    assert len(edges) == 4
+    assert edges[0] == 1 and edges[-1] == 32
+
+
+def test_derived_value_supports_fields_and_shares():
+    geography = gpd.GeoDataFrame(
+        {"group": [20, 30], "total": [100, 0], "average": [2.4, 3.1]},
+        geometry=[box(-100, 30, -99, 31), box(-99, 30, -98, 31)],
+        crs="EPSG:4326",
+    )
+    shares = derive_value(geography, column="value", numerator="group", denominator="total")
+    averages = derive_value(geography, column="value", field="average")
+    assert list(shares["value"].dropna()) == [0.2]
+    assert shares["value"].isna().iloc[1]
+    assert list(averages["value"]) == [2.4, 3.1]
+
+
+def test_regional_framing_drops_outlying_geometry():
+    geography = gpd.GeoDataFrame(
+        geometry=[box(-100, 30, -99, 31), box(-157, 20, -156, 21)],
+        crs="EPSG:4326",
+    )
+    view = prepare_region(geography, bounds=(-125, 24, -66, 50))
+    assert len(view.base) == 1
+    assert view.crs == "EPSG:5070"
 
 
 def test_crosswalk_codes_most_countries(countries):

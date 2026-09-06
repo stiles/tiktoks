@@ -2,20 +2,18 @@ slug: geo-medium-003
 title: Medium geography quiz
 difficulty: medium
 topic: world geography
-built_from: content/geo-quiz/countries.csv
-built_on: '2026-09-05'
-output_dir: output
+built_from: content/countries.csv
+built_on: '2026-09-06'
 countries:
-- name: Madagascar
-  fact: The world's fourth largest island, off the southeast coast of Africa.
-- name: Morocco
-  fact: It faces both the Atlantic and the Mediterranean, across the strait from Spain.
-- name: New Zealand
-  fact: Two main islands in the South Pacific, southeast of Australia across the Tasman
-    Sea.
-- name: Norway
-  fact: Its western coast is cut by deep glacial fjords.
-- name: Philippines
-  fact: An archipelago of more than 7,000 islands in Southeast Asia.
-- name: South Korea
-  fact: It occupies the southern half of the Korean Peninsula.
+- name: Pakistan
+  fact: It runs from the Arabian Sea up to the Karakoram mountains.
+- name: Peru
+  fact: Machu Picchu sits in its stretch of the Andes.
+- name: Switzerland
+  fact: Landlocked in the Alps, with five neighbors.
+- name: Thailand
+  fact: It sits between Myanmar and Laos, with a long peninsula reaching south.
+- name: Austria
+  fact: Landlocked in the eastern Alps, with Vienna on the Danube.
+- name: Colombia
+  fact: The only South American country with both Pacific and Caribbean coasts.

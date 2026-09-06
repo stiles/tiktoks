@@ -3,15 +3,17 @@ title: Hard geography quiz
 difficulty: hard
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
-- name: Albania
-  fact: It faces Italy across the Adriatic, north of Greece.
-- name: Bolivia
-  fact: One of two landlocked countries in South America.
-- name: Ecuador
-  fact: It is named for the equator, which crosses it.
-- name: Ghana
-  fact: It sits on the Gulf of Guinea, with the prime meridian running through it.
-- name: Guyana
-  fact: The only South American country with English as its official language.
+- name: Kyrgyzstan
+  fact: A mountainous Central Asian country bordering China.
+- name: Laos
+  fact: The only landlocked country in Southeast Asia.
+- name: Latvia
+  fact: The middle of the three Baltic states.
+- name: Malawi
+  fact: Much of its eastern border is a lake that shares its name.
+- name: Mongolia
+  fact: Landlocked between Russia and China.
+- name: Mozambique
+  fact: Its long Indian Ocean coast faces Madagascar.

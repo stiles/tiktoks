@@ -3,7 +3,7 @@ title: Expert geography quiz
 difficulty: expert
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
 - name: Malta
   fact: An island nation south of Sicily.
@@ -16,8 +16,6 @@ countries:
   zoom: 14.0
 - name: San Marino
   fact: A microstate entirely surrounded by Italy.
-- name: Seychelles
-  fact: Islands in the Indian Ocean, northeast of Madagascar.
-  zoom: 16.0
-- name: Tajikistan
-  fact: Mostly mountains. The Pamir range covers its eastern half.
+- name: Sao Tome and Principe
+  fact: Two islands in the Gulf of Guinea, off Central Africa.
+  zoom: 3.0

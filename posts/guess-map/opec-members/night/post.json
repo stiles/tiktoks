@@ -51,6 +51,18 @@
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null
+    "posted_at": null,
+    "youtube": {
+      "video_id": "rbkbIkQsPMU",
+      "url": "https://www.youtube.com/shorts/rbkbIkQsPMU",
+      "posted_at": "2026-09-06"
+    }
+  },
+  "audio": {
+    "title": "Comfortable Mystery 2",
+    "artist": "Kevin MacLeod",
+    "license": "CC BY 3.0",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
+    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
   }
 }

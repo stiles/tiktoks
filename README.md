@@ -1,8 +1,11 @@
 # TikTok stories
 
-This repo holds code-driven posts for TikTok: one-off data stories, geography quizzes and mystery maps.
+This repo holds code-driven posts for TikTok and YouTube Shorts: one-off data
+stories, geography quizzes and mystery maps.
 
-Every output is a static `1080x1920` PNG slide for a carousel post. The code is Python because the early work is data, maps and batch exports.
+Every post starts as a static `1080x1920` PNG slide. TikTok gets a carousel.
+YouTube Shorts gets an MP4 assembled from the same sequence. The code is Python
+because the early work is data, maps and batch exports.
 
 ## Setup
 
@@ -38,6 +41,9 @@ uv run tiktoks catalog --slug nato-members
 uv run tiktoks catalog --all
 uv run tiktoks guess-map --config content/guess-map-csv-example/guess_map.yaml
 uv run tiktoks story --slug 2026-new-story
+uv run tiktoks video --dir posts/guess-map/opec-members/night
+uv run tiktoks youtube auth
+uv run tiktoks youtube upload --dir posts/guess-map/opec-members/night
 ```
 
 Render commands take `--theme night|paper|poster` and write to `<post dir>/<theme>/`. The default is `night`.
@@ -53,13 +59,15 @@ content/                     everything written by hand
   guess-map.yaml               the guess-the-map query catalog
   guess-map-csv-example/       a map built from a local CSV instead of a query
   stories/<slug>/              story config and its fetch, process and render scripts
+  audio/                       default Shorts bed and its license sidecar
 
 posts/                       one directory per post, rebuildable from content/
   geo-quiz/<slug>/
     quiz.yaml                  tracked: what this post contained
     night/
-      post.json                tracked: the key that ties this to a TikTok post ID
+      post.json                tracked: platform post IDs live here
       *.png                    ignored
+      *.mp4                    ignored
   guess-map/<slug>/
   stories/<slug>/
 
@@ -103,7 +111,48 @@ Cover slides break the top-down flow. `backdrop_axes()` puts a full-bleed map be
 
 A render produces a `post.json` beside the PNGs, holding the slug, format, difficulty, slide order, alt text, sources, caption, render time, git SHA and config hash. That is what ties a rendered batch to a TikTok post later, so metrics can be attributed to a format instead of guessed at.
 
-The only field that cannot be known at render time is the post ID. Fill in the `publish` block after posting.
+The only fields that cannot be known at render time are the platform post IDs. Fill in `publish.post_id` after posting to TikTok. `tiktoks youtube upload` writes the YouTube id itself.
+
+## YouTube Shorts
+
+Image carousels on the Shorts feed are channel posts, capped at 10 images and
+suggested as 1:1. They have no API. These slides are 9:16 and a three-country
+quiz is already eight frames, so Shorts here means a video.
+
+`tiktoks video` holds each slide by kind (longer on the prompt, a cut on the
+answer) and writes `{slug}.mp4` next to the PNGs. ffmpeg has to be on PATH.
+
+The beds live in `content/audio/catalog.yaml`. Default is Kevin MacLeod's
+"Comfortable Mystery 2" (CC BY 3.0). The other two are Artlist tracks: they need
+an active Artlist license and the YouTube channel on [Clearlist](https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license),
+or the upload can take a Content ID claim.
+
+```bash
+uv run tiktoks video --list-audio
+uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night
+uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night --audio groovy-panda
+uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night --silent
+```
+
+Upload uses the ordinary YouTube Data API `videos.insert` endpoint. A vertical
+MP4 under three minutes is classified as a Short. There is no Shorts flag.
+
+1. Enable YouTube Data API v3 on a Google Cloud project.
+2. Create an OAuth client of type Desktop and save the JSON as
+   `data/youtube-client-secrets.json`.
+3. Add yourself as a test user on the OAuth consent screen.
+4. Install the extra and authorize once:
+
+```bash
+uv sync --extra youtube
+uv run tiktoks youtube auth
+uv run tiktoks youtube upload --dir posts/geo-quiz/geo-easy-001/night
+```
+
+Uploads default to private so you can check the draft in Studio. Pass
+`--privacy unlisted` or `--privacy public` when it looks right. The video id
+lands in `publish.youtube` on that post's `post.json`. Re-rendering the slides
+keeps it.
 
 ## The query catalog
 
@@ -150,6 +199,18 @@ Quiz batches are drawn from `content/countries.csv` rather than written by hand,
 uv run tiktoks quiz status                       # depth per tier
 uv run tiktoks quiz next --tier hard --count 3   # build, render, record
 ```
+
+`quiz next` builds one post. `--count` is how many countries go in that post, not how many quizzes to make. To render several, loop it:
+
+```bash
+for tier in easy medium hard expert; do
+  for i in $(seq 5); do
+    uv run tiktoks quiz next --tier "$tier" --count 3 --theme paper
+  done
+done
+```
+
+That example is five quizzes in each tier, three countries each, in the paper theme. Each pass writes usage back to the pool so the next pick does not repeat the last one. `--dry-run` does not write usage, so looping a dry run shows the same countries every time.
 
 The pool holds 100 countries, 25 per tier. Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained.
 

@@ -32,10 +32,15 @@ Metrics are worthless without knowing which post they belong to. A rendered batc
 
 Rendering already writes most of it. Every render leaves a `post.json` beside the slides, carrying the slug, format, difficulty, topic, slide count, caption and the hash of the config that produced it. Those files are tracked in git; the slides are not.
 
-The one field that cannot be known at render time is the TikTok post ID. Fill in the `publish` block after posting:
+The fields that cannot be known at render time are the platform post IDs. Fill in the TikTok id after posting; `tiktoks youtube upload` writes the YouTube id:
 
 ```json
-"publish": {"post_id": "...", "url": "...", "posted_at": "2026-09-05"}
+"publish": {
+  "post_id": "...",
+  "url": "...",
+  "posted_at": "2026-09-05",
+  "youtube": {"video_id": "...", "url": "https://www.youtube.com/shorts/...", "posted_at": "2026-09-06"}
+}
 ```
 
 Collecting `posts/**/post.json` then gives the join table for free. That is what turns a pile of view counts into an answer to a real question: do expert quizzes hold people longer than easy ones, do US maps beat world maps, does the answer-in-comments variant get more comments than the answer-on-the-next-slide variant.

@@ -16,6 +16,11 @@ COUNTRY_POOL_PATH = CONTENT_DIR / "countries.csv"
 GUESS_MAP_CATALOG_PATH = CONTENT_DIR / "guess-map.yaml"
 STORIES_DIR = CONTENT_DIR / "stories"
 CROSSWALK_PATH = REFERENCE_DIR / "country_crosswalk.csv"
+YOUTUBE_CLIENT_SECRETS = DATA_DIR / "youtube-client-secrets.json"
+YOUTUBE_TOKEN = DATA_DIR / "youtube-token.json"
+AUDIO_DIR = CONTENT_DIR / "audio"
+AUDIO_CATALOG_PATH = AUDIO_DIR / "catalog.yaml"
+AUDIO_BED_PATH = AUDIO_DIR / "bed.mp3"
 
 GIS_URLS = {
     "countries": "https://stilesdata.com/gis/cnn-country-polys-50m.geojson",

@@ -6,12 +6,16 @@ from tiktoks import catalog, palettes
 from tiktoks.config import GUESS_MAP_CATALOG_PATH, POSTS_DIR, ROOT
 from tiktoks.io import read_yaml
 from tiktoks.maps import (
+    classification_edges,
+    derive_value,
     draw_binary,
+    draw_boundaries,
     draw_choropleth,
+    draw_points,
     join_codes,
     join_values,
+    prepare_region,
     prepare_world,
-    quantile_edges,
     read_geography,
     world_countries,
 )
@@ -85,16 +89,35 @@ def _render(
     output_dir = Path(output_dir) / theme.name
 
     binary = entry.get("map_type") == "binary"
-    values, column, key = _resolve_data(entry, base_dir)
-
     geography = read_geography(entry["geography"]) if entry.get("geography") else world_countries()
-    if key == "iso3":
-        # A members query returns only the members, so everything else is a real
-        # zero rather than missing data.
-        joined = join_codes(geography, values, value_column=column, fill=0 if binary else None)
+    overlay = entry.get("boundary_overlay")
+    boundaries = read_geography(overlay) if overlay else None
+    map_kind = entry.get("map_kind", "polygons")
+    regional = entry.get("region_bounds")
+    if map_kind == "points":
+        points = read_geography(entry["points"])
+        view = prepare_region(geography, bounds=regional) if regional else prepare_world(geography)
+        column = None
+    elif value := entry.get("value"):
+        column = value.get("column", "value")
+        options = {key: item for key, item in value.items() if key != "column"}
+        joined = derive_value(geography, column=column, **options)
+        view = prepare_region(joined, bounds=regional) if regional else prepare_world(joined)
     else:
-        joined = join_values(geography, values, geo_key=entry.get("geo_key", "name"), data_key=key)
-    view = prepare_world(joined, hide_antarctica=entry.get("hide_antarctica", True))
+        values, column, key = _resolve_data(entry, base_dir)
+        if key == "iso3":
+            # A members query returns only the members, so everything else is a real
+            # zero rather than missing data.
+            joined = join_codes(geography, values, value_column=column, fill=0 if binary else None)
+        else:
+            joined = join_values(
+                geography, values, geo_key=entry.get("geo_key", "name"), data_key=key
+            )
+        view = (
+            prepare_region(joined, bounds=regional)
+            if regional
+            else prepare_world(joined, hide_antarctica=entry.get("hide_antarctica", True))
+        )
 
     bins = entry.get("bins", 6)
     # One hue, light for low and dark for high. The theme ramps run dark to light,
@@ -118,8 +141,9 @@ def _render(
 
     mystery = _mystery(entry, theme, difficulty)
     answer = _answer(entry, theme, difficulty)
-    if not binary:
-        edges = quantile_edges(view.base[column], bins)
+    if not binary and map_kind != "points":
+        scheme = entry.get("scheme", "quantiles")
+        edges = classification_edges(view.base[column], bins, scheme)
         template = entry.get("legend_format", "{:,.0f}")
         answer.legend(
             colors,
@@ -130,7 +154,17 @@ def _render(
     slot = shared_slot(mystery, answer)
     for kind, slide in (("mystery", mystery), ("answer", answer)):
         axes, aspect = slide.map_axes(slot=slot, data_aspect=view.aspect, bleed=True)
-        if binary:
+        if map_kind == "points":
+            draw_points(
+                axes,
+                view,
+                points,
+                theme=theme,
+                aspect=aspect,
+                color=entry.get("point_color"),
+                size=entry.get("point_size", 20),
+            )
+        elif binary:
             draw_binary(
                 axes,
                 view,
@@ -142,8 +176,22 @@ def _render(
             )
         else:
             draw_choropleth(
-                axes, view, value_column=column, theme=theme, aspect=aspect, colors=colors
+                axes,
+                view,
+                value_column=column,
+                theme=theme,
+                aspect=aspect,
+                colors=colors,
+                scheme=entry.get("scheme", "quantiles"),
             )
+            if boundaries is not None:
+                draw_boundaries(
+                    axes,
+                    view,
+                    boundaries,
+                    color=entry.get("boundary_color", theme.muted),
+                    width=entry.get("boundary_width", 1.2),
+                )
         post.add(slide, kind=kind, alt=_alt(entry, kind), title=entry.get("answer"))
 
     # A falsifiable challenge outpulls "what do you think?" in the comments.
@@ -199,6 +247,9 @@ def _challenge(entry: dict, theme: Theme, difficulty: str) -> Slide:
 
 def _alt(entry: dict, kind: str) -> str:
     if kind == "mystery":
-        return "An unlabeled world map with countries shaded. The subject is not named."
+        return entry.get(
+            "mystery_alt",
+            "An unlabeled world map with countries shaded. The subject is not named.",
+        )
     note = entry.get("answer_note", "")
-    return f"A world map. {entry['answer']}. {note}".strip()
+    return entry.get("answer_alt", f"A map. {entry['answer']}. {note}".strip())

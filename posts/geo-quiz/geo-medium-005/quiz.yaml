@@ -3,20 +3,17 @@ title: Medium geography quiz
 difficulty: medium
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
-- name: Greece
-  fact: Thousands of islands scatter across the Aegean and Ionian seas.
-- name: Madagascar
-  fact: The world's fourth largest island, off the southeast coast of Africa.
-- name: Morocco
-  fact: It faces both the Atlantic and the Mediterranean, across the strait from Spain.
-- name: New Zealand
-  fact: Two main islands in the South Pacific, southeast of Australia across the Tasman
-    Sea.
-- name: Norway
-  fact: Its western coast is cut by deep glacial fjords.
-- name: Philippines
-  fact: An archipelago of more than 7,000 islands in Southeast Asia.
-- name: South Korea
-  fact: It occupies the southern half of the Korean Peninsula.
+- name: Kenya
+  fact: The equator runs through it, just north of Nairobi.
+- name: Malaysia
+  fact: It has two parts, one on the mainland and one on Borneo.
+- name: Netherlands
+  fact: Much of it sits at or below sea level, behind dikes.
+- name: Turkey
+  fact: It spans two continents, with Istanbul straddling Europe and Asia.
+- name: Vietnam
+  fact: It runs down the eastern edge of the Indochinese Peninsula.
+- name: Chile
+  fact: A long, narrow country pressed between the Andes and the Pacific.

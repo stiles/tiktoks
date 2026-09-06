@@ -1,7 +1,7 @@
 [project]
 name = "tiktoks"
 version = "0.1.0"
-description = "Code-driven TikTok story, quiz and map posts."
+description = "Code-driven geography quizzes and maps for TikTok and YouTube Shorts."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -24,6 +24,11 @@ dev = [
     "jupyter-black>=0.3",
     "pytest>=8.0",
     "ruff>=0.5",
+]
+youtube = [
+    "google-api-python-client>=2.160",
+    "google-auth-oauthlib>=1.2",
+    "google-auth-httplib2>=0.2",
 ]
 
 [project.scripts]

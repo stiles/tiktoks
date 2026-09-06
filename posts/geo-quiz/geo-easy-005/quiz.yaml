@@ -3,16 +3,18 @@ title: Easy geography quiz
 difficulty: easy
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
+- name: Ukraine
+  fact: The largest country lying entirely within Europe.
+- name: United Kingdom
+  fact: It includes England, Scotland, Wales and Northern Ireland.
+- name: United States
+  fact: It stretches from the Atlantic to the Pacific, with Alaska reaching toward
+    Russia.
 - name: Argentina
   fact: It runs from the subtropics down to Tierra del Fuego.
-- name: China
-  fact: It borders 14 countries, from Russia to Vietnam.
-- name: France
-  fact: It borders both the Atlantic Ocean and the Mediterranean Sea.
-- name: Germany
-  fact: It borders nine countries, from Denmark in the north to Switzerland in the
-    south.
-- name: Indonesia
-  fact: Thousands of islands stretch along the equator between Asia and Australia.
+- name: Australia
+  fact: It is both a country and the smallest continent.
+- name: Brazil
+  fact: It is the largest country in South America.

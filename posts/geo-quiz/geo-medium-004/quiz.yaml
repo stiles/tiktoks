@@ -2,19 +2,18 @@ slug: geo-medium-004
 title: Medium geography quiz
 difficulty: medium
 topic: world geography
-built_from: content/geo-quiz/countries.csv
-built_on: '2026-09-05'
-output_dir: output
+built_from: content/countries.csv
+built_on: '2026-09-06'
 countries:
-- name: Turkey
-  fact: It spans two continents, with Istanbul straddling Europe and Asia.
-- name: Vietnam
-  fact: It runs down the eastern edge of the Indochinese Peninsula.
-- name: Chile
-  fact: A long, narrow country pressed between the Andes and the Pacific.
-- name: Greece
-  fact: Thousands of islands scatter across the Aegean and Ionian seas.
-- name: Madagascar
-  fact: The world's fourth largest island, off the southeast coast of Africa.
-- name: Morocco
-  fact: It faces both the Atlantic and the Mediterranean, across the strait from Spain.
+- name: Cuba
+  fact: The largest island in the Caribbean.
+- name: Ethiopia
+  fact: It lost its coastline when Eritrea became independent in 1993.
+- name: Finland
+  fact: It borders Russia, Sweden and Norway, with thousands of lakes inland.
+- name: Iceland
+  fact: A volcanic island in the North Atlantic, just below the Arctic Circle.
+- name: Iraq
+  fact: The Tigris and Euphrates run through it to the Persian Gulf.
+- name: Kazakhstan
+  fact: The world's largest landlocked country.

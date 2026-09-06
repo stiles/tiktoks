@@ -1,0 +1,56 @@
+{
+  "slug": "population",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "easy",
+  "topic": "demographics",
+  "title": "Population",
+  "caption": "Population Difficulty: easy. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: World Bank, SP.POP.TOTL. Boundaries: Natural Earth."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "population-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled world map with countries shaded. The subject is not named.",
+      "title": "Population"
+    },
+    {
+      "index": 2,
+      "file": "population-02-answer.png",
+      "kind": "answer",
+      "alt": "A map. Population. India and China are the world's two most populous countries.",
+      "title": "Population"
+    },
+    {
+      "index": 3,
+      "file": "population-03-challenge.png",
+      "kind": "challenge",
+      "alt": "Name the world's third most populous country.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T14:48:34+00:00",
+  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "config": "content/guess-map.yaml",
+  "config_hash": "721cd1a282cee0e4",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

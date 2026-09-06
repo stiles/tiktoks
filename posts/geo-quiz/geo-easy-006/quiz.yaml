@@ -3,19 +3,18 @@ title: Easy geography quiz
 difficulty: easy
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
-- name: Ireland
-  fact: It shares an island with Northern Ireland, which is part of the United Kingdom.
-- name: Nigeria
-  fact: It has the largest population in Africa.
-- name: Poland
-  fact: It sits between Germany and Ukraine, with a coast on the Baltic.
-- name: Portugal
-  fact: It faces the Atlantic on the western edge of the Iberian Peninsula.
-- name: Russia
-  fact: It spans eleven time zones and two continents.
-- name: Saudi Arabia
-  fact: It covers most of the Arabian Peninsula.
-- name: Spain
-  fact: It shares the Iberian Peninsula with Portugal.
+- name: Canada
+  fact: It has the world's longest coastline.
+- name: China
+  fact: It borders 14 countries, from Russia to Vietnam.
+- name: Egypt
+  fact: The Nile runs through it before reaching the Mediterranean Sea.
+- name: France
+  fact: It borders both the Atlantic Ocean and the Mediterranean Sea.
+- name: Germany
+  fact: It borders nine countries, from Denmark in the north to Switzerland in the
+    south.
+- name: India
+  fact: It is the most populous country in the world.

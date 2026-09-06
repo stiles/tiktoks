@@ -1,0 +1,56 @@
+{
+  "slug": "average-household-size",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "hard",
+  "topic": "demographics",
+  "title": "Average household size",
+  "caption": "Average household size Difficulty: hard. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: Esri demographics, accessed via stilesdata.com."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "average-household-size-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled map of the contiguous United States, with counties shaded from light to dark blue.",
+      "title": "Average household size"
+    },
+    {
+      "index": 2,
+      "file": "average-household-size-02-answer.png",
+      "kind": "answer",
+      "alt": "A county map showing average household size, highest in parts of the Southwest and South.",
+      "title": "Average household size"
+    },
+    {
+      "index": 3,
+      "file": "average-household-size-03-challenge.png",
+      "kind": "challenge",
+      "alt": "Which state has the largest average household size?",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T14:37:01+00:00",
+  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "config": "content/guess-map.yaml",
+  "config_hash": "1e90e0351799ce27",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}

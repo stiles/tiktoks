@@ -2,22 +2,18 @@ slug: geo-expert-003
 title: Expert geography quiz
 difficulty: expert
 topic: world geography
-built_from: content/geo-quiz/countries.csv
-built_on: '2026-09-05'
-output_dir: output
+built_from: content/countries.csv
+built_on: '2026-09-06'
 countries:
+- name: Suriname
+  fact: The smallest sovereign state in South America.
+- name: Tajikistan
+  fact: Mostly mountains. The Pamir range covers its eastern half.
+- name: The Gambia
+  fact: It follows a river inland, almost entirely surrounded by Senegal.
 - name: Timor-Leste
   fact: It occupies the eastern half of an island north of Australia.
-- name: Bhutan
-  fact: A Himalayan kingdom between India and China.
-- name: Brunei
-  fact: A small, oil-rich state on the island of Borneo.
-- name: Comoros
-  fact: Islands in the channel between Madagascar and Mozambique.
-  zoom: 4.5
-- name: Djibouti
-  fact: It sits at the mouth of the Red Sea, across from Yemen.
-- name: Eswatini
-  fact: Landlocked between South Africa and Mozambique. It was called Swaziland until
-    2018.
-  match_name: Swaziland
+- name: Togo
+  fact: One of Africa's narrowest countries, running inland from the Gulf of Guinea.
+- name: Turkmenistan
+  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.

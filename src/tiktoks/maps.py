@@ -11,6 +11,7 @@ from functools import lru_cache
 from pathlib import Path
 
 import geopandas as gpd
+import mapclassify
 import numpy as np
 import pandas as pd
 import requests
@@ -23,6 +24,7 @@ from tiktoks.config import CROSSWALK_PATH, GIS_URLS, REFERENCE_DIR
 from tiktoks.style import Theme, get_theme
 
 WORLD_CRS = "+proj=eqearth +lon_0=0 +datum=WGS84 +units=m +no_defs"
+US_ALBERS_CRS = "EPSG:5070"
 NAME_COLUMNS = ("name", "name_long", "sovereignt", "NAME", "STATE_NAME")
 
 # Country zooms get a window a few times wider than the country, so the shape sits
@@ -145,6 +147,7 @@ class MapView:
     base: gpd.GeoDataFrame
     bounds: tuple[float, float, float, float]
     target: gpd.GeoDataFrame | None = None
+    crs: str | None = None
 
     @property
     def aspect(self) -> float:
@@ -261,7 +264,36 @@ def prepare_world(
 ) -> MapView:
     frame = drop_antarctica(geography) if hide_antarctica else geography
     frame = frame.to_crs(WORLD_CRS)
-    return MapView(frame, tuple(pad_bounds(ink_bounds(frame, trim), 0.01)))
+    return MapView(frame, tuple(pad_bounds(ink_bounds(frame, trim), 0.01)), crs=WORLD_CRS)
+
+
+def prepare_region(
+    geography: gpd.GeoDataFrame,
+    *,
+    bounds: tuple[float, float, float, float] | None = None,
+    crs: str = US_ALBERS_CRS,
+    pad: float = 0.02,
+) -> MapView:
+    """Project a regional map, optionally framing a lon/lat bounding box.
+
+    `bounds` is applied by representative point before projection. This keeps
+    small outlying polygons from forcing a continental map to include Alaska,
+    Hawaii or overseas territory, while retaining border counties that overlap
+    the visible window.
+    """
+    frame = geography
+    if bounds is not None:
+        west, south, east, north = bounds
+        lonlat = geography.to_crs("EPSG:4326")
+        points = lonlat.geometry.representative_point()
+        frame = lonlat.loc[
+            points.x.between(west, east, inclusive="both")
+            & points.y.between(south, north, inclusive="both")
+        ]
+        if frame.empty:
+            raise ValueError("Regional bounds do not contain any geometry")
+    frame = frame.to_crs(crs)
+    return MapView(frame, tuple(pad_bounds(frame.total_bounds, pad)), crs=crs)
 
 
 # Drawing
@@ -419,6 +451,81 @@ def draw_choropleth(
     frame_axes(ax, view.bounds, aspect)
 
 
+def draw_points(
+    ax: Axes,
+    view: MapView,
+    points: gpd.GeoDataFrame,
+    *,
+    theme: Theme | str | None = None,
+    aspect: float = 1.0,
+    color: str | None = None,
+    size: float = 20,
+) -> None:
+    """Draw point locations over a regional reference map."""
+    theme = get_theme(theme)
+    ax.set_facecolor(theme.water)
+    view.base.plot(
+        ax=ax,
+        color=theme.land,
+        edgecolor=theme.border,
+        linewidth=theme.map_line_width,
+    )
+    projected = points.to_crs(view.crs or view.base.crs)
+    projected.plot(
+        ax=ax,
+        color=color or theme.highlight,
+        markersize=size,
+        alpha=0.82,
+        linewidth=0,
+        zorder=3,
+    )
+    frame_axes(ax, view.bounds, aspect)
+
+
+def draw_boundaries(
+    ax: Axes,
+    view: MapView,
+    boundaries: gpd.GeoDataFrame,
+    *,
+    color: str,
+    width: float = 1.2,
+) -> None:
+    """Overlay regional boundaries after a thematic polygon layer."""
+    boundaries.to_crs(view.crs or view.base.crs).boundary.plot(
+        ax=ax,
+        color=color,
+        linewidth=width,
+        zorder=4,
+    )
+
+
+def derive_value(
+    geography: gpd.GeoDataFrame,
+    *,
+    column: str,
+    field: str | None = None,
+    numerator: str | None = None,
+    denominator: str | None = None,
+) -> gpd.GeoDataFrame:
+    """Add a numeric measure from one field or a numerator/denominator pair."""
+    if field and (numerator or denominator):
+        raise ValueError("Use either `field` or `numerator`/`denominator`, not both")
+    if field:
+        if field not in geography:
+            raise ValueError(f"Geography has no field {field!r}")
+        values = pd.to_numeric(geography[field], errors="coerce")
+    elif numerator and denominator:
+        missing = [name for name in (numerator, denominator) if name not in geography]
+        if missing:
+            raise ValueError(f"Geography has no field(s): {', '.join(missing)}")
+        top = pd.to_numeric(geography[numerator], errors="coerce")
+        bottom = pd.to_numeric(geography[denominator], errors="coerce")
+        values = top.div(bottom.where(bottom.ne(0)))
+    else:
+        raise ValueError("A derived value needs `field` or `numerator` and `denominator`")
+    return geography.assign(**{column: values})
+
+
 # Data
 
 
@@ -488,3 +595,14 @@ def quantile_edges(values: pd.Series, bins: int) -> list[float]:
     """Bin edges matching the quantile scheme, for labeling a legend."""
     clean = values.dropna()
     return [float(clean.quantile(index / bins)) for index in range(bins + 1)]
+
+
+def classification_edges(values: pd.Series, bins: int, scheme: str = "quantiles") -> list[float]:
+    """Return legend endpoints from the same classifier used to draw the map."""
+    clean = values.dropna()
+    if clean.empty:
+        raise ValueError("Cannot classify an empty value series")
+    if scheme == "quantiles":
+        return quantile_edges(clean, bins)
+    classifier = mapclassify.classify(clean.to_numpy(), scheme=scheme, k=bins)
+    return [float(clean.min()), *map(float, classifier.bins)]

@@ -3,19 +3,17 @@ title: Medium geography quiz
 difficulty: medium
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-05'
+built_on: '2026-09-06'
 countries:
-- name: Iceland
-  fact: A volcanic island in the North Atlantic, just below the Arctic Circle.
-- name: Iraq
-  fact: The Tigris and Euphrates run through it to the Persian Gulf.
-- name: Kazakhstan
-  fact: The world's largest landlocked country.
-- name: Kenya
-  fact: The equator runs through it, just north of Nairobi.
-- name: Malaysia
-  fact: It has two parts, one on the mainland and one on Borneo.
-- name: Netherlands
-  fact: Much of it sits at or below sea level, behind dikes.
+- name: South Korea
+  fact: It occupies the southern half of the Korean Peninsula.
 - name: Pakistan
   fact: It runs from the Arabian Sea up to the Karakoram mountains.
+- name: Peru
+  fact: Machu Picchu sits in its stretch of the Andes.
+- name: Switzerland
+  fact: Landlocked in the Alps, with five neighbors.
+- name: Thailand
+  fact: It sits between Myanmar and Laos, with a long peninsula reaching south.
+- name: Austria
+  fact: Landlocked in the eastern Alps, with Vienna on the Danube.

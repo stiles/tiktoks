@@ -2,16 +2,11 @@ slug: geo-easy-003
 title: Easy geography quiz
 difficulty: easy
 topic: world geography
-built_from: content/geo-quiz/countries.csv
-built_on: '2026-09-05'
-output_dir: output
+built_from: content/countries.csv
+built_on: '2026-09-06'
 countries:
-- name: Canada
-  fact: It has the world's longest coastline.
-- name: Egypt
-  fact: The Nile runs through it before reaching the Mediterranean Sea.
-- name: India
-  fact: It is the most populous country in the world.
+- name: Ireland
+  fact: It shares an island with Northern Ireland, which is part of the United Kingdom.
 - name: Italy
   fact: The boot-shaped peninsula extends into the Mediterranean Sea.
 - name: Japan
@@ -19,3 +14,7 @@ countries:
 - name: Mexico
   fact: It borders the United States to the north and Guatemala and Belize to the
     south.
+- name: Nigeria
+  fact: It has the largest population in Africa.
+- name: Poland
+  fact: It sits between Germany and Ukraine, with a coast on the Baltic.

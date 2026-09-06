@@ -1,0 +1,56 @@
+{
+  "slug": "hispanic-population-share",
+  "format": "guess-map",
+  "theme": "night",
+  "difficulty": "medium",
+  "topic": "demographics",
+  "title": "Hispanic population share",
+  "caption": "Hispanic population share Difficulty: medium. #maps #geography #dataviz #guessthemap",
+  "hashtags": [
+    "maps",
+    "geography",
+    "dataviz",
+    "guessthemap"
+  ],
+  "sources": [
+    "Source: Esri demographics, accessed via stilesdata.com."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "hispanic-population-share-01-mystery.png",
+      "kind": "mystery",
+      "alt": "An unlabeled map of the contiguous United States, with counties shaded from light to dark green.",
+      "title": "Hispanic population share"
+    },
+    {
+      "index": 2,
+      "file": "hispanic-population-share-02-answer.png",
+      "kind": "answer",
+      "alt": "A county map showing the Hispanic share of each county's population, highest in the Southwest and South Texas.",
+      "title": "Hispanic population share"
+    },
+    {
+      "index": 3,
+      "file": "hispanic-population-share-03-challenge.png",
+      "kind": "challenge",
+      "alt": "Name the state with the largest Hispanic population.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-06T14:35:34+00:00",
+  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "config": "content/guess-map.yaml",
+  "config_hash": "a953d06dba4bca0f",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null
+  }
+}
