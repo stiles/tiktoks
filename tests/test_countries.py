@@ -94,6 +94,15 @@ def test_silhouette_batches_use_global_selection_and_own_slug(pool, tmp_path):
     assert "variant: silhouette" in config
 
 
+def test_progressive_batches_use_global_selection_and_own_slug(pool, tmp_path):
+    root = tmp_path / "quizzes"
+    path, names = batches.build("hard", 2, root=root, catalog_path=pool, variant="progressive")
+    assert names == ["Alpha", "Bravo"]
+    assert path.parent.name == "geo-progressive-hard-001"
+    config = path.read_text()
+    assert "variant: progressive" in config
+
+
 def test_entries_drop_blank_overrides(pool):
     frame = countries.load(pool)
     entry = countries.to_entries(frame.head(1))[0]
@@ -179,4 +188,30 @@ def test_silhouette_batch_uses_variant_defaults(tmp_path):
 
     manifest = json.loads((tmp_path / "night" / "post.json").read_text())
     assert manifest["topic"] == "world geography silhouettes"
+    assert manifest["layout_problems"] == []
+
+
+def test_progressive_batch_inserts_a_hint_slide(tmp_path):
+    """Progressive quizzes go prompt, hint, answer for each country."""
+    import json
+
+    from tiktoks.geo_quiz import render_geo_quiz
+    from tiktoks.io import write_yaml
+
+    config = tmp_path / "quiz.yaml"
+    write_yaml(
+        config,
+        {
+            "slug": "progressive-test",
+            "variant": "progressive",
+            "difficulty": "medium",
+            "countries": [{"name": "Italy", "fact": "A boot."}],
+        },
+    )
+    render_geo_quiz(config)
+
+    manifest = json.loads((tmp_path / "night" / "post.json").read_text())
+    kinds = [slide["kind"] for slide in manifest["slides"]]
+    assert kinds == ["cover", "prompt", "hint", "answer", "scorecard"]
+    assert manifest["topic"] == "world geography progressive reveals"
     assert manifest["layout_problems"] == []

@@ -343,14 +343,20 @@ def draw_highlight(
     color: str | None = None,
     locator: bool = True,
     borders: bool = True,
+    border_color: str | None = None,
+    border_width: float | None = None,
 ) -> None:
     theme = get_theme(theme)
     ax.set_facecolor(theme.water)
     view.base.plot(
         ax=ax,
         color=theme.land,
-        edgecolor=theme.border if borders else "none",
-        linewidth=theme.map_line_width if borders else 0,
+        edgecolor=(border_color or theme.border) if borders else "none",
+        linewidth=(
+            border_width if border_width is not None else theme.map_line_width
+        )
+        if borders
+        else 0,
     )
     view.target.plot(
         ax=ax,

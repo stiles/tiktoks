@@ -39,16 +39,20 @@ def build(
     names = list(chosen["name"])
 
     slug = slug or countries.next_slug(tier, root, variant=variant)
-    title = (
-        f"{tier.capitalize()} silhouette geography quiz"
-        if variant == "silhouette"
-        else f"{tier.capitalize()} geography quiz"
-    )
+    if variant == "silhouette":
+        title = f"{tier.capitalize()} silhouette geography quiz"
+        topic = "world geography silhouettes"
+    elif variant == "progressive":
+        title = f"{tier.capitalize()} progressive geography quiz"
+        topic = "world geography progressive reveals"
+    else:
+        title = f"{tier.capitalize()} geography quiz"
+        topic = "world geography"
     config = {
         "slug": slug,
         "title": title,
         "difficulty": tier,
-        "topic": "world geography silhouettes" if variant == "silhouette" else "world geography",
+        "topic": topic,
         "built_from": "content/countries.csv",
         "built_on": date.today().isoformat(),
         "countries": countries.to_entries(chosen),

@@ -35,13 +35,15 @@ uv run tiktoks quiz status              # pool depth per tier
 uv run tiktoks quiz next --tier medium --count 3 --dry-run
 uv run tiktoks quiz next --tier medium --count 3
 uv run tiktoks quiz next --tier hard --count 3 --variant silhouette
+uv run tiktoks quiz next --tier medium --count 3 --variant progressive
 ```
 
 That writes `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml`, renders the slides and bumps
 the usage counters. The batch config stays on disk as the record of what the post
 contained, and can be edited before re-rendering. `--variant silhouette` writes
 to `posts/geo-quiz/geo-silhouette-<tier>-NNN/quiz.yaml` and uses the tier as the
-amount of orientation help rather than a separate country pool.
+amount of orientation help rather than a separate country pool. `--variant progressive`
+does the same, but adds a wider hint slide before the answer.
 
 1. Check the pool has depth in the tier you want.
 2. Build the batch.
@@ -71,6 +73,18 @@ country borders and lean on shape plus surrounding land for orientation:
 - Medium: some neighboring land, but not the whole answer
 - Hard: tighter framing
 - Expert: the shape has to do most of the work
+
+Progressive quizzes are the reveal variant:
+
+- Prompt: a tighter frame
+- Hint: a wider view of the same country
+- Answer: the same wider frame, now labeled
+
+On easier progressive tiers, the hint and answer can add country borders back in.
+That keeps the first beat as a real shape guess, then makes the reveal feel more
+helpful instead of just slower. Those reveal-only borders should be visibly
+stronger than the default map seams so the second beat reads as an intentional
+assist.
 
 Island nations and microstates need a `zoom` that pulls back far enough to show a
 reference coastline, or the map is an unanswerable patch of ocean. Anything that

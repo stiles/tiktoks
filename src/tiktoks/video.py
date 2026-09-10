@@ -19,6 +19,7 @@ from tiktoks.io import read_yaml
 HOLD = {
     "cover": 2.5,
     "prompt": 4.0,
+    "hint": 3.0,
     "mystery": 5.0,
     "answer": 2.5,
     "scorecard": 3.5,

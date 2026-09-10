@@ -81,10 +81,13 @@ def quiz() -> None:
 @click.option("--slug", default=None, help="Batch directory name. Auto-numbered by default.")
 @click.option(
     "--variant",
-    type=click.Choice(["classic", "silhouette"]),
+    type=click.Choice(["classic", "silhouette", "progressive"]),
     default="classic",
     show_default=True,
-    help="Quiz format. Silhouette uses borderless maps and difficulty-based context zoom.",
+    help=(
+        "Quiz format. Silhouette is borderless; progressive adds a wider hint slide "
+        "before the answer."
+    ),
 )
 @click.option("--dry-run", is_flag=True, help="Show the picks without writing anything.")
 @click.option("--no-render", is_flag=True, help="Write the batch config but do not render.")

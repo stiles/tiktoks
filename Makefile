@@ -1,4 +1,4 @@
-.PHONY: setup story quiz quiz-silhouette quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names rebuild test lint format check
+.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names rebuild test lint format check
 
 setup:
 	uv sync --extra dev
@@ -12,6 +12,9 @@ quiz:
 
 quiz-silhouette:
 	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant silhouette
+
+quiz-progressive:
+	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant progressive
 
 quiz-status:
 	uv run tiktoks quiz status --validate
