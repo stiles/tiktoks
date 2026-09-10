@@ -3,8 +3,11 @@ title: Expert geography quiz
 difficulty: expert
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-06'
+built_on: '2026-09-07'
 countries:
+- name: Maldives
+  fact: Low-lying atolls southwest of India and Sri Lanka.
+  zoom: 6.0
 - name: Malta
   fact: An island nation south of Sicily.
 - name: Mauritania

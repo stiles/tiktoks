@@ -1,0 +1,152 @@
+{
+  "slug": "geo-hard-005",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "hard",
+  "topic": "world geography",
+  "title": "Hard geography quiz",
+  "caption": "Hard geography quiz Difficulty: hard. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 16,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-hard-005-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty hard, 7 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-hard-005-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Guyana"
+    },
+    {
+      "index": 3,
+      "file": "geo-hard-005-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Guyana highlighted and named. The only South American country with English as its official language.",
+      "title": "Guyana"
+    },
+    {
+      "index": 4,
+      "file": "geo-hard-005-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Kyrgyzstan"
+    },
+    {
+      "index": 5,
+      "file": "geo-hard-005-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Kyrgyzstan highlighted and named. A mountainous Central Asian country bordering China.",
+      "title": "Kyrgyzstan"
+    },
+    {
+      "index": 6,
+      "file": "geo-hard-005-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Laos"
+    },
+    {
+      "index": 7,
+      "file": "geo-hard-005-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Laos highlighted and named. The only landlocked country in Southeast Asia.",
+      "title": "Laos"
+    },
+    {
+      "index": 8,
+      "file": "geo-hard-005-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Latvia"
+    },
+    {
+      "index": 9,
+      "file": "geo-hard-005-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Latvia highlighted and named. The middle of the three Baltic states.",
+      "title": "Latvia"
+    },
+    {
+      "index": 10,
+      "file": "geo-hard-005-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Malawi"
+    },
+    {
+      "index": 11,
+      "file": "geo-hard-005-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Malawi highlighted and named. Much of its eastern border is a lake that shares its name.",
+      "title": "Malawi"
+    },
+    {
+      "index": 12,
+      "file": "geo-hard-005-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Mongolia"
+    },
+    {
+      "index": 13,
+      "file": "geo-hard-005-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Mongolia highlighted and named. Landlocked between Russia and China.",
+      "title": "Mongolia"
+    },
+    {
+      "index": 14,
+      "file": "geo-hard-005-14-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Mozambique"
+    },
+    {
+      "index": 15,
+      "file": "geo-hard-005-15-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Mozambique highlighted and named. Its long Indian Ocean coast faces Madagascar.",
+      "title": "Mozambique"
+    },
+    {
+      "index": 16,
+      "file": "geo-hard-005-16-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-07T14:26:55+00:00",
+  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
+  "config": "posts/geo-quiz/geo-hard-005/quiz.yaml",
+  "config_hash": "b8db0d32b02cdbaf",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

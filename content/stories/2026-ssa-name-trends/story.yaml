@@ -1,0 +1,12 @@
+slug: 2026-ssa-name-trends
+title: Baby names on the rise and on the outs
+dek: The five fastest-rising and five fastest-falling popular names in recent SSA records.
+source_url: https://www.ssa.gov/oact/babynames/names.zip
+source: "Source: Social Security Administration baby names data."
+raw_slug: 2026-ssa-name-comeback
+start_year: 2020
+end_year: 2025
+rising_min_births: 3000
+rising_min_births_start: 500
+falling_min_births: 8000
+top_n: 5

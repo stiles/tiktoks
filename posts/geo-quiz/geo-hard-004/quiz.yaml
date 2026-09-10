@@ -3,8 +3,10 @@ title: Hard geography quiz
 difficulty: hard
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-06'
+built_on: '2026-09-07'
 countries:
+- name: Bolivia
+  fact: One of two landlocked countries in South America.
 - name: Croatia
   fact: Its coastline runs down the Adriatic in a long, narrow curve.
 - name: Ecuador
@@ -15,5 +17,3 @@ countries:
   fact: It sits in the Caucasus, between the Black Sea and Russia.
 - name: Ghana
   fact: It sits on the Gulf of Guinea, with the prime meridian running through it.
-- name: Guyana
-  fact: The only South American country with English as its official language.

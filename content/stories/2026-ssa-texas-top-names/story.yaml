@@ -1,0 +1,9 @@
+slug: 2026-ssa-texas-top-names
+title: Texas's most popular baby names
+dek: The top five girl and boy names in Texas, according to recent SSA records.
+state: TX
+state_label: Texas
+year: 2025
+top_n: 5
+source_url: https://www.ssa.gov/oact/babynames/state/namesbystate.zip
+source: "Source: Social Security Administration baby names data."

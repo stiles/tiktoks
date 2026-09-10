@@ -33,84 +33,84 @@
       "file": "geo-medium-004-02-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Cuba"
+      "title": "Colombia"
     },
     {
       "index": 3,
       "file": "geo-medium-004-03-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Cuba highlighted and named. The largest island in the Caribbean.",
-      "title": "Cuba"
+      "alt": "A regional map with Colombia highlighted and named. The only South American country with both Pacific and Caribbean coasts.",
+      "title": "Colombia"
     },
     {
       "index": 4,
       "file": "geo-medium-004-04-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Ethiopia"
+      "title": "Cuba"
     },
     {
       "index": 5,
       "file": "geo-medium-004-05-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Ethiopia highlighted and named. It lost its coastline when Eritrea became independent in 1993.",
-      "title": "Ethiopia"
+      "alt": "A regional map with Cuba highlighted and named. The largest island in the Caribbean.",
+      "title": "Cuba"
     },
     {
       "index": 6,
       "file": "geo-medium-004-06-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Finland"
+      "title": "Ethiopia"
     },
     {
       "index": 7,
       "file": "geo-medium-004-07-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Finland highlighted and named. It borders Russia, Sweden and Norway, with thousands of lakes inland.",
-      "title": "Finland"
+      "alt": "A regional map with Ethiopia highlighted and named. It lost its coastline when Eritrea became independent in 1993.",
+      "title": "Ethiopia"
     },
     {
       "index": 8,
       "file": "geo-medium-004-08-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Iceland"
+      "title": "Finland"
     },
     {
       "index": 9,
       "file": "geo-medium-004-09-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Iceland highlighted and named. A volcanic island in the North Atlantic, just below the Arctic Circle.",
-      "title": "Iceland"
+      "alt": "A regional map with Finland highlighted and named. It borders Russia, Sweden and Norway, with thousands of lakes inland.",
+      "title": "Finland"
     },
     {
       "index": 10,
       "file": "geo-medium-004-10-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Iraq"
+      "title": "Iceland"
     },
     {
       "index": 11,
       "file": "geo-medium-004-11-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Iraq highlighted and named. The Tigris and Euphrates run through it to the Persian Gulf.",
-      "title": "Iraq"
+      "alt": "A regional map with Iceland highlighted and named. A volcanic island in the North Atlantic, just below the Arctic Circle.",
+      "title": "Iceland"
     },
     {
       "index": 12,
       "file": "geo-medium-004-12-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Kazakhstan"
+      "title": "Iraq"
     },
     {
       "index": 13,
       "file": "geo-medium-004-13-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Kazakhstan highlighted and named. The world's largest landlocked country.",
-      "title": "Kazakhstan"
+      "alt": "A regional map with Iraq highlighted and named. The Tigris and Euphrates run through it to the Persian Gulf.",
+      "title": "Iraq"
     },
     {
       "index": 14,
@@ -120,27 +120,27 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T15:06:30+00:00",
-  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "rendered_at": "2026-09-07T14:12:21+00:00",
+  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
   "config": "posts/geo-quiz/geo-medium-004/quiz.yaml",
-  "config_hash": "da1e1a8d7c3a4cd5",
+  "config_hash": "da0bf95d4c12f8e9",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
     "posted_at": null,
     "youtube": {
-      "video_id": "cc3ODEgjCUs",
-      "url": "https://www.youtube.com/shorts/cc3ODEgjCUs",
-      "posted_at": "2026-09-06"
+      "video_id": "5eV0xxXjUic",
+      "url": "https://www.youtube.com/shorts/5eV0xxXjUic",
+      "posted_at": "2026-09-07"
     }
   },
   "audio": {
-    "slug": "comfortable-mystery",
-    "title": "Comfortable Mystery 2",
-    "artist": "Kevin MacLeod",
-    "license": "CC BY 3.0",
-    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
-    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
+    "slug": "groovy-panda",
+    "title": "Groovy Panda",
+    "artist": "IamDayLight",
+    "license": "Artlist",
+    "source": "https://artlist.io/royalty-free-music",
+    "attribution": "Music: \"Groovy Panda\" by IamDayLight via Artlist"
   }
 }

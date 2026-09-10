@@ -3,7 +3,7 @@ title: Expert geography quiz
 difficulty: expert
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-06'
+built_on: '2026-09-07'
 countries:
 - name: Seychelles
   fact: Islands in the Indian Ocean, northeast of Madagascar.
@@ -18,3 +18,5 @@ countries:
   fact: It occupies the eastern half of an island north of Australia.
 - name: Togo
   fact: One of Africa's narrowest countries, running inland from the Gulf of Guinea.
+- name: Turkmenistan
+  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.

@@ -99,7 +99,8 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     draw_backdrop(
         backdrop, prepare_world(countries), theme=theme, aspect=backdrop_aspect, zoom=1.9
     )
-    cover.scrim(0.3)
+    # Paper's warm land and cool water need less wash than night or the cover map fades out.
+    cover.scrim(0.22 if theme.name == "paper" else 0.3)
     post.add(
         cover,
         kind="cover",

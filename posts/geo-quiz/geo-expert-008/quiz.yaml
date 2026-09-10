@@ -1,12 +1,10 @@
-slug: geo-expert-004
+slug: geo-expert-008
 title: Expert geography quiz
 difficulty: expert
 topic: world geography
 built_from: content/countries.csv
 built_on: '2026-09-07'
 countries:
-- name: Turkmenistan
-  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.
 - name: Vanuatu
   fact: An island chain in the South Pacific, east of Australia.
   zoom: 4.0
@@ -16,3 +14,10 @@ countries:
   fact: A narrow strip of West Africa between Togo and Nigeria.
 - name: Bhutan
   fact: A Himalayan kingdom between India and China.
+- name: Brunei
+  fact: A small, oil-rich state on the island of Borneo.
+- name: Burkina Faso
+  fact: Landlocked in West Africa, north of Ghana and Ivory Coast.
+- name: Comoros
+  fact: Islands in the channel between Madagascar and Mozambique.
+  zoom: 4.5

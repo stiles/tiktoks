@@ -19,13 +19,13 @@
     1080,
     1920
   ],
-  "slide_count": 14,
+  "slide_count": 12,
   "slides": [
     {
       "index": 1,
       "file": "geo-expert-004-01-cover.png",
       "kind": "cover",
-      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 6 countries.",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 5 countries.",
       "title": "How many countries can you name?"
     },
     {
@@ -33,114 +33,100 @@
       "file": "geo-expert-004-02-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Vanuatu"
+      "title": "Turkmenistan"
     },
     {
       "index": 3,
       "file": "geo-expert-004-03-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Vanuatu highlighted and named. An island chain in the South Pacific, east of Australia.",
-      "title": "Vanuatu"
+      "alt": "A regional map with Turkmenistan highlighted and named. It sits on the Caspian Sea, north of Iran and Afghanistan.",
+      "title": "Turkmenistan"
     },
     {
       "index": 4,
       "file": "geo-expert-004-04-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Andorra"
+      "title": "Vanuatu"
     },
     {
       "index": 5,
       "file": "geo-expert-004-05-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Andorra highlighted and named. A microstate in the Pyrenees between France and Spain.",
-      "title": "Andorra"
+      "alt": "A regional map with Vanuatu highlighted and named. An island chain in the South Pacific, east of Australia.",
+      "title": "Vanuatu"
     },
     {
       "index": 6,
       "file": "geo-expert-004-06-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Benin"
+      "title": "Andorra"
     },
     {
       "index": 7,
       "file": "geo-expert-004-07-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Benin highlighted and named. A narrow strip of West Africa between Togo and Nigeria.",
-      "title": "Benin"
+      "alt": "A regional map with Andorra highlighted and named. A microstate in the Pyrenees between France and Spain.",
+      "title": "Andorra"
     },
     {
       "index": 8,
       "file": "geo-expert-004-08-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Bhutan"
+      "title": "Benin"
     },
     {
       "index": 9,
       "file": "geo-expert-004-09-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Bhutan highlighted and named. A Himalayan kingdom between India and China.",
-      "title": "Bhutan"
+      "alt": "A regional map with Benin highlighted and named. A narrow strip of West Africa between Togo and Nigeria.",
+      "title": "Benin"
     },
     {
       "index": 10,
       "file": "geo-expert-004-10-prompt.png",
       "kind": "prompt",
       "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Brunei"
+      "title": "Bhutan"
     },
     {
       "index": 11,
       "file": "geo-expert-004-11-answer.png",
       "kind": "answer",
-      "alt": "A regional map with Brunei highlighted and named. A small, oil-rich state on the island of Borneo.",
-      "title": "Brunei"
+      "alt": "A regional map with Bhutan highlighted and named. A Himalayan kingdom between India and China.",
+      "title": "Bhutan"
     },
     {
       "index": 12,
-      "file": "geo-expert-004-12-prompt.png",
-      "kind": "prompt",
-      "alt": "A regional map with one unlabeled country highlighted.",
-      "title": "Burkina Faso"
-    },
-    {
-      "index": 13,
-      "file": "geo-expert-004-13-answer.png",
-      "kind": "answer",
-      "alt": "A regional map with Burkina Faso highlighted and named. Landlocked in West Africa, north of Ghana and Ivory Coast.",
-      "title": "Burkina Faso"
-    },
-    {
-      "index": 14,
-      "file": "geo-expert-004-14-scorecard.png",
+      "file": "geo-expert-004-12-scorecard.png",
       "kind": "scorecard",
       "alt": "Count your correct answers and put the number in the comments. No looking it up.",
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T15:07:02+00:00",
-  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "rendered_at": "2026-09-07T14:10:15+00:00",
+  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
   "config": "posts/geo-quiz/geo-expert-004/quiz.yaml",
-  "config_hash": "5daf840b60bfb84b",
+  "config_hash": "b287b5043f5767ce",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
     "posted_at": null,
     "youtube": {
-      "video_id": "dCr-8LNVNJY",
-      "url": "https://www.youtube.com/shorts/dCr-8LNVNJY",
-      "posted_at": "2026-09-06"
+      "video_id": "kgEKKNJ_K0Q",
+      "url": "https://www.youtube.com/shorts/kgEKKNJ_K0Q",
+      "posted_at": "2026-09-07"
     }
   },
   "audio": {
-    "slug": "comfortable-mystery",
-    "title": "Comfortable Mystery 2",
-    "artist": "Kevin MacLeod",
-    "license": "CC BY 3.0",
-    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
-    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
+    "slug": "groovy-panda",
+    "title": "Groovy Panda",
+    "artist": "IamDayLight",
+    "license": "Artlist",
+    "source": "https://artlist.io/royalty-free-music",
+    "attribution": "Music: \"Groovy Panda\" by IamDayLight via Artlist"
   }
 }

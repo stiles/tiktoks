@@ -389,7 +389,7 @@ def draw_backdrop(
     """
     theme = get_theme(theme)
     ax.set_facecolor(theme.water)
-    view.base.plot(ax=ax, color=theme.land, edgecolor=theme.border, linewidth=0.4)
+    view.base.plot(ax=ax, color=theme.land, edgecolor=theme.border, linewidth=theme.map_line_width)
 
     bounds = view.bounds
     if zoom != 1.0:

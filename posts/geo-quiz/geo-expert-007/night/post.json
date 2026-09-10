@@ -1,0 +1,152 @@
+{
+  "slug": "geo-expert-007",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "expert",
+  "topic": "world geography",
+  "title": "Expert geography quiz",
+  "caption": "Expert geography quiz Difficulty: expert. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 16,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-expert-007-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 7 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-expert-007-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Seychelles"
+    },
+    {
+      "index": 3,
+      "file": "geo-expert-007-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Seychelles highlighted and named. Islands in the Indian Ocean, northeast of Madagascar.",
+      "title": "Seychelles"
+    },
+    {
+      "index": 4,
+      "file": "geo-expert-007-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Suriname"
+    },
+    {
+      "index": 5,
+      "file": "geo-expert-007-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Suriname highlighted and named. The smallest sovereign state in South America.",
+      "title": "Suriname"
+    },
+    {
+      "index": 6,
+      "file": "geo-expert-007-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Tajikistan"
+    },
+    {
+      "index": 7,
+      "file": "geo-expert-007-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Tajikistan highlighted and named. Mostly mountains. The Pamir range covers its eastern half.",
+      "title": "Tajikistan"
+    },
+    {
+      "index": 8,
+      "file": "geo-expert-007-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "The Gambia"
+    },
+    {
+      "index": 9,
+      "file": "geo-expert-007-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with The Gambia highlighted and named. It follows a river inland, almost entirely surrounded by Senegal.",
+      "title": "The Gambia"
+    },
+    {
+      "index": 10,
+      "file": "geo-expert-007-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Timor-Leste"
+    },
+    {
+      "index": 11,
+      "file": "geo-expert-007-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Timor-Leste highlighted and named. It occupies the eastern half of an island north of Australia.",
+      "title": "Timor-Leste"
+    },
+    {
+      "index": 12,
+      "file": "geo-expert-007-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Togo"
+    },
+    {
+      "index": 13,
+      "file": "geo-expert-007-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Togo highlighted and named. One of Africa's narrowest countries, running inland from the Gulf of Guinea.",
+      "title": "Togo"
+    },
+    {
+      "index": 14,
+      "file": "geo-expert-007-14-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Turkmenistan"
+    },
+    {
+      "index": 15,
+      "file": "geo-expert-007-15-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Turkmenistan highlighted and named. It sits on the Caspian Sea, north of Iran and Afghanistan.",
+      "title": "Turkmenistan"
+    },
+    {
+      "index": 16,
+      "file": "geo-expert-007-16-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-07T14:27:19+00:00",
+  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
+  "config": "posts/geo-quiz/geo-expert-007/quiz.yaml",
+  "config_hash": "9d3d4d7ab9e0b18a",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

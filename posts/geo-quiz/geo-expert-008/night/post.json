@@ -1,0 +1,152 @@
+{
+  "slug": "geo-expert-008",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "expert",
+  "topic": "world geography",
+  "title": "Expert geography quiz",
+  "caption": "Expert geography quiz Difficulty: expert. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 16,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-expert-008-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 7 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-expert-008-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Vanuatu"
+    },
+    {
+      "index": 3,
+      "file": "geo-expert-008-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Vanuatu highlighted and named. An island chain in the South Pacific, east of Australia.",
+      "title": "Vanuatu"
+    },
+    {
+      "index": 4,
+      "file": "geo-expert-008-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Andorra"
+    },
+    {
+      "index": 5,
+      "file": "geo-expert-008-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Andorra highlighted and named. A microstate in the Pyrenees between France and Spain.",
+      "title": "Andorra"
+    },
+    {
+      "index": 6,
+      "file": "geo-expert-008-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Benin"
+    },
+    {
+      "index": 7,
+      "file": "geo-expert-008-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Benin highlighted and named. A narrow strip of West Africa between Togo and Nigeria.",
+      "title": "Benin"
+    },
+    {
+      "index": 8,
+      "file": "geo-expert-008-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 9,
+      "file": "geo-expert-008-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Bhutan highlighted and named. A Himalayan kingdom between India and China.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 10,
+      "file": "geo-expert-008-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Brunei"
+    },
+    {
+      "index": 11,
+      "file": "geo-expert-008-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Brunei highlighted and named. A small, oil-rich state on the island of Borneo.",
+      "title": "Brunei"
+    },
+    {
+      "index": 12,
+      "file": "geo-expert-008-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Burkina Faso"
+    },
+    {
+      "index": 13,
+      "file": "geo-expert-008-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Burkina Faso highlighted and named. Landlocked in West Africa, north of Ghana and Ivory Coast.",
+      "title": "Burkina Faso"
+    },
+    {
+      "index": 14,
+      "file": "geo-expert-008-14-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Comoros"
+    },
+    {
+      "index": 15,
+      "file": "geo-expert-008-15-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Comoros highlighted and named. Islands in the channel between Madagascar and Mozambique.",
+      "title": "Comoros"
+    },
+    {
+      "index": 16,
+      "file": "geo-expert-008-16-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-07T14:27:23+00:00",
+  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
+  "config": "posts/geo-quiz/geo-expert-008/quiz.yaml",
+  "config_hash": "901a131396ddf2e2",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}
