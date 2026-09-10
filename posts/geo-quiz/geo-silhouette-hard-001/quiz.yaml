@@ -1,0 +1,20 @@
+slug: geo-silhouette-hard-001
+title: Hard silhouette geography quiz
+difficulty: hard
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-09-09'
+countries:
+- name: Kenya
+  fact: The equator runs through it, just north of Nairobi.
+- name: Malaysia
+  fact: It has two parts, one on the mainland and one on Borneo.
+- name: Netherlands
+  fact: Much of it sits at or below sea level, behind dikes.
+- name: Pakistan
+  fact: It runs from the Arabian Sea up to the Karakoram mountains.
+- name: Peru
+  fact: Machu Picchu sits in its stretch of the Andes.
+- name: Switzerland
+  fact: Landlocked in the Alps, with five neighbors.
+variant: silhouette

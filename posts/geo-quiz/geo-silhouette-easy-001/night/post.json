@@ -1,0 +1,138 @@
+{
+  "slug": "geo-silhouette-easy-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "easy",
+  "topic": "world geography silhouettes",
+  "title": "Easy silhouette geography quiz",
+  "caption": "Easy silhouette geography quiz Difficulty: easy. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-silhouette-easy-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Which country is this shape? Difficulty easy, 6 countries.",
+      "title": "Which country is this shape?"
+    },
+    {
+      "index": 2,
+      "file": "geo-silhouette-easy-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "United States"
+    },
+    {
+      "index": 3,
+      "file": "geo-silhouette-easy-001-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with United States highlighted and named. It stretches from the Atlantic to the Pacific, with Alaska reaching toward Russia.",
+      "title": "United States"
+    },
+    {
+      "index": 4,
+      "file": "geo-silhouette-easy-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Vietnam"
+    },
+    {
+      "index": 5,
+      "file": "geo-silhouette-easy-001-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Vietnam highlighted and named. It runs down the eastern edge of the Indochinese Peninsula.",
+      "title": "Vietnam"
+    },
+    {
+      "index": 6,
+      "file": "geo-silhouette-easy-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Argentina"
+    },
+    {
+      "index": 7,
+      "file": "geo-silhouette-easy-001-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Argentina highlighted and named. It runs from the subtropics down to Tierra del Fuego.",
+      "title": "Argentina"
+    },
+    {
+      "index": 8,
+      "file": "geo-silhouette-easy-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Australia"
+    },
+    {
+      "index": 9,
+      "file": "geo-silhouette-easy-001-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Australia highlighted and named. It is both a country and the smallest continent.",
+      "title": "Australia"
+    },
+    {
+      "index": 10,
+      "file": "geo-silhouette-easy-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Brazil"
+    },
+    {
+      "index": 11,
+      "file": "geo-silhouette-easy-001-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Brazil highlighted and named. It is the largest country in South America.",
+      "title": "Brazil"
+    },
+    {
+      "index": 12,
+      "file": "geo-silhouette-easy-001-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Canada"
+    },
+    {
+      "index": 13,
+      "file": "geo-silhouette-easy-001-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Canada highlighted and named. It has the world's longest coastline.",
+      "title": "Canada"
+    },
+    {
+      "index": 14,
+      "file": "geo-silhouette-easy-001-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-10T04:00:33+00:00",
+  "git_sha": "33c66c5d889014c7cf0207eb67d53b565e91132e",
+  "config": "posts/geo-quiz/geo-silhouette-easy-001/quiz.yaml",
+  "config_hash": "212face907070ac8",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

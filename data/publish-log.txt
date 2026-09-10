@@ -20,3 +20,11 @@ geo-hard-004
 geo-medium-004
 2026-ssa-name-trends
 2026-ssa-texas-top-names
+geo-expert-005
+geo-easy-005
+geo-hard-005
+geo-medium-005
+geo-silhoutte-easy-001
+geo-silhoutte-medium-001
+geo-silhoutte-hard-001
+geo-silhoutte-expert-001

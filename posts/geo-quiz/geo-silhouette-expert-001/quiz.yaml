@@ -1,0 +1,20 @@
+slug: geo-silhouette-expert-001
+title: Expert silhouette geography quiz
+difficulty: expert
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-09-09'
+countries:
+- name: Thailand
+  fact: It sits between Myanmar and Laos, with a long peninsula reaching south.
+- name: Austria
+  fact: Landlocked in the eastern Alps, with Vienna on the Danube.
+- name: Sweden
+  fact: It runs down the eastern side of the Scandinavian Peninsula.
+- name: Turkey
+  fact: It spans two continents, with Istanbul straddling Europe and Asia.
+- name: Ukraine
+  fact: The largest country lying entirely within Europe.
+- name: United Kingdom
+  fact: It includes England, Scotland, Wales and Northern Ireland.
+variant: silhouette

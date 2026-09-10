@@ -1,0 +1,21 @@
+slug: geo-silhouette-easy-001
+title: Easy silhouette geography quiz
+difficulty: easy
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-09-09'
+countries:
+- name: United States
+  fact: It stretches from the Atlantic to the Pacific, with Alaska reaching toward
+    Russia.
+- name: Vietnam
+  fact: It runs down the eastern edge of the Indochinese Peninsula.
+- name: Argentina
+  fact: It runs from the subtropics down to Tierra del Fuego.
+- name: Australia
+  fact: It is both a country and the smallest continent.
+- name: Brazil
+  fact: It is the largest country in South America.
+- name: Canada
+  fact: It has the world's longest coastline.
+variant: silhouette

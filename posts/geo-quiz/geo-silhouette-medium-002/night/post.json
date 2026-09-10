@@ -1,0 +1,138 @@
+{
+  "slug": "geo-silhouette-medium-002",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "medium",
+  "topic": "world geography silhouettes",
+  "title": "Medium silhouette geography quiz",
+  "caption": "Medium silhouette geography quiz Difficulty: medium. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-silhouette-medium-002-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Which country is this shape? Difficulty medium, 6 countries.",
+      "title": "Which country is this shape?"
+    },
+    {
+      "index": 2,
+      "file": "geo-silhouette-medium-002-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Guinea-Bissau"
+    },
+    {
+      "index": 3,
+      "file": "geo-silhouette-medium-002-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Guinea-Bissau highlighted and named. A small West African country with a ragged Atlantic coastline.",
+      "title": "Guinea-Bissau"
+    },
+    {
+      "index": 4,
+      "file": "geo-silhouette-medium-002-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Iran"
+    },
+    {
+      "index": 5,
+      "file": "geo-silhouette-medium-002-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Iran highlighted and named. It bridges the Persian Gulf and the Caspian world between the Middle East and Central Asia.",
+      "title": "Iran"
+    },
+    {
+      "index": 6,
+      "file": "geo-silhouette-medium-002-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Montenegro"
+    },
+    {
+      "index": 7,
+      "file": "geo-silhouette-medium-002-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Montenegro highlighted and named. A small Adriatic country wedged between Croatia and Albania.",
+      "title": "Montenegro"
+    },
+    {
+      "index": 8,
+      "file": "geo-silhouette-medium-002-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Papua New Guinea"
+    },
+    {
+      "index": 9,
+      "file": "geo-silhouette-medium-002-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Papua New Guinea highlighted and named. It occupies the eastern half of New Guinea just north of Australia.",
+      "title": "Papua New Guinea"
+    },
+    {
+      "index": 10,
+      "file": "geo-silhouette-medium-002-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Romania"
+    },
+    {
+      "index": 11,
+      "file": "geo-silhouette-medium-002-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Romania highlighted and named. It curves around the Carpathian Mountains in eastern Europe.",
+      "title": "Romania"
+    },
+    {
+      "index": 12,
+      "file": "geo-silhouette-medium-002-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Kazakhstan"
+    },
+    {
+      "index": 13,
+      "file": "geo-silhouette-medium-002-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Kazakhstan highlighted and named. The world's largest landlocked country.",
+      "title": "Kazakhstan"
+    },
+    {
+      "index": 14,
+      "file": "geo-silhouette-medium-002-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Count your correct answers and put the number in the comments. No looking it up.",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-10T03:59:51+00:00",
+  "git_sha": "33c66c5d889014c7cf0207eb67d53b565e91132e",
+  "config": "posts/geo-quiz/geo-silhouette-medium-002/quiz.yaml",
+  "config_hash": "782d8380619d008b",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}
