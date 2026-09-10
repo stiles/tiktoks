@@ -34,11 +34,14 @@ the next batch does not repeat them.
 uv run tiktoks quiz status              # pool depth per tier
 uv run tiktoks quiz next --tier medium --count 3 --dry-run
 uv run tiktoks quiz next --tier medium --count 3
+uv run tiktoks quiz next --tier hard --count 3 --variant silhouette
 ```
 
 That writes `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml`, renders the slides and bumps
 the usage counters. The batch config stays on disk as the record of what the post
-contained, and can be edited before re-rendering.
+contained, and can be edited before re-rendering. `--variant silhouette` writes
+to `posts/geo-quiz/geo-silhouette-<tier>-NNN/quiz.yaml` and uses the tier as the
+amount of orientation help rather than a separate country pool.
 
 1. Check the pool has depth in the tier you want.
 2. Build the batch.
@@ -61,6 +64,14 @@ Run `uv run tiktoks quiz status --validate` after editing the pool. It checks ev
 name against the boundary file, which is cheaper than a batch failing halfway
 through a render.
 
+Silhouette quizzes are the new variant for mixing up the format. They drop
+country borders and lean on shape plus surrounding land for orientation:
+
+- Easy: generous regional context
+- Medium: some neighboring land, but not the whole answer
+- Hard: tighter framing
+- Expert: the shape has to do most of the work
+
 Island nations and microstates need a `zoom` that pulls back far enough to show a
 reference coastline, or the map is an unanswerable patch of ocean. Anything that
 then covers too little of its window gets a locator ring automatically. Render a
@@ -68,7 +79,7 @@ new one and look at it before adding it to a batch.
 
 ## Country pools
 
-The pools live in `content/countries.csv`, 25 countries per tier. Add rows there
+The pools live in `content/countries.csv`, 27 countries per tier. Add rows there
 rather than here, so `quiz status` can report depth and selection can avoid repeats.
 
 At three countries a post, each tier holds roughly eight posts before it starts

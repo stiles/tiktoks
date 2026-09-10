@@ -20,6 +20,7 @@ The crosswalk step is required once. The boundary file carries no ISO codes, so 
 
 ```bash
 make quiz TIER=medium    # build and render the next quiz batch
+make quiz-silhouette TIER=hard  # borderless shape quiz; difficulty controls context zoom
 make rebuild             # re-render every post from content/
 make quiz-status         # pool depth per tier, and validate every name
 make catalog         # render every guess-the-map post from the query catalog
@@ -34,6 +35,7 @@ The CLI directly:
 
 ```bash
 uv run tiktoks quiz next --tier medium --count 3
+uv run tiktoks quiz next --tier easy --count 3 --variant silhouette
 uv run tiktoks quiz next --tier expert --count 3 --dry-run
 uv run tiktoks quiz status --validate
 uv run tiktoks geo-quiz --config posts/geo-quiz/geo-medium-001/quiz.yaml
@@ -200,7 +202,7 @@ uv run tiktoks quiz status                       # depth per tier
 uv run tiktoks quiz next --tier hard --count 3   # build, render, record
 ```
 
-`quiz next` builds one post. `--count` is how many countries go in that post, not how many quizzes to make. To render several, loop it:
+`quiz next` builds one post. `--count` is how many countries go in that post, not how many quizzes to make. `--variant silhouette` switches to a shape-first format: no country borders, more surrounding land, and difficulty changes how much context the frame gives away. To render several, loop it:
 
 ```bash
 for tier in easy medium hard expert; do
@@ -212,7 +214,7 @@ done
 
 That example is five quizzes in each tier, three countries each, in the paper theme. Each pass writes usage back to the pool so the next pick does not repeat the last one. `--dry-run` does not write usage, so looping a dry run shows the same countries every time.
 
-The pool holds 100 countries, 25 per tier. Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained.
+The pool holds 108 countries, 27 per tier. Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained. Silhouette batches write to `posts/geo-quiz/geo-silhouette-<tier>-NNN/quiz.yaml` and draw from the whole pool, because there the tier is the amount of context rather than the country bucket.
 
 Columns: `name` is what the answer slide says, `match_name` is the polygon to look up when the two differ (the boundary file still calls Eswatini "Swaziland"), and `center_lon`, `center_lat`, `zoom` and `context` override the default framing.
 

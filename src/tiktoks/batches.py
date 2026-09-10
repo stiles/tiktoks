@@ -22,6 +22,7 @@ def build(
     count: int,
     *,
     slug: str | None = None,
+    variant: str = "classic",
     root: Path | None = None,
     catalog_path: Path | None = None,
     commit: bool = True,
@@ -33,19 +34,27 @@ def build(
     """
     root = Path(root or QUIZ_ROOT)
     pool = countries.load(catalog_path)
-    chosen = countries.select(pool, tier, count)
+    by_tier = variant == "classic"
+    chosen = countries.select(pool, tier if by_tier else None, count, by_tier=by_tier)
     names = list(chosen["name"])
 
-    slug = slug or countries.next_slug(tier, root)
+    slug = slug or countries.next_slug(tier, root, variant=variant)
+    title = (
+        f"{tier.capitalize()} silhouette geography quiz"
+        if variant == "silhouette"
+        else f"{tier.capitalize()} geography quiz"
+    )
     config = {
         "slug": slug,
-        "title": f"{tier.capitalize()} geography quiz",
+        "title": title,
         "difficulty": tier,
-        "topic": "world geography",
+        "topic": "world geography silhouettes" if variant == "silhouette" else "world geography",
         "built_from": "content/countries.csv",
         "built_on": date.today().isoformat(),
         "countries": countries.to_entries(chosen),
     }
+    if variant != "classic":
+        config["variant"] = variant
 
     destination = root / slug / "quiz.yaml"
     if not commit:

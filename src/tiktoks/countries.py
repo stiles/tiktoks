@@ -57,20 +57,27 @@ def save(frame: pd.DataFrame, path: Path | str | None = None) -> Path:
     return path
 
 
-def select(frame: pd.DataFrame, tier: str, count: int) -> pd.DataFrame:
-    """The `count` least-recently-used countries in a tier.
+def select(
+    frame: pd.DataFrame, tier: str | None, count: int, *, by_tier: bool = True
+) -> pd.DataFrame:
+    """The `count` least-recently-used countries in a tier, or across the whole pool.
 
     Recency sorts ahead of the use count, because repeating a country posted last
     week is worse than repeating one posted twice a year ago. An empty
     `last_rendered` sorts first, so never-used countries go before used ones.
     """
-    if tier not in TIERS:
-        raise ValueError(f"Unknown tier {tier!r}. Options: {', '.join(TIERS)}")
-    pool = frame[frame["tier"] == tier]
-    if pool.empty:
-        raise ValueError(f"No countries in the {tier} tier")
-    if len(pool) < count:
-        raise ValueError(f"Asked for {count} {tier} countries, the pool has {len(pool)}")
+    if by_tier:
+        if tier not in TIERS:
+            raise ValueError(f"Unknown tier {tier!r}. Options: {', '.join(TIERS)}")
+        pool = frame[frame["tier"] == tier]
+        if pool.empty:
+            raise ValueError(f"No countries in the {tier} tier")
+        if len(pool) < count:
+            raise ValueError(f"Asked for {count} {tier} countries, the pool has {len(pool)}")
+    else:
+        pool = frame
+        if len(pool) < count:
+            raise ValueError(f"Asked for {count} countries, the pool has {len(pool)}")
 
     ordered = pool.sort_values(["last_rendered", "times_used", "name"], kind="stable")
     return ordered.head(count)
@@ -104,9 +111,9 @@ def to_entries(rows: pd.DataFrame) -> list[dict]:
     return entries
 
 
-def next_slug(tier: str, root: Path) -> str:
-    """The next unused batch directory for a tier, as `geo-<tier>-NNN`."""
-    prefix = f"geo-{tier}-"
+def next_slug(tier: str, root: Path, *, variant: str = "classic") -> str:
+    """The next unused batch directory for a tier and variant."""
+    prefix = f"geo-{tier}-" if variant == "classic" else f"geo-{variant}-{tier}-"
     existing = (
         {path.name for path in Path(root).glob(f"{prefix}*")} if Path(root).exists() else set()
     )

@@ -342,10 +342,16 @@ def draw_highlight(
     aspect: float = 1.0,
     color: str | None = None,
     locator: bool = True,
+    borders: bool = True,
 ) -> None:
     theme = get_theme(theme)
     ax.set_facecolor(theme.water)
-    view.base.plot(ax=ax, color=theme.land, edgecolor=theme.border, linewidth=theme.map_line_width)
+    view.base.plot(
+        ax=ax,
+        color=theme.land,
+        edgecolor=theme.border if borders else "none",
+        linewidth=theme.map_line_width if borders else 0,
+    )
     view.target.plot(
         ax=ax,
         color=color or theme.highlight,

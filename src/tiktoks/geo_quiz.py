@@ -49,6 +49,23 @@ HOOKS = {
     ],
 }
 
+VARIANTS = {
+    "classic": {
+        "borders": True,
+        "zoom_by_difficulty": {"easy": 1.0, "medium": 1.0, "hard": 1.0, "expert": 1.0},
+        "cover_title": "How many countries can you name?",
+        "kicker": "Name that country",
+    },
+    "silhouette": {
+        "borders": False,
+        # This format is about orientation by coastline and surrounding land, so
+        # the difficulty comes largely from how much context the frame keeps.
+        "zoom_by_difficulty": {"easy": 1.9, "medium": 1.55, "hard": 1.25, "expert": 1.0},
+        "cover_title": "Which country is this shape?",
+        "kicker": "Shape only",
+    },
+}
+
 
 def hook_for(item: dict, difficulty: str, index: int) -> str:
     if item.get("hook"):
@@ -73,6 +90,12 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     config_path = Path(config_path)
     config = read_yaml(config_path)
     theme = get_theme(theme or config.get("theme"))
+    variant = config.get("variant", "classic")
+    if variant not in VARIANTS:
+        raise ValueError(
+            f"Unknown quiz variant {variant!r}. Options: {', '.join(sorted(VARIANTS))}"
+        )
+    variant_spec = VARIANTS[variant]
     output_dir = config_path.parent / theme.name
     countries = world_countries(config.get("countries_geojson"))
     difficulty = config.get("difficulty", "medium")
@@ -86,7 +109,10 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         theme=theme,
         output_dir=output_dir,
         difficulty=difficulty,
-        topic=config.get("topic", "world geography"),
+        topic=config.get(
+            "topic",
+            "world geography silhouettes" if variant == "silhouette" else "world geography",
+        ),
         title=config.get("title"),
         caption=config.get("caption"),
         hashtags=config.get("hashtags", ["geography", "geoguessr", "quiz", "maps"]),
@@ -94,23 +120,22 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         config_path=config_path,
     )
 
-    cover = _cover(config, theme, difficulty, color, total)
+    cover = _cover(config, theme, difficulty, color, total, variant_spec)
     backdrop, backdrop_aspect = cover.backdrop_axes()
-    draw_backdrop(
-        backdrop, prepare_world(countries), theme=theme, aspect=backdrop_aspect, zoom=1.9
-    )
+    draw_backdrop(backdrop, prepare_world(countries), theme=theme, aspect=backdrop_aspect, zoom=1.9)
     # Paper's warm land and cool water need less wash than night or the cover map fades out.
     cover.scrim(0.22 if theme.name == "paper" else 0.3)
     post.add(
         cover,
         kind="cover",
-        alt=f"A world map behind the words: {config.get('cover_title', COVER_TITLE)} "
+        alt=f"A world map behind the words: {config.get('cover_title', variant_spec['cover_title'])} "
         f"Difficulty {difficulty}, {total} countries.",
-        title=config.get("cover_title", COVER_TITLE),
+        title=config.get("cover_title", variant_spec["cover_title"]),
     )
 
     for index, item in enumerate(items, start=1):
         center = item.get("center")
+        zoom = item.get("zoom", 1.0) * variant_spec["zoom_by_difficulty"].get(difficulty, 1.0)
         view = prepare_country(
             countries,
             # The polygon name and the name on the answer slide are not always the
@@ -118,10 +143,10 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
             [item.get("match_name") or item["name"]],
             context=item.get("context", "regional"),
             center=tuple(center) if center else None,
-            zoom=item.get("zoom", 1.0),
+            zoom=zoom,
         )
-        prompt = _prompt(item, theme, difficulty, color, index, total)
-        answer = _answer(item, theme, difficulty, color, index, total)
+        prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec)
+        answer = _answer(item, theme, difficulty, color, index, total, variant_spec)
         # One frame across the pair, so the answer reads as a reveal and not a jump.
         slot = shared_slot(prompt, answer)
         world = item.get("context") == "world"
@@ -130,7 +155,14 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
             axes, aspect = slide.map_axes(
                 slot=slot, data_aspect=view.aspect if world else None, bleed=world
             )
-            draw_highlight(axes, view, theme=theme, aspect=aspect, color=color)
+            draw_highlight(
+                axes,
+                view,
+                theme=theme,
+                aspect=aspect,
+                color=color,
+                borders=variant_spec["borders"],
+            )
             post.add(slide, kind=kind, alt=_alt(item, kind, world), title=item["name"])
 
     post.add(_scorecard(theme, difficulty, color, total), kind="scorecard", alt=SCORECARD["dek"])
@@ -138,7 +170,15 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     return post.paths
 
 
-def _prompt(item: dict, theme: Theme, difficulty: str, color: str, index: int, total: int) -> Slide:
+def _prompt(
+    item: dict,
+    theme: Theme,
+    difficulty: str,
+    color: str,
+    index: int,
+    total: int,
+    variant_spec: dict,
+) -> Slide:
     slide = Slide(
         theme,
         source=BOUNDARY_SOURCE,
@@ -146,12 +186,20 @@ def _prompt(item: dict, theme: Theme, difficulty: str, color: str, index: int, t
         badge=f"{index}/{total}",
         badge_color=color,
     )
-    slide.kicker(f"Name that country · {difficulty}")
+    slide.kicker(f"{variant_spec['kicker']} · {difficulty}")
     slide.title(hook_for(item, difficulty, index))
     return slide
 
 
-def _answer(item: dict, theme: Theme, difficulty: str, color: str, index: int, total: int) -> Slide:
+def _answer(
+    item: dict,
+    theme: Theme,
+    difficulty: str,
+    color: str,
+    index: int,
+    total: int,
+    variant_spec: dict,
+) -> Slide:
     slide = Slide(theme, source=BOUNDARY_SOURCE, badge=f"{index}/{total}", badge_color=color)
     slide.kicker("Answer")
     slide.title(item["name"])
@@ -159,12 +207,14 @@ def _answer(item: dict, theme: Theme, difficulty: str, color: str, index: int, t
     return slide
 
 
-def _cover(config: dict, theme: Theme, difficulty: str, color: str, total: int) -> Slide:
+def _cover(
+    config: dict, theme: Theme, difficulty: str, color: str, total: int, variant_spec: dict
+) -> Slide:
     slide = Slide(theme, source=BOUNDARY_SOURCE)
     slide.centered_stack(
         [
             {
-                "text": config.get("cover_title", COVER_TITLE),
+                "text": config.get("cover_title", variant_spec["cover_title"]),
                 "size": int(theme.title_size * 1.05),
                 "min_size": theme.title_min_size,
                 "max_lines": 4,

@@ -47,6 +47,12 @@ def test_selection_rejects_an_unknown_tier(pool):
         countries.select(countries.load(pool), "impossible", 1)
 
 
+def test_selection_can_draw_from_the_whole_pool(pool):
+    frame = countries.load(pool)
+    chosen = list(countries.select(frame, None, 3, by_tier=False)["name"])
+    assert chosen == ["Alpha", "Bravo", "Echo"]
+
+
 def test_marking_rendered_advances_the_next_pick(pool):
     frame = countries.load(pool)
     first = list(countries.select(frame, "easy", 2)["name"])
@@ -77,6 +83,15 @@ def test_batch_slugs_do_not_collide(pool, tmp_path):
     assert first != second
     assert first.parent.name == "geo-easy-001"
     assert second.parent.name == "geo-easy-002"
+
+
+def test_silhouette_batches_use_global_selection_and_own_slug(pool, tmp_path):
+    root = tmp_path / "quizzes"
+    path, names = batches.build("expert", 2, root=root, catalog_path=pool, variant="silhouette")
+    assert names == ["Alpha", "Bravo"]
+    assert path.parent.name == "geo-silhouette-expert-001"
+    config = path.read_text()
+    assert "variant: silhouette" in config
 
 
 def test_entries_drop_blank_overrides(pool):
@@ -140,4 +155,28 @@ def test_a_rendered_batch_opens_on_a_cover(tmp_path):
     manifest = json.loads((tmp_path / "night" / "post.json").read_text())
     kinds = [slide["kind"] for slide in manifest["slides"]]
     assert kinds == ["cover", "prompt", "answer", "scorecard"]
+    assert manifest["layout_problems"] == []
+
+
+def test_silhouette_batch_uses_variant_defaults(tmp_path):
+    """Silhouette quizzes change the cover copy and stay layout-safe."""
+    import json
+
+    from tiktoks.geo_quiz import render_geo_quiz
+    from tiktoks.io import write_yaml
+
+    config = tmp_path / "quiz.yaml"
+    write_yaml(
+        config,
+        {
+            "slug": "silhouette-test",
+            "variant": "silhouette",
+            "difficulty": "easy",
+            "countries": [{"name": "Italy", "fact": "A boot."}],
+        },
+    )
+    render_geo_quiz(config)
+
+    manifest = json.loads((tmp_path / "night" / "post.json").read_text())
+    assert manifest["topic"] == "world geography silhouettes"
     assert manifest["layout_problems"] == []

@@ -79,14 +79,27 @@ def quiz() -> None:
 @click.option("--tier", type=click.Choice(countries.TIERS), required=True)
 @click.option("--count", default=3, show_default=True, help="Countries in the batch.")
 @click.option("--slug", default=None, help="Batch directory name. Auto-numbered by default.")
+@click.option(
+    "--variant",
+    type=click.Choice(["classic", "silhouette"]),
+    default="classic",
+    show_default=True,
+    help="Quiz format. Silhouette uses borderless maps and difficulty-based context zoom.",
+)
 @click.option("--dry-run", is_flag=True, help="Show the picks without writing anything.")
 @click.option("--no-render", is_flag=True, help="Write the batch config but do not render.")
 @theme_option
 def quiz_next(
-    tier: str, count: int, slug: str | None, dry_run: bool, no_render: bool, theme: str | None
+    tier: str,
+    count: int,
+    slug: str | None,
+    variant: str,
+    dry_run: bool,
+    no_render: bool,
+    theme: str | None,
 ) -> None:
     """Pick the least-recently-used countries in a tier and build a batch."""
-    config_path, names = batches.build(tier, count, slug=slug, commit=not dry_run)
+    config_path, names = batches.build(tier, count, slug=slug, variant=variant, commit=not dry_run)
     for position, name in enumerate(names, start=1):
         click.echo(f"{position:2}. {name}")
     if dry_run:
