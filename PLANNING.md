@@ -253,6 +253,21 @@ population and turns out to be something else starts arguments; a clean map of a
 obvious thing gets nods. Worth making misdirection a selection criterion in
 `docs/guess-the-map-ideas.md` rather than picking the most legible datasets.
 
+## 15. Batch the names of today's teenagers — `open`
+
+There is a clean SSA format here: output the most popular names for people who are
+roughly US teenagers now, say births from 2008 through 2015.
+
+That can work as either one ranked batch or a small set: overall top names across
+the window, girls and boys split, or "what names define today's high schoolers?"
+The point is not nostalgia about one birth year, but a cohort that reads as the
+current teen generation.
+
+The useful part is that it is batchable. Once the cohort window is picked, the
+same processing can be rerun for a new age band later: middle schoolers now,
+college-age names now, toddlers now. This is closer to the quiz pool or the
+recent SSA trend batches than to a one-off story.
+
 ## Smaller cleanups
 
 - `config.py` and `paths.py` both define the repo root. `done`
