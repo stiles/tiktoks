@@ -1,4 +1,4 @@
-.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names rebuild test lint format check
+.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check
 
 setup:
 	uv sync --extra dev
@@ -48,6 +48,14 @@ texas-top-names:
 	uv run python content/stories/2026-ssa-texas-top-names/fetch.py
 	uv run python content/stories/2026-ssa-texas-top-names/process.py
 	uv run python content/stories/2026-ssa-texas-top-names/render.py
+
+karen:
+	uv run python content/stories/2026-ssa-name-karen/process.py
+	uv run python content/stories/2026-ssa-name-karen/render.py
+
+matthew:
+	uv run python content/stories/2026-ssa-name-matthew/process.py
+	uv run python content/stories/2026-ssa-name-matthew/render.py
 
 # Re-render every batch and catalog entry from content/.
 rebuild:

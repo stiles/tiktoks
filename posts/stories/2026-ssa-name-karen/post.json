@@ -1,0 +1,82 @@
+{
+  "slug": "2026-ssa-name-karen",
+  "format": "story",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "baby names",
+  "title": "What happened to Karen?",
+  "caption": "What happened to Karen? #babynames #ssa #data #trends",
+  "hashtags": [
+    "babynames",
+    "ssa",
+    "data",
+    "trends"
+  ],
+  "sources": [
+    "Source: Social Security Administration baby names data."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-ssa-name-karen-01-cover.png",
+      "kind": "cover",
+      "alt": "A title slide about the baby name Karen.",
+      "title": "What happened to Karen?"
+    },
+    {
+      "index": 2,
+      "file": "2026-ssa-name-karen-02-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Karen, rising to its peak year 1956.",
+      "title": "Karen used to be huge"
+    },
+    {
+      "index": 3,
+      "file": "2026-ssa-name-karen-03-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Karen through 2010.",
+      "title": "The drop started way before the meme"
+    },
+    {
+      "index": 4,
+      "file": "2026-ssa-name-karen-04-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Karen, extending through 2025 after a long decline.",
+      "title": "Karen nearly vanished from new baby names"
+    },
+    {
+      "index": 5,
+      "file": "2026-ssa-name-karen-05-story.png",
+      "kind": "story",
+      "alt": "A normalized line chart showing how far the baby name Karen is below peak.",
+      "title": "Karen is a tiny fraction of its peak now"
+    },
+    {
+      "index": 6,
+      "file": "2026-ssa-name-karen-06-outro.png",
+      "kind": "outro",
+      "alt": "A closing slide asking viewers to suggest the next baby name after Karen.",
+      "title": "Which name should I chart next?"
+    }
+  ],
+  "rendered_at": "2026-09-10T04:55:51+00:00",
+  "git_sha": "ce9be11d27044dcafc3444391efc02adc87a25f6",
+  "config": "content/stories/2026-ssa-name-karen/story.yaml",
+  "config_hash": "6e37c987c0d8d4eb",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

@@ -1,0 +1,21 @@
+slug: 2026-ssa-name-karen
+title: What happened to Karen?
+dek: The name exploded in the 1950s, fell for decades and kept falling long before the meme.
+name: Karen
+source_url: https://www.ssa.gov/oact/babynames/names.zip
+source: "Source: Social Security Administration baby names data."
+raw_slug: 2026-ssa-name-comeback
+peak_title: Karen used to be huge
+midyear: 2010
+mid_title: The drop started way before the meme
+mid_dek: By {year}, {name} was already down to {births:,} births, or about {share:.0f} per 100,000.
+decline_title: Karen nearly vanished from new baby names
+compare_title: Karen is a tiny fraction of its peak now
+compare_dek: Indexed to its own peak = 100, Karen's line ends near the floor by {year}. It is about {decline:.0f}% below peak.
+outro_title: Which name should I chart next?
+outro_dek: Drop a first name in the comments and I can pull its SSA line too.
+hashtags:
+  - babynames
+  - ssa
+  - data
+  - trends

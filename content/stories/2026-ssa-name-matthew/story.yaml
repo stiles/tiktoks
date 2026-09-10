@@ -1,0 +1,21 @@
+slug: 2026-ssa-name-matthew
+title: Matthew is not having its best decade
+dek: Unfortunately for me, Matthew is still common but nowhere near its 1980s high.
+name: Matthew
+source_url: https://www.ssa.gov/oact/babynames/names.zip
+source: "Source: Social Security Administration baby names data."
+raw_slug: 2026-ssa-name-comeback
+peak_title: Matthew had a monster 1980s peak
+midyear: 2010
+mid_title: It was still big in 2010
+mid_dek: In {year}, {births:,} US babies were still named {name}, or about {share:.0f} per 100,000 births.
+decline_title: Matthew is still around, just not 1983 around
+compare_title: Matthew fell a lot, but not like Karen
+compare_dek: Indexed to its own peak = 100, Matthew is still well off the floor in {year}, even after falling about {decline:.0f}% from peak.
+outro_title: Should I chart your name too?
+outro_dek: If I am going to make fun of my own name, yours can be next.
+hashtags:
+  - babynames
+  - ssa
+  - data
+  - trends

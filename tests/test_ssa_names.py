@@ -1,6 +1,7 @@
 import pandas as pd
 
 from tiktoks.ssa_names import rank_trends, share_by_year, top_names_by_sex
+from tiktoks.ssa_story import _series_point
 
 
 def test_rank_trends_filters_and_orders() -> None:
@@ -45,3 +46,15 @@ def test_top_names_by_sex() -> None:
     assert list(girls["name"]) == ["Olivia", "Emma", "Ava"]
     assert list(boys["name"]) == ["Liam", "Noah", "Oliver"]
     assert girls.iloc[0]["rank"] == 1
+
+
+def test_series_point_returns_one_year_or_none() -> None:
+    series = pd.DataFrame(
+        {
+            "year": [2010, 2020],
+            "share_per_100k": [10.0, 5.0],
+            "births": [100, 50],
+        }
+    )
+    assert _series_point(series, 2020)["births"] == 50
+    assert _series_point(series, 1999) is None

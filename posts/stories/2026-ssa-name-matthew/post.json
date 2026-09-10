@@ -1,0 +1,82 @@
+{
+  "slug": "2026-ssa-name-matthew",
+  "format": "story",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "baby names",
+  "title": "Matthew is not having its best decade",
+  "caption": "Matthew is not having its best decade #babynames #ssa #data #trends",
+  "hashtags": [
+    "babynames",
+    "ssa",
+    "data",
+    "trends"
+  ],
+  "sources": [
+    "Source: Social Security Administration baby names data."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-ssa-name-matthew-01-cover.png",
+      "kind": "cover",
+      "alt": "A title slide about the baby name Matthew.",
+      "title": "Matthew is not having its best decade"
+    },
+    {
+      "index": 2,
+      "file": "2026-ssa-name-matthew-02-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Matthew, rising to its peak year 1983.",
+      "title": "Matthew had a monster 1980s peak"
+    },
+    {
+      "index": 3,
+      "file": "2026-ssa-name-matthew-03-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Matthew through 2010.",
+      "title": "It was still big in 2010"
+    },
+    {
+      "index": 4,
+      "file": "2026-ssa-name-matthew-04-story.png",
+      "kind": "story",
+      "alt": "A line chart of the baby name Matthew, extending through 2025 after a long decline.",
+      "title": "Matthew is still around, just not 1983 around"
+    },
+    {
+      "index": 5,
+      "file": "2026-ssa-name-matthew-05-story.png",
+      "kind": "story",
+      "alt": "A normalized line chart showing how far the baby name Matthew is below peak.",
+      "title": "Matthew fell a lot, but not like Karen"
+    },
+    {
+      "index": 6,
+      "file": "2026-ssa-name-matthew-06-outro.png",
+      "kind": "outro",
+      "alt": "A closing slide asking viewers to suggest the next baby name after Matthew.",
+      "title": "Should I chart your name too?"
+    }
+  ],
+  "rendered_at": "2026-09-10T04:59:36+00:00",
+  "git_sha": "ce9be11d27044dcafc3444391efc02adc87a25f6",
+  "config": "content/stories/2026-ssa-name-matthew/story.yaml",
+  "config_hash": "bc5968fc910965fc",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}
