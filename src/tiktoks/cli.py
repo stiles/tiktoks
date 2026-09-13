@@ -1,9 +1,10 @@
+import subprocess
 from pathlib import Path
 from shutil import copytree
 
 import click
 
-from tiktoks import batches, catalog, countries, video, youtube
+from tiktoks import batches, catalog, countries, stage, video, youtube
 from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
 from tiktoks.guess_map import CATALOG_PATH, render_catalog, render_guess_map
@@ -252,6 +253,48 @@ def youtube_upload(
         click.echo(f"{directory} {result['url']}")
     if failures:
         raise click.ClickException(f"{failures} upload(s) failed")
+
+
+@main.command("stage")
+@click.option(
+    "--dir",
+    "post_dir",
+    required=True,
+    type=click.Path(exists=True, path_type=Path),
+    help="Theme directory with post.json, or the post.json itself.",
+)
+@click.option(
+    "--dest",
+    type=click.Path(path_type=Path),
+    default=None,
+    help="Inbox folder. Default is iCloud Drive/TikTok Inbox/<slug> when iCloud is on.",
+)
+@click.option(
+    "--photos",
+    "import_photos",
+    is_flag=True,
+    help="Import staged slides into the Mac Photos library (syncs via iCloud Photos).",
+)
+@click.option("--open", "open_finder", is_flag=True, help="Reveal the inbox folder in Finder.")
+def stage_command(
+    post_dir: Path,
+    dest: Path | None,
+    import_photos: bool,
+    open_finder: bool,
+) -> None:
+    """Copy slides in carousel order for TikTok on your phone."""
+    try:
+        paths = stage.stage_post(post_dir, dest=dest, import_photos=import_photos)
+    except stage.StageError as exc:
+        raise click.ClickException(str(exc)) from exc
+    inbox = paths[0].parent
+    for path in paths:
+        click.echo(path)
+    click.echo(f"{len(paths)} slides → {inbox}")
+    if import_photos:
+        click.echo("imported into Photos")
+    if open_finder:
+        subprocess.run(["open", str(inbox)], check=False)
 
 
 @main.command("story")

@@ -262,9 +262,25 @@ def ink_bounds(frame: gpd.GeoDataFrame, trim: float) -> tuple[float, float, floa
 def prepare_world(
     geography: gpd.GeoDataFrame, *, hide_antarctica: bool = True, trim: float = WORLD_TRIM
 ) -> MapView:
+    return prepare_world_projection(
+        geography,
+        WORLD_CRS,
+        hide_antarctica=hide_antarctica,
+        trim=trim,
+    )
+
+
+def prepare_world_projection(
+    geography: gpd.GeoDataFrame,
+    crs: str,
+    *,
+    hide_antarctica: bool = True,
+    trim: float = WORLD_TRIM,
+) -> MapView:
+    """Project a world map into any CRS while reusing the standard framing rules."""
     frame = drop_antarctica(geography) if hide_antarctica else geography
-    frame = frame.to_crs(WORLD_CRS)
-    return MapView(frame, tuple(pad_bounds(ink_bounds(frame, trim), 0.01)), crs=WORLD_CRS)
+    frame = frame.to_crs(crs)
+    return MapView(frame, tuple(pad_bounds(ink_bounds(frame, trim), 0.01)), crs=crs)
 
 
 def prepare_region(

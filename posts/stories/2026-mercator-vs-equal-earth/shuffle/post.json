@@ -1,0 +1,90 @@
+{
+  "slug": "2026-mercator-vs-equal-earth-shuffle",
+  "format": "story",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "map projections",
+  "title": "Mercator: \"Why would I deceive you?\"",
+  "caption": "Mercator hit the Elizabeth Holmes meme lane for a reason. If the audience is comparing world size, Equal Earth is the cleaner reveal.",
+  "hashtags": [
+    "maps",
+    "geography",
+    "cartography",
+    "dataviz"
+  ],
+  "sources": [
+    "Source: Natural Earth boundaries. Projection comparisons rendered in repo."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-mercator-vs-equal-earth-shuffle-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map in the Equal Earth projection. Mercator: \"Why would I deceive you?\"",
+      "title": "Mercator: \"Why would I deceive you?\""
+    },
+    {
+      "index": 2,
+      "file": "2026-mercator-vs-equal-earth-shuffle-02-mystery.png",
+      "kind": "mystery",
+      "alt": "A world map in the Mercator projection. \"Why would I deceive you?\"",
+      "title": "\"Why would I deceive you?\""
+    },
+    {
+      "index": 3,
+      "file": "2026-mercator-vs-equal-earth-shuffle-03-answer.png",
+      "kind": "answer",
+      "alt": "A world map in the Mercator projection. Because this map stretches the high latitudes.",
+      "title": "Because this map stretches the high latitudes."
+    },
+    {
+      "index": 4,
+      "file": "2026-mercator-vs-equal-earth-shuffle-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A world map in the Equal Earth projection. There is a less slippery option.",
+      "title": "There is a less slippery option."
+    },
+    {
+      "index": 5,
+      "file": "2026-mercator-vs-equal-earth-shuffle-05-answer.png",
+      "kind": "answer",
+      "alt": "A world map in the Equal Earth projection. Equal Earth is the better comparison frame.",
+      "title": "Equal Earth is the better comparison frame."
+    },
+    {
+      "index": 6,
+      "file": "2026-mercator-vs-equal-earth-shuffle-06-challenge.png",
+      "kind": "challenge",
+      "alt": "A world map in the Equal Earth projection. Use the lie that matches the job.",
+      "title": "Use the lie that matches the job."
+    }
+  ],
+  "rendered_at": "2026-09-11T21:35:45+00:00",
+  "git_sha": "776af6c9aca2173d2c22adf39c4be640457311f6",
+  "config": "content/stories/2026-mercator-vs-equal-earth/story.yaml",
+  "config_hash": "7274b24de17b3cf1",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  },
+  "audio": {
+    "slug": "comfortable-mystery",
+    "title": "Comfortable Mystery 2",
+    "artist": "Kevin MacLeod",
+    "license": "CC BY 3.0",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
+    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
+  }
+}

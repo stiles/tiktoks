@@ -13,11 +13,9 @@ import pandas as pd
 
 from tiktoks.export import contact_sheet
 from tiktoks.maps import (
-    MapView,
     draw_binary,
-    drop_antarctica,
     join_values,
-    pad_bounds,
+    prepare_world_projection,
     world_countries,
 )
 from tiktoks.slides import Slide
@@ -42,12 +40,14 @@ def main() -> None:
         geo_key="name",
         data_key="name",
     )
-    trimmed = drop_antarctica(nato)
 
     paths = []
     for name, proj in OPTIONS.items():
-        frame = trimmed.to_crs(f"{proj} +datum=WGS84 +units=m +no_defs")
-        view = MapView(frame, tuple(pad_bounds(frame.total_bounds, 0.01)))
+        view = prepare_world_projection(
+            nato,
+            f"{proj} +datum=WGS84 +units=m +no_defs",
+            trim=0,
+        )
 
         slide = Slide(
             PAPER,

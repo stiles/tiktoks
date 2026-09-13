@@ -48,6 +48,7 @@ uv run tiktoks story --slug 2026-new-story
 uv run tiktoks video --dir posts/guess-map/opec-members/night
 uv run tiktoks youtube auth
 uv run tiktoks youtube upload --dir posts/guess-map/opec-members/night
+uv run tiktoks stage --dir posts/geo-quiz/geo-medium-001/night --open
 ```
 
 Render commands take `--theme night|paper|poster` and write to `<post dir>/<theme>/`. The default is `night`.
@@ -116,6 +117,32 @@ Cover slides break the top-down flow. `backdrop_axes()` puts a full-bleed map be
 A render produces a `post.json` beside the PNGs, holding the slug, format, difficulty, slide order, alt text, sources, caption, render time, git SHA and config hash. That is what ties a rendered batch to a TikTok post later, so metrics can be attributed to a format instead of guessed at.
 
 The only fields that cannot be known at render time are the platform post IDs. Fill in `publish.post_id` after posting to TikTok. `tiktoks youtube upload` writes the YouTube id itself.
+
+## Phone handoff
+
+TikTok on iOS only sees the camera roll, not `posts/` on your Mac. AirDrop works but
+the files often land in Downloads, and carousel order is easy to scramble.
+
+`tiktoks stage` copies a rendered post into an inbox folder with zero-padded names
+in `post.json` order (`01-cover.png`, `02-prompt.png`, …) plus `caption.txt`.
+
+```bash
+uv run tiktoks stage --dir posts/geo-quiz/geo-medium-001/night --open
+uv run tiktoks stage --dir posts/stories/2026-ssa-name-karen --photos
+```
+
+Default destination is `iCloud Drive/TikTok Inbox/<slug>/` when iCloud Drive is
+enabled on the Mac. Without iCloud, slides go to `review/phone-inbox/<slug>/`.
+
+**iCloud Drive path:** On the phone, open Files → TikTok Inbox → the slug folder.
+Select the numbered PNGs in order → Share → Save to Photos. Then create the TikTok
+carousel from Recents.
+
+**Photos path:** `--photos` imports on the Mac into the Photos library. With iCloud
+Photos on, they show up on the phone without AirDrop. Pick them in TikTok in the
+same numbered order.
+
+Stories and quizzes need a `post.json` beside the PNGs so staging knows swipe order.
 
 ## YouTube Shorts
 

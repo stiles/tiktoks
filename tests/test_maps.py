@@ -15,6 +15,7 @@ from tiktoks.maps import (
     prepare_country,
     prepare_region,
     prepare_world,
+    prepare_world_projection,
     quantile_edges,
     with_codes,
     world_countries,
@@ -175,3 +176,10 @@ def test_world_trim_keeps_every_country_that_is_visible(countries):
 
 def test_world_trim_can_be_switched_off(countries):
     assert prepare_world(countries, trim=0).aspect > prepare_world(countries).aspect
+
+
+def test_custom_world_projection_changes_the_world_frame(countries):
+    equal_earth = prepare_world(countries)
+    mercator = prepare_world_projection(countries, "EPSG:3395")
+    assert mercator.crs == "EPSG:3395"
+    assert mercator.aspect < equal_earth.aspect

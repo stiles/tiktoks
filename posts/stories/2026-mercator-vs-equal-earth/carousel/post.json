@@ -1,0 +1,82 @@
+{
+  "slug": "2026-mercator-vs-equal-earth-carousel",
+  "format": "story",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "map projections",
+  "title": "Mercator vs. Equal Earth",
+  "caption": "Mercator is useful, but it is a rough choice for world size comparisons. Equal Earth gives a cleaner comparison read on a phone.",
+  "hashtags": [
+    "maps",
+    "geography",
+    "cartography",
+    "dataviz"
+  ],
+  "sources": [
+    "Source: Natural Earth boundaries. Projection comparisons rendered in repo."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-mercator-vs-equal-earth-carousel-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map in the Equal Earth projection. Mercator vs. Equal Earth",
+      "title": "Mercator vs. Equal Earth"
+    },
+    {
+      "index": 2,
+      "file": "2026-mercator-vs-equal-earth-carousel-02-story.png",
+      "kind": "story",
+      "alt": "A world map in the Mercator projection. Mercator is the familiar one.",
+      "title": "Mercator is the familiar one."
+    },
+    {
+      "index": 3,
+      "file": "2026-mercator-vs-equal-earth-carousel-03-story.png",
+      "kind": "story",
+      "alt": "A world map in the Mercator projection. Its distortion gets worse away from the equator.",
+      "title": "Its distortion gets worse away from the equator."
+    },
+    {
+      "index": 4,
+      "file": "2026-mercator-vs-equal-earth-carousel-04-story.png",
+      "kind": "story",
+      "alt": "A world map in the Equal Earth projection. Equal Earth gives a calmer size comparison.",
+      "title": "Equal Earth gives a calmer size comparison."
+    },
+    {
+      "index": 5,
+      "file": "2026-mercator-vs-equal-earth-carousel-05-story.png",
+      "kind": "story",
+      "alt": "A world map in the Equal Earth projection. That trade usually works better for explainers.",
+      "title": "That trade usually works better for explainers."
+    },
+    {
+      "index": 6,
+      "file": "2026-mercator-vs-equal-earth-carousel-06-challenge.png",
+      "kind": "challenge",
+      "alt": "A world map in the Equal Earth projection. Mercator is useful. It is just not neutral.",
+      "title": "Mercator is useful. It is just not neutral."
+    }
+  ],
+  "rendered_at": "2026-09-11T21:35:44+00:00",
+  "git_sha": "776af6c9aca2173d2c22adf39c4be640457311f6",
+  "config": "content/stories/2026-mercator-vs-equal-earth/story.yaml",
+  "config_hash": "7274b24de17b3cf1",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

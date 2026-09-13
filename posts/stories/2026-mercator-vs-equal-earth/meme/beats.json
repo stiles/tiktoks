@@ -1,0 +1,18 @@
+{
+  "fps": 30,
+  "total_seconds": 10.0,
+  "timing": {
+    "mercator_hold_start": 1.1,
+    "to_equal_earth": 1.55,
+    "equal_hold": 2.45,
+    "to_mercator": 1.35,
+    "mercator_hold_end": 3.55
+  },
+  "notes": [
+    "Start on Mercator for the setup.",
+    "Crossfade into Equal Earth on 'Why would I deceive you?'",
+    "Hold on Equal Earth for the pause.",
+    "Crossfade back to Mercator on 'There's no reason...'",
+    "Hold on Mercator to finish the 10-second sound cleanly."
+  ]
+}
