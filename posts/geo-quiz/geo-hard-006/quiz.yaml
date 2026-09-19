@@ -3,14 +3,8 @@ title: Hard geography quiz
 difficulty: hard
 topic: world geography
 built_from: content/countries.csv
-built_on: '2026-09-07'
+built_on: '2026-09-19'
 countries:
-- name: Nepal
-  fact: Mount Everest sits on its border with China.
-- name: Oman
-  fact: It sits at the eastern corner of the Arabian Peninsula.
-- name: Paraguay
-  fact: Landlocked between Brazil, Argentina and Bolivia.
 - name: Senegal
   fact: It wraps around the Gambia on Africa's westernmost coast.
 - name: Slovenia
@@ -19,3 +13,7 @@ countries:
   fact: An island off the southeastern tip of India.
 - name: Tunisia
   fact: The northernmost country in Africa.
+- name: Uruguay
+  fact: It sits between Brazil and Argentina on the Atlantic coast.
+- name: Zambia
+  fact: Victoria Falls sits on its border with Zimbabwe.

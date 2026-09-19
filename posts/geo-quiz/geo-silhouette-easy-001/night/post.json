@@ -120,15 +120,16 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-10T04:00:33+00:00",
-  "git_sha": "33c66c5d889014c7cf0207eb67d53b565e91132e",
+  "rendered_at": "2026-09-19T17:47:41+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "posts/geo-quiz/geo-silhouette-easy-001/quiz.yaml",
   "config_hash": "212face907070ac8",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null,
+    "posted_at": "2026-09-09",
+    "notes": null,
     "youtube": {
       "video_id": null,
       "url": null,

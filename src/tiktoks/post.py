@@ -26,6 +26,7 @@ EMPTY_PUBLISH = {
     "post_id": None,
     "url": None,
     "posted_at": None,
+    "notes": None,
     "youtube": {"video_id": None, "url": None, "posted_at": None},
 }
 

@@ -26,6 +26,7 @@ make rebuild             # re-render every post from content/
 make quiz-status         # pool depth per tier, and validate every name
 make catalog         # render every guess-the-map post from the query catalog
 make catalog-list    # show what is in the catalog
+make publish-status  # what has gone out on TikTok, and what has not
 make crosswalk       # rebuild the country code crosswalk
 make styles          # render the test slides in all three themes
 make example         # run the example story end to end
@@ -46,9 +47,11 @@ uv run tiktoks catalog --all
 uv run tiktoks guess-map --config content/guess-map-csv-example/guess_map.yaml
 uv run tiktoks story --slug 2026-new-story
 uv run tiktoks video --dir posts/guess-map/opec-members/night
+uv run tiktoks stage --dir posts/geo-quiz/geo-medium-001/night --open
 uv run tiktoks youtube auth
 uv run tiktoks youtube upload --dir posts/guess-map/opec-members/night
-uv run tiktoks stage --dir posts/geo-quiz/geo-medium-001/night --open
+uv run tiktoks publish mark geo-medium-001
+uv run tiktoks publish status
 ```
 
 Render commands take `--theme night|paper|poster` and write to `<post dir>/<theme>/`. The default is `night`.
@@ -76,7 +79,8 @@ posts/                       one directory per post, rebuildable from content/
   guess-map/<slug>/
   stories/<slug>/
 
-data/                        fetched and derived, ignored
+data/                        fetched and derived, mostly ignored
+  publish.csv                  TikTok posts, written by `tiktoks publish mark`
   reference/                   boundary files, API caches, the country crosswalk
   stories/<slug>/              a story's raw and processed data
 
@@ -116,7 +120,14 @@ Cover slides break the top-down flow. `backdrop_axes()` puts a full-bleed map be
 
 A render produces a `post.json` beside the PNGs, holding the slug, format, difficulty, slide order, alt text, sources, caption, render time, git SHA and config hash. That is what ties a rendered batch to a TikTok post later, so metrics can be attributed to a format instead of guessed at.
 
-The only fields that cannot be known at render time are the platform post IDs. Fill in `publish.post_id` after posting to TikTok. `tiktoks youtube upload` writes the YouTube id itself.
+The only fields that cannot be known at render time are the platform post IDs. After a TikTok upload, record it with `tiktoks publish mark <slug>`. That writes `publish.posted_at` on the post's `post.json` and updates `data/publish.csv`. `tiktoks youtube upload` writes the YouTube id itself.
+
+```bash
+uv run tiktoks publish mark geo-expert-007
+uv run tiktoks publish mark geo-expert-007 --url URL --notes 'asked for more islands'
+uv run tiktoks publish status
+uv run tiktoks publish status --unpublished
+```
 
 ## Phone handoff
 
@@ -220,7 +231,7 @@ Wikidata is not a membership registry, and a map with the wrong countries shaded
 3. Fetch and process the data with scripts or a notebook.
 4. Render the slides. The contact sheet is written automatically.
 5. Check the batch at thumbnail size before opening any single slide.
-6. When it goes out, fill in the `publish` block in that post's `post.json`. That is the only thing the renderer cannot know, and it is what the metrics work in `docs/metrics.md` joins on.
+6. When it goes out, run `tiktoks publish mark <slug>`. That is the only thing the renderer cannot know, and it is what the metrics work in `docs/metrics.md` joins on.
 
 ## The country pool
 

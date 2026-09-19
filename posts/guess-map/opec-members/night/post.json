@@ -32,7 +32,7 @@
       "index": 2,
       "file": "opec-members-02-answer.png",
       "kind": "answer",
-      "alt": "A world map. They are OPEC members. OPEC has 12 members and no producer in North America. Angola left in 2024.",
+      "alt": "A map. They are OPEC members. OPEC has 12 members and no producer in North America. Angola left in 2024.",
       "title": "They are OPEC members"
     },
     {
@@ -43,26 +43,20 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T03:09:08+00:00",
-  "git_sha": "60b1a2ddcbee2435052169b0599b8b0b3fe47e30",
+  "rendered_at": "2026-09-19T17:47:49+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "content/guess-map.yaml",
-  "config_hash": "10217ba507231faf",
+  "config_hash": "721cd1a282cee0e4",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
     "posted_at": null,
+    "notes": null,
     "youtube": {
       "video_id": "rbkbIkQsPMU",
       "url": "https://www.youtube.com/shorts/rbkbIkQsPMU",
       "posted_at": "2026-09-06"
     }
-  },
-  "audio": {
-    "title": "Comfortable Mystery 2",
-    "artist": "Kevin MacLeod",
-    "license": "CC BY 3.0",
-    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
-    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
   }
 }

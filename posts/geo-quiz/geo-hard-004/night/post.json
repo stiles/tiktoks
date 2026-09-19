@@ -1,7 +1,7 @@
 {
   "slug": "geo-hard-004",
   "format": "geo-quiz",
-  "theme": "paper",
+  "theme": "night",
   "difficulty": "hard",
   "topic": "world geography",
   "title": "Hard geography quiz",
@@ -120,27 +120,20 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-07T14:11:15+00:00",
-  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
+  "rendered_at": "2026-09-19T17:47:18+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "posts/geo-quiz/geo-hard-004/quiz.yaml",
   "config_hash": "3eb3c6097f5cf504",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": "2026-09-09",
+    "posted_at": null,
+    "notes": null,
     "youtube": {
-      "video_id": "dxd8nhRhBYI",
-      "url": "https://www.youtube.com/shorts/dxd8nhRhBYI",
-      "posted_at": "2026-09-07"
+      "video_id": null,
+      "url": null,
+      "posted_at": null
     }
-  },
-  "audio": {
-    "slug": "groovy-panda",
-    "title": "Groovy Panda",
-    "artist": "IamDayLight",
-    "license": "Artlist",
-    "source": "https://artlist.io/royalty-free-music",
-    "attribution": "Music: \"Groovy Panda\" by IamDayLight via Artlist"
   }
 }

@@ -1,0 +1,36 @@
+posted_at,slug,format,difficulty,theme,title,post_id,url,notes,youtube_id,youtube_posted_at
+2026-09-05,geo-easy-001,geo-quiz,easy,night,Easy geography quiz,,,,m8yk_bZnxg0,2026-09-06
+2026-09-05,geo-easy-002,geo-quiz,easy,night,Easy geography quiz,,,,2BiWS-my3uA,2026-09-06
+2026-09-05,geo-expert-001,geo-quiz,expert,night,Expert geography quiz,,,,aIQrA91VwCI,2026-09-06
+2026-09-05,geo-expert-002,geo-quiz,expert,night,Expert geography quiz,,,,-zJ4rJX0kfU,2026-09-06
+2026-09-05,geo-hard-001,geo-quiz,hard,night,Hard geography quiz,,,,Hb0x4JsR5PA,2026-09-06
+2026-09-05,geo-hard-002,geo-quiz,hard,night,Hard geography quiz,,,,dVrKIctTzJw,2026-09-06
+2026-09-05,geo-medium-001,geo-quiz,medium,night,Medium geography quiz,,,,_4pzU2L0MHs,2026-09-06
+2026-09-05,geo-medium-002,geo-quiz,medium,night,Medium geography quiz,,,,0UOrrt5cVeU,2026-09-06
+2026-09-06,average-household-size,guess-map,hard,night,Average household size,,,,,
+2026-09-06,black-population-share,guess-map,medium,night,Non-Hispanic Black population share,,,,,
+2026-09-06,geo-expert-003,geo-quiz,expert,paper,Expert geography quiz,,,,ScWtWyOVVlM,2026-09-06
+2026-09-06,geo-hard-003,geo-quiz,hard,paper,Hard geography quiz,,,,N7reUBrgKAM,2026-09-06
+2026-09-06,geo-medium-003,geo-quiz,medium,paper,Medium geography quiz,,,,99j8AR6qBbQ,2026-09-06
+2026-09-06,hispanic-population-share,guess-map,medium,night,Hispanic population share,,,,,
+2026-09-06,in-n-out-locations,guess-map,easy,night,In-N-Out Burger locations,,,,,
+2026-09-06,population,guess-map,easy,night,Population,,,,,
+2026-09-09,2026-ssa-name-trends,story,,,2026-ssa-name-trends,,,posted; no post.json in repo,,
+2026-09-09,2026-ssa-texas-top-names,story,,,2026-ssa-texas-top-names,,,posted; no post.json in repo,,
+2026-09-09,geo-easy-004,geo-quiz,easy,paper,Easy geography quiz,,,,Tb6gEEFo1dY,2026-09-07
+2026-09-09,geo-easy-005,geo-quiz,easy,,Easy geography quiz,,,in the old slug log; no post.json in repo,,
+2026-09-09,geo-expert-004,geo-quiz,expert,paper,Expert geography quiz,,,,kgEKKNJ_K0Q,2026-09-07
+2026-09-09,geo-expert-005,geo-quiz,expert,night,Expert geography quiz,,,,,
+2026-09-09,geo-hard-004,geo-quiz,hard,paper,Hard geography quiz,,,,dxd8nhRhBYI,2026-09-07
+2026-09-09,geo-hard-005,geo-quiz,hard,night,Hard geography quiz,,,,,
+2026-09-09,geo-medium-004,geo-quiz,medium,paper,Medium geography quiz,,,,5eV0xxXjUic,2026-09-07
+2026-09-09,geo-medium-005,geo-quiz,medium,,Medium geography quiz,,,in the old slug log; no post.json in repo,,
+2026-09-09,geo-silhouette-easy-001,geo-quiz,easy,night,Easy silhouette geography quiz,,,,,
+2026-09-09,geo-silhouette-hard-001,geo-quiz,hard,night,Hard silhouette geography quiz,,,,,
+2026-09-09,geo-silhouette-medium-001,geo-quiz,medium,,Medium silhouette geography quiz,,,in the old slug log as geo-silhoutte-medium-001; no post.json in repo,,
+2026-09-10,geo-silhouette-expert-001,geo-quiz,expert,night,Expert silhouette geography quiz,,,,,
+2026-09-13,2026-ssa-name-karen,story,,night,What happened to Karen?,,,,,
+2026-09-13,geo-expert-006,geo-quiz,expert,night,Expert geography quiz,,,,,
+2026-09-19,geo-expert-007,geo-quiz,expert,night,Expert geography quiz,,,,,
+2026-09-19,geo-expert-008,geo-quiz,expert,paper,Expert geography quiz,,,,,
+2026-09-19,geo-hard-006,geo-quiz,hard,night,Hard geography quiz,,,,,

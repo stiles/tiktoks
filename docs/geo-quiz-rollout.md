@@ -50,7 +50,7 @@ does the same, but adds a wider hint slide before the answer.
 3. Check the contact sheet at thumbnail size.
 4. Check every prompt slide for accidental hints from labels, neighboring shapes or framing.
 5. Check every answer slide for legibility and spelling.
-6. Keep a publish log with date, caption and any comments worth turning into a follow-up.
+6. After posting, `uv run tiktoks publish mark <slug>`. Add `--notes` for comments worth turning into a follow-up. `tiktoks publish status --unpublished` is the queue.
 
 ### Pool columns
 

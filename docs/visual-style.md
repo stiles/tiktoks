@@ -40,7 +40,7 @@ The `night` theme:
 - Muted text: `#949ba6`.
 - Land: `#333c47`.
 - Water: `#181d24`.
-- Borders: `#4b5563`.
+- Borders: `#62707e`.
 - Highlight: `#4fd1c5`.
 - Accent, used for the call-to-action pill: `#f6a623`.
 - No data: `#242a32`.

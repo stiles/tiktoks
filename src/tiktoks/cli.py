@@ -4,7 +4,7 @@ from shutil import copytree
 
 import click
 
-from tiktoks import batches, catalog, countries, stage, video, youtube
+from tiktoks import batches, catalog, countries, publish, stage, video, youtube
 from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
 from tiktoks.guess_map import CATALOG_PATH, render_catalog, render_guess_map
@@ -293,8 +293,66 @@ def stage_command(
     click.echo(f"{len(paths)} slides → {inbox}")
     if import_photos:
         click.echo("imported into Photos")
+    click.echo(f"after posting: uv run tiktoks publish mark {inbox.name}")
     if open_finder:
         subprocess.run(["open", str(inbox)], check=False)
+
+
+@main.group("publish")
+def publish_group() -> None:
+    """Record TikTok posts and see what has gone out."""
+
+
+@publish_group.command("mark")
+@click.argument("target")
+@click.option("--date", "posted_at", default=None, help="ISO date. Default is today.")
+@click.option("--url", default=None, help="TikTok URL. The video id is pulled off it.")
+@click.option("--post-id", default=None, help="TikTok post id, if you have it without a URL.")
+@click.option("--notes", default=None, help="Comments worth a follow-up, or anything else.")
+@click.option("--theme", default=None, help="When the same slug has more than one render.")
+@click.option("--force", is_flag=True, help="Overwrite an existing posted_at.")
+def publish_mark(
+    target: str,
+    posted_at: str | None,
+    url: str | None,
+    post_id: str | None,
+    notes: str | None,
+    theme: str | None,
+    force: bool,
+) -> None:
+    """Mark a post as published on TikTok. Updates post.json and data/publish.csv."""
+    try:
+        row = publish.record_tiktok(
+            target,
+            posted_at=posted_at,
+            post_id=post_id,
+            url=url,
+            notes=notes,
+            theme=theme,
+            force=force,
+        )
+    except (publish.PublishError, ValueError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    click.echo(f"{row['slug']} posted {row['posted_at']}")
+    if row.get("url"):
+        click.echo(row["url"])
+
+
+@publish_group.command("status")
+@click.option("--unpublished", is_flag=True, help="Only posts not yet marked on TikTok.")
+@click.option("--published", is_flag=True, help="Only posts already marked on TikTok.")
+def publish_status(unpublished: bool, published: bool) -> None:
+    """Show every render and whether it has gone out."""
+    if unpublished and published:
+        raise click.UsageError("Pass --unpublished or --published, not both.")
+    rows = publish.status_rows(unpublished=unpublished, published=published)
+    click.echo(publish.format_status(rows))
+
+
+@publish_group.command("log")
+def publish_log() -> None:
+    """Rewrite data/publish.csv from post.json files."""
+    click.echo(publish.write_log())
 
 
 @main.command("story")

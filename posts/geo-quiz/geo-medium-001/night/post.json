@@ -120,27 +120,20 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T03:08:43+00:00",
-  "git_sha": "60b1a2ddcbee2435052169b0599b8b0b3fe47e30",
+  "rendered_at": "2026-09-19T17:47:28+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "posts/geo-quiz/geo-medium-001/quiz.yaml",
   "config_hash": "032dfa13565e6713",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null,
+    "posted_at": "2026-09-05",
+    "notes": null,
     "youtube": {
       "video_id": "_4pzU2L0MHs",
       "url": "https://www.youtube.com/shorts/_4pzU2L0MHs",
       "posted_at": "2026-09-06"
     }
-  },
-  "audio": {
-    "slug": "comfortable-mystery",
-    "title": "Comfortable Mystery 2",
-    "artist": "Kevin MacLeod",
-    "license": "CC BY 3.0",
-    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100537",
-    "attribution": "Music: \"Comfortable Mystery 2\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 3.0 License\nhttp://creativecommons.org/licenses/by/3.0/"
   }
 }

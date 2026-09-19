@@ -43,14 +43,20 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-06T14:37:01+00:00",
-  "git_sha": "76e20b57e100cae0b814c9393e654e9fd1080fee",
+  "rendered_at": "2026-09-19T17:48:28+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "content/guess-map.yaml",
-  "config_hash": "1e90e0351799ce27",
+  "config_hash": "721cd1a282cee0e4",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null
+    "posted_at": "2026-09-06",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
   }
 }

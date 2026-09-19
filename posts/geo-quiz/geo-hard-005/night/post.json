@@ -134,15 +134,16 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-07T14:26:55+00:00",
-  "git_sha": "07347ea2ce6efd5645e83356278858409058811d",
+  "rendered_at": "2026-09-19T17:47:22+00:00",
+  "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "posts/geo-quiz/geo-hard-005/quiz.yaml",
   "config_hash": "b8db0d32b02cdbaf",
   "layout_problems": [],
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null,
+    "posted_at": "2026-09-09",
+    "notes": null,
     "youtube": {
       "video_id": null,
       "url": null,

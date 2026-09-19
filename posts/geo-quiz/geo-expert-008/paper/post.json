@@ -1,7 +1,7 @@
 {
   "slug": "geo-expert-008",
   "format": "geo-quiz",
-  "theme": "night",
+  "theme": "paper",
   "difficulty": "expert",
   "topic": "world geography",
   "title": "Expert geography quiz",
@@ -120,7 +120,7 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-19T17:47:06+00:00",
+  "rendered_at": "2026-09-19T17:30:29+00:00",
   "git_sha": "f7f25ce4b1276a5aad075d3ec451b145f400015f",
   "config": "posts/geo-quiz/geo-expert-008/quiz.yaml",
   "config_hash": "43cd512fef37ba13",
@@ -128,7 +128,7 @@
   "publish": {
     "post_id": null,
     "url": null,
-    "posted_at": null,
+    "posted_at": "2026-09-19",
     "notes": null,
     "youtube": {
       "video_id": null,

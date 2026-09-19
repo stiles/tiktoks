@@ -94,7 +94,7 @@ NIGHT = Theme(
     background="#14171c",
     text="#f4f2ee",
     muted="#949ba6",
-    border="#4b5563",
+    border="#62707e",
     water="#181d24",
     land="#333c47",
     highlight="#4fd1c5",
@@ -102,7 +102,7 @@ NIGHT = Theme(
     no_data="#242a32",
     badge_text="#14171c",
     sequential=("#0f3b3d", "#14615c", "#1a877c", "#2aab9c", "#4fd1c5", "#a5f0e7"),
-    map_line_width=0.5,
+    map_line_width=0.7,
     # A dark rim reads as a gap between the highlight and its neighbors. A light one
     # fringes every island, which wrecks a coastline like Canada's.
     highlight_edge_width=1.2,

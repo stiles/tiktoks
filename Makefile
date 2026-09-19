@@ -1,4 +1,4 @@
-.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check
+.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check publish-status
 
 setup:
 	uv sync --extra dev
@@ -18,6 +18,9 @@ quiz-progressive:
 
 quiz-status:
 	uv run tiktoks quiz status --validate
+
+publish-status:
+	uv run tiktoks publish status
 
 guess-map:
 	uv run tiktoks guess-map --config content/guess-map-csv-example/guess_map.yaml
