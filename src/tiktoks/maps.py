@@ -200,7 +200,12 @@ def core_parts(projected: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     areas = parts.area
     largest = parts.geometry.iloc[areas.to_numpy().argmax()]
     radius = max(400_000.0, float(areas.max()) ** 0.5)
-    near = parts[parts.distance(largest) <= radius]
+    keep = parts.distance(largest) <= radius
+    # Malaysia's peninsula and Borneo are both core regions, despite the sea
+    # between them. Keep both when choosing the projection center and window.
+    for column in (col for col in NAME_COLUMNS if col in parts.columns):
+        keep |= parts[column].astype(str).str.casefold().eq("malaysia")
+    near = parts[keep]
     return near if not near.empty else parts
 
 

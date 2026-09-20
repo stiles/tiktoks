@@ -123,8 +123,8 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-20T17:15:54+00:00",
-  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "rendered_at": "2026-09-20T17:23:46+00:00",
+  "git_sha": "fae198bce12b1c045d61f8656a4ec6e0dfc26717",
   "config": "content/neighbors-quiz/neighbors-001/quiz.yaml",
   "config_hash": "d2ed80b130b0726d",
   "layout_problems": [],

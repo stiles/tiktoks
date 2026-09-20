@@ -54,6 +54,19 @@ def test_microstates_keep_some_neighboring_land(countries):
     assert max(max_x - min_x, max_y - min_y) >= 250_000
 
 
+@pytest.mark.parametrize("detailed", [False, True])
+@pytest.mark.parametrize("center", [None, (110, 4)])
+def test_malaysia_frame_includes_peninsula_and_borneo(countries, detailed, center):
+    from tiktoks.maps import quiz_countries
+
+    source = quiz_countries() if detailed else countries
+    view = prepare_country(source, ["Malaysia"], center=center)
+    left, bottom, right, top = view.bounds
+    x0, y0, x1, y1 = view.target.total_bounds
+    assert left < x0 < x1 < right
+    assert bottom < y0 < y1 < top
+
+
 def test_antarctica_is_dropped(countries):
     assert len(drop_antarctica(countries)) < len(countries)
     assert "Antarctica" not in set(drop_antarctica(countries)["name"])
