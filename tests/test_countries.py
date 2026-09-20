@@ -62,6 +62,33 @@ def test_marking_rendered_advances_the_next_pick(pool):
     assert set(first) & set(second) == set()
 
 
+def test_same_day_batches_rotate_before_repeating_low_usage_countries(pool):
+    from datetime import UTC, datetime
+
+    frame = countries.load(pool)
+    frame["last_rendered"] = "2026-09-20"
+    frame["times_used"] = [1, 1, 20, 20, 1]
+    picks = []
+    for hour in (10, 11):
+        names = list(countries.select(frame, "easy", 2)["name"])
+        picks.extend(names)
+        countries.save(
+            countries.mark_rendered(frame, names, datetime(2026, 9, 20, hour, tzinfo=UTC)), pool
+        )
+        frame = countries.load(pool)
+    assert picks == ["Alpha", "Bravo", "Charlie", "Delta"]
+    assert list(countries.select(frame, "easy", 2)["name"]) == ["Alpha", "Bravo"]
+
+
+def test_default_usage_stamp_includes_time(pool):
+    from datetime import datetime
+
+    frame = countries.mark_rendered(countries.load(pool), ["Alpha"])
+    stamp = frame.set_index("name").loc["Alpha", "last_rendered"]
+    assert "T" in stamp
+    assert datetime.fromisoformat(stamp).tzinfo is not None
+
+
 def test_batch_writes_a_config_and_records_usage(pool, tmp_path):
     root = tmp_path / "quizzes"
     path, names = batches.build("easy", 2, root=root, catalog_path=pool)
@@ -74,6 +101,25 @@ def test_dry_run_changes_nothing(pool, tmp_path):
     path, names = batches.build("easy", 2, root=tmp_path, catalog_path=pool, commit=False)
     assert not path.exists()
     assert countries.load(pool)["times_used"].sum() == 3  # unchanged fixture total
+
+
+def test_master_shares_expert_pool_and_records_usage(pool, tmp_path):
+    from tiktoks.io import read_yaml
+
+    path, names = batches.build("master", 1, root=tmp_path, catalog_path=pool)
+    assert names == ["Echo"]
+    assert path.parent.name == "geo-master-001"
+    assert read_yaml(path)["difficulty"] == "master"
+    frame = countries.load(pool)
+    assert frame.set_index("name").loc["Echo", "times_used"] == 1
+    status = countries.status(frame).set_index("tier")
+    assert status.loc["master", "total"] == status.loc["expert", "total"] == 1
+
+
+def test_master_rejects_other_variants_before_writing(pool, tmp_path):
+    with pytest.raises(ValueError, match="isolated outlines"):
+        batches.build("master", 1, root=tmp_path, catalog_path=pool, variant="silhouette")
+    assert not (tmp_path / "geo-silhouette-master-001").exists()
 
 
 def test_batch_slugs_do_not_collide(pool, tmp_path):
@@ -214,4 +260,43 @@ def test_progressive_batch_inserts_a_hint_slide(tmp_path):
     kinds = [slide["kind"] for slide in manifest["slides"]]
     assert kinds == ["cover", "prompt", "hint", "answer", "scorecard"]
     assert manifest["topic"] == "world geography progressive reveals"
+    assert manifest["layout_problems"] == []
+
+
+def test_master_prompts_are_isolated_and_answers_restore_context(tmp_path, monkeypatch):
+    import json
+
+    from tiktoks import geo_quiz
+    from tiktoks.io import write_yaml
+
+    draws = []
+    outline = geo_quiz.draw_outline
+    highlight = geo_quiz.draw_highlight
+
+    def record_outline(ax, view, **kwargs):
+        draws.append(("outline", len(view.base)))
+        outline(ax, view, **kwargs)
+
+    def record_highlight(ax, view, **kwargs):
+        draws.append(("regional", len(view.base)))
+        highlight(ax, view, **kwargs)
+
+    monkeypatch.setattr(geo_quiz, "draw_outline", record_outline)
+    monkeypatch.setattr(geo_quiz, "draw_highlight", record_highlight)
+    config = tmp_path / "quiz.yaml"
+    write_yaml(
+        config,
+        {
+            "slug": "master-test",
+            "difficulty": "master",
+            "countries": [{"name": "Eswatini", "match_name": "Swaziland", "fact": "Test fact."}],
+        },
+    )
+    geo_quiz.render_geo_quiz(config)
+    assert draws[0] == ("outline", 1)
+    assert draws[1][0] == "regional" and draws[1][1] > 1
+    manifest = json.loads((tmp_path / "night" / "post.json").read_text())
+    assert [s["kind"] for s in manifest["slides"]] == ["cover", "prompt", "answer", "scorecard"]
+    assert manifest["slides"][1]["title"] is None  # no answer in prompt metadata
+    assert manifest["topic"] == "world geography outlines"
     assert manifest["layout_problems"] == []

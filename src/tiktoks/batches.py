@@ -32,6 +32,8 @@ def build(
     Returns the config path and the names chosen. With `commit=False` nothing is
     written, which is what `--dry-run` uses.
     """
+    if tier == "master" and variant != "classic":
+        raise ValueError("Master uses isolated outlines; omit --variant.")
     root = Path(root or QUIZ_ROOT)
     pool = countries.load(catalog_path)
     by_tier = variant == "classic"
@@ -57,6 +59,8 @@ def build(
         "built_on": date.today().isoformat(),
         "countries": countries.to_entries(chosen),
     }
+    if tier == "master":
+        config["topic"] = "world geography outlines"
     if variant != "classic":
         config["variant"] = variant
 

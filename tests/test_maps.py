@@ -13,6 +13,7 @@ from tiktoks.maps import (
     drop_antarctica,
     pad_bounds,
     prepare_country,
+    prepare_outline,
     prepare_region,
     prepare_world,
     prepare_world_projection,
@@ -183,3 +184,56 @@ def test_custom_world_projection_changes_the_world_frame(countries):
     mercator = prepare_world_projection(countries, "EPSG:3395")
     assert mercator.crs == "EPSG:3395"
     assert mercator.aspect < equal_earth.aspect
+
+
+def test_outline_fits_all_parts_and_draws_no_context(countries):
+    import matplotlib.pyplot as plt
+
+    from tiktoks.maps import draw_outline
+
+    # Chile includes distant islands that regional framing intentionally ignores.
+    view = prepare_outline(countries, "Chile")
+    left, bottom, right, top = view.bounds
+    x0, y0, x1, y1 = view.target.total_bounds
+    assert left < x0 < x1 < right
+    assert bottom < y0 < y1 < top
+    fig, ax = plt.subplots()
+    try:
+        draw_outline(ax, view, aspect=0.8)
+        assert len(ax.collections) == 1  # target only, no regional base layer
+        assert len(ax.patches) == 0  # no locator circle
+        assert ax.get_xlim()[0] <= x0 and ax.get_xlim()[1] >= x1
+        assert ax.get_ylim()[0] <= y0 and ax.get_ylim()[1] >= y1
+    finally:
+        plt.close(fig)
+
+
+def test_quiz_boundaries_are_detailed_and_keep_legacy_names(countries):
+    from shapely import get_num_coordinates
+
+    from tiktoks.maps import quiz_countries
+
+    detailed = quiz_countries()
+    for name in ("Swaziland", "Sao Tome and Principe", "Guinea-Bissau", "Tajikistan"):
+        target = country_match(detailed, [name])
+        assert len(target) == 1
+        assert (
+            get_num_coordinates(target.geometry).sum()
+            > get_num_coordinates(country_match(countries, [name]).geometry).sum()
+        )
+    assert len(country_match(detailed, ["Eswatini"])) == 1
+    # Loading quiz data must not rename columns in the cached original source.
+    from tiktoks.config import GIS_URLS
+    from tiktoks.maps import read_geography
+
+    assert "NAME" in read_geography(GIS_URLS["quiz_countries"]).columns
+
+
+def test_quiz_custom_boundary_file_is_respected(tmp_path, countries):
+    from tiktoks.maps import quiz_countries
+
+    path = tmp_path / "custom.geojson"
+    country_match(countries, ["Italy"]).to_file(path, driver="GeoJSON")
+    custom = quiz_countries(path)
+    assert len(custom) == 1
+    assert custom.iloc[0]["name"] == "Italy"

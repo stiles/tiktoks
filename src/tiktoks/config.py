@@ -24,6 +24,9 @@ AUDIO_CATALOG_PATH = AUDIO_DIR / "catalog.yaml"
 AUDIO_BED_PATH = AUDIO_DIR / "bed.mp3"
 
 GIS_URLS = {
+    "quiz_countries": (
+        "https://naturalearth.s3.amazonaws.com/10m_cultural/ne_10m_admin_0_countries.zip"
+    ),
     "countries": "https://stilesdata.com/gis/cnn-country-polys-50m.geojson",
     "country_lines": "https://stilesdata.com/gis/cnn-country-lines-50m.geojson",
     "disputed_lines": "https://stilesdata.com/gis/cnn-disputed-lines-50m.geojson",

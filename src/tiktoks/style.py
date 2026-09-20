@@ -86,6 +86,7 @@ PAPER = Theme(
         "medium": "#7353a4",
         "hard": "#d66a3f",
         "expert": "#9b2f2f",
+        "master": "#8a650b",
     },
 )
 
@@ -112,6 +113,7 @@ NIGHT = Theme(
         "medium": "#8ab4f8",
         "hard": "#f6a623",
         "expert": "#ff6b6b",
+        "master": "#f2c14e",
     },
 )
 
@@ -143,6 +145,7 @@ POSTER = Theme(
         "medium": "#4ade80",
         "hard": "#ff9f1c",
         "expert": "#ff4d3d",
+        "master": "#ffd166",
     },
 )
 

@@ -1,0 +1,209 @@
+slug: neighbors-001
+title: Know your neighbors.
+verified_on: '2026-09-20'
+archive_date: '2020-11-30'
+questions:
+- prompt: Which country is entirely surrounded by South Africa?
+  choices:
+  - Eswatini
+  - Lesotho
+  answer: B
+  explanation: Lesotho's only neighbor is South Africa.
+  source_label: 'Source: Australian DFAT'
+  sources:
+  - https://www.dfat.gov.au/geo/lesotho
+  factbook_keys:
+  - lesotho
+  map:
+    bounds:
+    - 22
+    - -33
+    - 34
+    - -24
+    highlight:
+    - Lesotho
+    labels:
+    - text: South Africa
+      lon: 25.5
+      lat: -27
+    - text: Lesotho
+      lon: 28.3
+      lat: -29.7
+    - text: Eswatini
+      lon: 31.5
+      lat: -26.5
+- prompt: Which country has more land neighbors?
+  choices:
+  - Austria
+  - Switzerland
+  answer: A
+  explanation: Austria borders eight countries. Switzerland borders five.
+  source_label: 'Sources: BMEIA; swisstopo'
+  sources:
+  - https://www.bmeia.gv.at/oev-wien/about-austria/geography
+  - https://www.swisstopo.admin.ch/en/national-border
+  factbook_keys:
+  - austria
+  - switzerland
+  map:
+    bounds:
+    - 5
+    - 44
+    - 19
+    - 51
+    highlight:
+    - Austria
+    secondary:
+    - Switzerland
+    labels:
+    - text: 'Austria: 8'
+      lon: 14
+      lat: 47.5
+    - text: 'Switzerland: 5'
+      lon: 8
+      lat: 46.7
+    - text: Germany
+      lon: 10
+      lat: 49.8
+    - text: Italy
+      lon: 11
+      lat: 44.8
+    - text: Hungary
+      lon: 17.5
+      lat: 47
+- prompt: Which country's only neighbors are China and Russia?
+  choices:
+  - Mongolia
+  - Kazakhstan
+  answer: A
+  explanation: Mongolia has just two land neighbors.
+  source_label: 'Source: Mongolia National Atlas'
+  sources:
+  - https://www.mongolianatlas.ac.mn/en/atlas/general
+  factbook_keys:
+  - mongolia
+  map:
+    bounds:
+    - 82
+    - 37
+    - 123
+    - 59
+    highlight:
+    - Mongolia
+    labels:
+    - text: Mongolia
+      lon: 103
+      lat: 46.5
+    - text: Russia
+      lon: 103
+      lat: 55
+    - text: China
+      lon: 108
+      lat: 39.5
+- prompt: Which country does NOT share a border with Brazil?
+  choices:
+  - Peru
+  - Chile
+  answer: B
+  explanation: Peru touches Brazil. Chile does not.
+  source_label: 'Source: IBGE'
+  sources:
+  - https://educa.ibge.gov.br/jovens/conheca-o-brasil/territorio/20591-introducao.html
+  factbook_keys:
+  - brazil
+  map:
+    bounds:
+    - -82
+    - -57
+    - -33
+    - 9
+    highlight:
+    - Chile
+    secondary:
+    - Brazil
+    labels:
+    - text: Brazil
+      lon: -52
+      lat: -11
+    - text: Peru
+      lon: -74
+      lat: -9
+    - text: Chile
+      lon: -73
+      lat: -30
+    - text: Argentina
+      lon: -62
+      lat: -35
+- prompt: Which country is doubly landlocked?
+  choices:
+  - Afghanistan
+  - Uzbekistan
+  answer: B
+  explanation: Uzbekistan is landlocked, and so is every country it borders.
+  source_label: 'Source: World Bank'
+  sources:
+  - https://www.worldbank.org/ext/en/country/uzbekistan
+  factbook_keys:
+  - uzbekistan
+  map:
+    bounds:
+    - 50
+    - 31
+    - 77
+    - 47
+    highlight:
+    - Uzbekistan
+    labels:
+    - text: Uzbekistan
+      lon: 63
+      lat: 41.8
+    - text: Kazakhstan
+      lon: 64
+      lat: 45.7
+    - text: Turkmenistan
+      lon: 57.7
+      lat: 38.5
+    - text: Afghanistan
+      lon: 65
+      lat: 34
+    - text: Kyrgyzstan
+      lon: 73
+      lat: 41.5
+    - text: Tajikistan
+      lon: 71.3
+      lat: 37.8
+- prompt: Which landlocked country has a Caspian Sea shore?
+  choices:
+  - Kazakhstan
+  - Kyrgyzstan
+  answer: A
+  explanation: Kazakhstan borders the Caspian Sea, an inland basin with no natural
+    ocean outlet.
+  source_label: 'Source: Kazakhstan government'
+  sources:
+  - https://www.gov.kz/article/19305?lang=en
+  - https://oq.gov.kz/en/abai/kaspiy-tenhizi
+  factbook_keys:
+  - kazakhstan
+  map:
+    bounds:
+    - 45
+    - 35
+    - 88
+    - 57
+    highlight:
+    - Kazakhstan
+    labels:
+    - text: Kazakhstan
+      lon: 67
+      lat: 48
+    - text: Caspian Sea
+      lon: 50
+      lat: 41
+      rotation: 90
+    - text: Kyrgyzstan
+      lon: 75
+      lat: 41
+    - text: Russia
+      lon: 65
+      lat: 55

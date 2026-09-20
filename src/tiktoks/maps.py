@@ -93,6 +93,25 @@ def world_countries(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
     return read_geography(str(path_or_url or GIS_URLS["countries"]))
 
 
+@lru_cache(maxsize=1)
+def _quiz_countries() -> gpd.GeoDataFrame:
+    """Natural Earth 10m, with names compatible with existing quiz configs."""
+    frame = read_geography(GIS_URLS["quiz_countries"]).copy()
+    frame.columns = frame.columns.str.lower()
+    # Preserve the source's long names while accepting historical pool match names.
+    frame["name"] = frame["name"].replace(
+        {"eSwatini": "Swaziland", "São Tomé and Principe": "Sao Tome and Principe"}
+    )
+    return frame
+
+
+def quiz_countries(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
+    """Detailed quiz geometry; explicit custom sources retain their own schema."""
+    if path_or_url is not None:
+        return read_geography(str(path_or_url))
+    return _quiz_countries()
+
+
 def world_lines(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
     return read_geography(str(path_or_url or GIS_URLS["country_lines"]))
 
@@ -350,6 +369,28 @@ def needs_locator(view: MapView, threshold: float = LOCATOR_THRESHOLD) -> bool:
     return float(view.target.area.sum()) / window < threshold
 
 
+def prepare_outline(countries: gpd.GeoDataFrame, name: str) -> MapView:
+    """Fit every part of a country, without regional framing or user zoom overrides."""
+    selected = country_match(countries, [name])
+    target = selected.to_crs(laea_crs(*center_of(selected)))
+    return MapView(target, pad_bounds(target.total_bounds, 0.12), target)
+
+
+def draw_outline(
+    ax: Axes,
+    view: MapView,
+    *,
+    theme: Theme | str | None = None,
+    aspect: float = 1.0,
+    color: str | None = None,
+) -> None:
+    """Draw only the target, with no neighboring land, borders or locator ring."""
+    theme = get_theme(theme)
+    ax.set_facecolor(theme.background)
+    view.target.plot(ax=ax, color=color or theme.highlight, edgecolor="none")
+    frame_axes(ax, view.bounds, aspect)
+
+
 def draw_highlight(
     ax: Axes,
     view: MapView,
@@ -368,9 +409,7 @@ def draw_highlight(
         ax=ax,
         color=theme.land,
         edgecolor=(border_color or theme.border) if borders else "none",
-        linewidth=(
-            border_width if border_width is not None else theme.map_line_width
-        )
+        linewidth=(border_width if border_width is not None else theme.map_line_width)
         if borders
         else 0,
     )

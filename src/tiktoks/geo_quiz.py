@@ -5,8 +5,11 @@ from tiktoks.maps import (
     MapView,
     draw_backdrop,
     draw_highlight,
+    draw_outline,
     prepare_country,
+    prepare_outline,
     prepare_world,
+    quiz_countries,
     world_countries,
 )
 from tiktoks.post import Post
@@ -20,9 +23,18 @@ BOUNDARY_SOURCE = "Boundaries: Natural Earth"
 # nobody measured.
 #
 # One hook per difficulty read as ten identical slides on the contact sheet, so
-# each tier gets a pool that rotates by position. Override per country with
-# `hook:` in the batch config.
+# each tier gets a pool that rotates by position. The post slug shifts the start
+# so a three-country quiz does not always open on the same three lines. Override
+# per country with `hook:` in the batch config.
 HOOKS = {
+    "master": [
+        "Just the outline. Name it.",
+        "Still on a perfect score?",
+        "No neighbors to help.",
+        "Take a closer look.",
+        "Trust your map memory.",
+        "Lock in your answer.",
+    ],
     "easy": [
         "Name it in three seconds.",
         "You learned this one in school.",
@@ -32,6 +44,14 @@ HOOKS = {
         "No excuse for missing this one.",
         "This one should go fast.",
         "Start the streak here.",
+        "Do not overthink it.",
+        "This is the freebie.",
+        "Say it out loud.",
+        "The easy one. Take it.",
+        "If you pause, we have a problem.",
+        "Point at the map and name it.",
+        "Warm-up round.",
+        "Everyone gets this.",
     ],
     "medium": [
         "Harder than it looks.",
@@ -42,16 +62,32 @@ HOOKS = {
         "This one takes a second.",
         "Close enough to know, hard enough to miss.",
         "The outline helps less than you think.",
+        "The name is on the tip of your tongue.",
+        "Looks familiar. That's the trap.",
+        "Don't name the neighbor.",
+        "You will know it after the swipe.",
+        "Easy to blank on.",
+        "Not the one you think.",
+        "Give it a beat.",
+        "You have seen this on a wall map.",
     ],
     "hard": [
         "This one separates the map nerds.",
         "Borders will not help you here.",
         "Think smaller.",
-        "Neighbors look almost identical.",
+        "Good luck with this one.",
         "This is where people lose the streak.",
         "You either know it or you don't.",
-        "Small shape, big miss rate.",
+        "Big miss rate.",
         "This one gets guessed wrong a lot.",
+        "The shape is the easy part.",
+        "This one eats a point.",
+        "Not a household name.",
+        "Wrong neighbor is a popular guess.",
+        "Pause if you have to.",
+        "You have heard of it. You cannot place it.",
+        "This is the trick one.",
+        "Smaller than you are picturing.",
     ],
     "expert": [
         "Almost nobody gets this one.",
@@ -62,6 +98,14 @@ HOOKS = {
         "Map nerd territory now.",
         "You only know this if you really know it.",
         "Tiny clue, big challenge.",
+        "Speck on the map.",
+        "No shame in missing it.",
+        "If you get this, comment.",
+        "This is the bonus round.",
+        "I had to look this one up.",
+        "This is the one to brag about.",
+        "Most people skip this.",
+        "The comments will fight on this one.",
     ],
 }
 
@@ -111,33 +155,45 @@ VARIANTS = {
 
 COVER_TITLE = "How many countries can you name?"
 
+MASTER_SPEC = {
+    "cover_title": "Expert too easy? Try master.",
+    "kicker": "Outline only",
+    "topic": "world geography outlines",
+    "mode": "two-beat",
+}
+
 SCORECARD = {
     "title": "How did you do?",
-    "dek": "Count your correct answers and put the number in the comments. No looking it up.",
+    "dek": "Tally your correct answers and put the number in the comments",
     "cue": "Comment your score",
 }
 
 
-def hook_for(item: dict, difficulty: str, index: int) -> str:
+def hook_for(item: dict, difficulty: str, index: int, *, salt: str = "") -> str:
     if item.get("hook"):
         return item["hook"]
     pool = HOOKS.get(difficulty, HOOKS["medium"])
-    return pool[(index - 1) % len(pool)]
+    start = sum(ord(ch) for ch in salt) % len(pool) if salt else 0
+    return pool[(start + index - 1) % len(pool)]
 
 
 def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -> list[Path]:
     config_path = Path(config_path)
     config = read_yaml(config_path)
     theme = get_theme(theme or config.get("theme"))
+    difficulty = config.get("difficulty", "medium")
     variant = config.get("variant", "classic")
+    if difficulty == "master" and variant != "classic":
+        raise ValueError("Master uses isolated outlines; omit variant from the config.")
     if variant not in VARIANTS:
         raise ValueError(
             f"Unknown quiz variant {variant!r}. Options: {', '.join(sorted(VARIANTS))}"
         )
-    variant_spec = VARIANTS[variant]
+    variant_spec = MASTER_SPEC if difficulty == "master" else VARIANTS[variant]
     output_dir = config_path.parent / theme.name
-    countries = world_countries(config.get("countries_geojson"))
-    difficulty = config.get("difficulty", "medium")
+    custom_source = config.get("countries_geojson")
+    countries = quiz_countries(custom_source)
+    cover_countries = world_countries(custom_source)
     color = theme.color_for(difficulty)
     items = config["countries"]
     total = len(items)
@@ -152,13 +208,23 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         title=config.get("title"),
         caption=config.get("caption"),
         hashtags=config.get("hashtags", ["geography", "geoguessr", "quiz", "maps"]),
-        sources=[BOUNDARY_SOURCE],
+        sources=[
+            BOUNDARY_SOURCE,
+            f"Country geometry: {custom_source}"
+            if custom_source
+            else "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+            f"Cover geometry: {custom_source}"
+            if custom_source
+            else "Cover geometry: CNN country polygons, 1:50 million",
+        ],
         config_path=config_path,
     )
 
     cover = _cover(config, theme, difficulty, color, total, variant_spec)
     backdrop, backdrop_aspect = cover.backdrop_axes()
-    draw_backdrop(backdrop, prepare_world(countries), theme=theme, aspect=backdrop_aspect, zoom=1.9)
+    draw_backdrop(
+        backdrop, prepare_world(cover_countries), theme=theme, aspect=backdrop_aspect, zoom=1.9
+    )
     cover.scrim(0.22 if theme.name == "paper" else 0.3)
     cover_title = config.get("cover_title", variant_spec["cover_title"])
     post.add(
@@ -172,7 +238,9 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     )
 
     for index, item in enumerate(items, start=1):
-        if variant_spec["mode"] == "three-beat":
+        if difficulty == "master":
+            _add_master_item(post, item, countries, theme, color, index, total)
+        elif variant_spec["mode"] == "three-beat":
             _add_progressive_item(
                 post, item, countries, theme, difficulty, color, index, total, variant_spec
             )
@@ -197,6 +265,26 @@ def _view_for(item: dict, countries, frame_zoom: float) -> MapView:
     )
 
 
+def _add_master_item(post, item, countries, theme, color, index, total) -> None:
+    outline = prepare_outline(countries, item.get("match_name") or item["name"])
+    prompt = _prompt(item, theme, "master", color, index, total, MASTER_SPEC, salt=post.slug)
+    prompt.dek("North is up. No surrounding land.")
+    answer = _answer(item, theme, "master", color, index, total)
+    slot = shared_slot(prompt, answer)
+    axes, aspect = prompt.map_axes(slot=slot)
+    draw_outline(axes, outline, theme=theme, aspect=aspect, color=color)
+    post.add(
+        prompt,
+        kind="prompt",
+        alt="An unlabeled country outline, north up, with no surrounding land.",
+    )
+    # Restore regional context for the reveal, even if a pool row requests a world view.
+    reveal = _view_for({**item, "context": "regional"}, countries, 1.0)
+    axes, aspect = answer.map_axes(slot=slot)
+    draw_highlight(axes, reveal, theme=theme, aspect=aspect, color=color)
+    post.add(answer, kind="answer", alt=_alt(item, "answer", False), title=item["name"])
+
+
 def _add_standard_item(
     post: Post,
     item: dict,
@@ -209,7 +297,7 @@ def _add_standard_item(
     variant_spec: dict,
 ) -> None:
     view = _view_for(item, countries, variant_spec["frame_by_difficulty"].get(difficulty, 1.0))
-    prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec)
+    prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec, salt=post.slug)
     answer = _answer(item, theme, difficulty, color, index, total)
     slot = shared_slot(prompt, answer)
     world = item.get("context") == "world"
@@ -251,7 +339,7 @@ def _add_progressive_item(
     reveal_border_color = (
         theme.muted if variant_spec.get("reveal_border_color") == "muted" else None
     )
-    prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec)
+    prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec, salt=post.slug)
     hint = _hint(item, theme, difficulty, color, index, total, variant_spec)
     answer = _answer(item, theme, difficulty, color, index, total)
     world = item.get("context") == "world"
@@ -298,6 +386,8 @@ def _prompt(
     index: int,
     total: int,
     variant_spec: dict,
+    *,
+    salt: str = "",
 ) -> Slide:
     slide = Slide(
         theme,
@@ -307,7 +397,7 @@ def _prompt(
         badge_color=color,
     )
     slide.kicker(f"{variant_spec['kicker']} · {difficulty}")
-    slide.title(hook_for(item, difficulty, index))
+    slide.title(hook_for(item, difficulty, index, salt=salt))
     return slide
 
 

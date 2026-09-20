@@ -1,0 +1,25 @@
+slug: geo-master-001
+title: Master geography quiz
+difficulty: master
+topic: world geography outlines
+built_from: content/countries.csv
+built_on: '2026-09-20'
+cover_title: You got 6/6 on expert. Try master.
+caption: 'You got 6/6 on expert. Try master. Six country outlines. North is up; no
+  neighboring land. Lock in each guess before swiping. How many did you get? #geography
+  #geoguessr #quiz #maps'
+countries:
+- name: Guinea-Bissau
+  fact: A small West African country with a ragged Atlantic coastline.
+- name: Burkina Faso
+  fact: Landlocked in West Africa, north of Ghana and Ivory Coast.
+- name: Tajikistan
+  fact: Mostly mountains. The Pamir range covers its eastern half.
+- name: Moldova
+  fact: Landlocked between Romania and Ukraine.
+- name: Eswatini
+  fact: Landlocked between South Africa and Mozambique. It was called Swaziland until
+    2018.
+  match_name: Swaziland
+- name: Suriname
+  fact: The smallest sovereign state in South America.

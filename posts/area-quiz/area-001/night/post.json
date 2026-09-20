@@ -1,0 +1,136 @@
+{
+  "slug": "area-001",
+  "format": "area-quiz",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "country land area",
+  "title": "Which country has more land?",
+  "caption": "Which country has more land? 6 matchups. Choose A or B before swiping. Land area excludes inland water. World Bank / FAO, 2023. Comment your score! #geography #quiz #maps",
+  "hashtags": [],
+  "sources": [
+    "https://data.worldbank.org/indicator/AG.LND.TOTL.K2",
+    "Land area excludes inland water bodies. Figures are FAO data distributed by the World Bank.",
+    "Outlines: Natural Earth 1:10 million; cover: CNN 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "area-001-01-cover.png",
+      "kind": "cover",
+      "alt": "Which country has more land? 6 two-choice questions.",
+      "title": null
+    },
+    {
+      "index": 2,
+      "file": "area-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: Italy. B: Japan.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "area-001-03-answer.png",
+      "kind": "answer",
+      "alt": "Japan has 23.3% more land. Italy: 295,720 square kilometers; Japan: 364,569 square kilometers. Country outlines shown at the same map scale.",
+      "title": "Japan"
+    },
+    {
+      "index": 4,
+      "file": "area-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: Egypt. B: Spain.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "area-001-05-answer.png",
+      "kind": "answer",
+      "alt": "Egypt has 99.2% more land. Egypt: 995,450 square kilometers; Spain: 499,697 square kilometers. Country outlines shown at the same map scale.",
+      "title": "Egypt"
+    },
+    {
+      "index": 6,
+      "file": "area-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: Germany. B: Finland.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "area-001-07-answer.png",
+      "kind": "answer",
+      "alt": "Germany has 15.0% more land. Germany: 349,430 square kilometers; Finland: 303,960 square kilometers. Country outlines shown at the same map scale.",
+      "title": "Germany"
+    },
+    {
+      "index": 8,
+      "file": "area-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: Kazakhstan. B: Argentina.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "area-001-09-answer.png",
+      "kind": "answer",
+      "alt": "Argentina has 1.4% more land. Kazakhstan: 2,699,700 square kilometers; Argentina: 2,736,690 square kilometers. Country outlines shown at the same map scale.",
+      "title": "Argentina"
+    },
+    {
+      "index": 10,
+      "file": "area-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: DR Congo. B: Algeria.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "area-001-11-answer.png",
+      "kind": "answer",
+      "alt": "Algeria has 5.1% more land. DR Congo: 2,267,050 square kilometers; Algeria: 2,381,740 square kilometers. Country outlines shown at the same map scale.",
+      "title": "Algeria"
+    },
+    {
+      "index": 12,
+      "file": "area-001-12-prompt.png",
+      "kind": "prompt",
+      "alt": "Which has more land? A: China. B: Canada.",
+      "title": null
+    },
+    {
+      "index": 13,
+      "file": "area-001-13-answer.png",
+      "kind": "answer",
+      "alt": "China has 6.8% more land. China: 9,388,210 square kilometers; Canada: 8,788,700 square kilometers. Country outlines shown at the same map scale.",
+      "title": "China"
+    },
+    {
+      "index": 14,
+      "file": "area-001-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "How many of the 6 questions did you get right?",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-20T17:05:25+00:00",
+  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "config": "content/area-quiz/area-001/quiz.yaml",
+  "config_hash": "5efd3094073bfe40",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

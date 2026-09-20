@@ -1,7 +1,7 @@
 # TikTok stories
 
 This repo holds code-driven posts for TikTok and YouTube Shorts: one-off data
-stories, geography quizzes and mystery maps.
+stories, geography quizzes, country area comparisons and mystery maps.
 
 Every post starts as a static `1080x1920` PNG slide. TikTok gets a carousel.
 YouTube Shorts gets an MP4 assembled from the same sequence. The code is Python
@@ -20,8 +20,12 @@ The crosswalk step is required once. The boundary file carries no ISO codes, so 
 
 ```bash
 make quiz TIER=medium    # build and render the next quiz batch
+make quiz TIER=master COUNT=6  # isolated outlines, regional answer reveals
 make quiz-silhouette TIER=hard  # borderless shape quiz; difficulty controls context zoom
 make quiz-progressive TIER=medium  # tight prompt, wider hint, then answer
+make area-quiz                 # land-area pilot, night theme
+make neighbors-quiz THEME=paper  # borders and landlocked-country pilot
+make area-quiz SLUG=area-001 THEME=paper  # choose a curated batch and theme
 make rebuild             # re-render every post from content/
 make quiz-status         # pool depth per tier, and validate every name
 make catalog         # render every guess-the-map post from the query catalog
@@ -42,6 +46,9 @@ uv run tiktoks quiz next --tier medium --count 3 --variant progressive
 uv run tiktoks quiz next --tier expert --count 3 --dry-run
 uv run tiktoks quiz status --validate
 uv run tiktoks geo-quiz --config posts/geo-quiz/geo-medium-001/quiz.yaml
+uv run tiktoks area-quiz --config content/area-quiz/area-001/quiz.yaml --theme night
+uv run tiktoks area-quiz --config content/area-quiz/area-001/quiz.yaml --theme paper
+uv run tiktoks neighbors-quiz --config content/neighbors-quiz/neighbors-001/quiz.yaml --theme paper
 uv run tiktoks catalog --slug nato-members
 uv run tiktoks catalog --all
 uv run tiktoks guess-map --config content/guess-map-csv-example/guess_map.yaml
@@ -64,12 +71,14 @@ Two rules cover most of it. You write in `content/`. The code writes to `posts/`
 ```
 content/                     everything written by hand
   countries.csv                the geo-quiz country pool
+  area-quiz/<slug>/            curated A/B questions, saved source data and methodology
   guess-map.yaml               the guess-the-map query catalog
   guess-map-csv-example/       a map built from a local CSV instead of a query
   stories/<slug>/              story config and its fetch, process and render scripts
   audio/                       default Shorts bed and its license sidecar
 
 posts/                       one directory per post, rebuildable from content/
+  area-quiz/<slug>/<theme>/     comparison quiz slides, contact sheet and post.json
   geo-quiz/<slug>/
     quiz.yaml                  tracked: what this post contained
     night/
@@ -111,6 +120,13 @@ uv run python scripts/safe_overlay.py path/to/slide.png
 ```
 
 Maps are projected before they are drawn. Country zooms use Lambert azimuthal equal area centered on the country; world maps use Equal Earth. `prepare_country` and `prepare_world` return a projected frame and the window to show it in, which lets the caller size the map box to the data instead of cropping it into a portrait slot.
+
+Quiz prompts, hints and answers use Natural Earth's 1:10-million Admin 0 country
+boundaries, cached locally on first use. Quiz covers and other world-map products
+keep the existing 1:50-million CNN polygons. The 10m loader accepts the legacy
+quiz names for Eswatini and São Tomé and Príncipe; `quiz status --validate` checks
+the detailed data. A quiz's `countries_geojson` override still supplies both its
+country maps and cover. Each quiz manifest records the geometry sources.
 
 A prompt and its answer share one map rect so the swipe reads as a reveal. See `shared_slot`.
 
@@ -233,6 +249,62 @@ Wikidata is not a membership registry, and a map with the wrong countries shaded
 5. Check the batch at thumbnail size before opening any single slide.
 6. When it goes out, run `tiktoks publish mark <slug>`. That is the only thing the renderer cannot know, and it is what the metrics work in `docs/metrics.md` joins on.
 
+## Country comparison quizzes
+
+### Know your neighbors
+
+The borders pilot uses six sourced A/B questions and labeled regional map reveals:
+
+```bash
+uv run tiktoks neighbors-quiz --config content/neighbors-quiz/neighbors-001/quiz.yaml --theme paper
+uv run tiktoks neighbors-quiz --config content/neighbors-quiz/neighbors-001/quiz.yaml --theme night
+make neighbors-quiz SLUG=neighbors-001 THEME=night
+```
+
+Outputs go to `posts/neighbors-quiz/neighbors-001/<theme>/`. The default is `night`;
+`paper` and `poster` are accepted too. See the [pilot guide](content/neighbors-quiz/neighbors-001/README.md)
+for verification sources, config fields and staging commands. It is curated
+separately from the country pool and is not included in `make rebuild`.
+
+### Land area
+
+For future topics, see [Factbook quiz ideas](docs/factbook-quiz-ideas.md): an audit
+of the archived source and candidates about borders, elevation and landlocked countries.
+
+`area-quiz` is the CLI content type for curated, two-choice land-area quizzes.
+It supports `night`, `paper`, and `poster`; omitting `--theme` uses `night`.
+For the pilot, run:
+
+```bash
+uv run tiktoks area-quiz --config content/area-quiz/area-001/quiz.yaml --theme night
+uv run tiktoks area-quiz --config content/area-quiz/area-001/quiz.yaml --theme paper
+uv run tiktoks area-quiz --help
+```
+
+Or use `make area-quiz SLUG=area-001 THEME=night`. The Make shortcut defaults to
+`area-001` and `night` when those variables are omitted.
+
+Each render writes 14 slides, a contact sheet and a manifest to
+`posts/area-quiz/area-001/<theme>/`. Night and paper outputs coexist, so rendering
+one theme does not replace the other. To prepare the night version for posting:
+
+```bash
+uv run tiktoks stage --dir posts/area-quiz/area-001/night --open
+uv run tiktoks video --dir posts/area-quiz/area-001/night
+```
+
+The saved 2023 World Bank/FAO figures determine the answers; reveals show country
+outlines at the same map scale. Source data and methodology live beside the config.
+Questions and answers label choices with colons: `A: Italy`, `B: Japan`.
+Paper-theme answer slides place the outlines directly on the cream background,
+without a blue water panel or border. Prompts show only the choices; answer maps
+and values appear after the swipe.
+
+See [the pilot guide](content/area-quiz/area-001/README.md) for data definitions,
+the config fields and instructions for making another batch. Comparison quizzes
+are curated separately from the country pool and do not change its usage counters.
+Render them with `area-quiz`; `make rebuild` does not include this format yet.
+
 ## The country pool
 
 Quiz batches are drawn from `content/countries.csv` rather than written by hand, so batch 020 does not repeat batch 003.
@@ -258,9 +330,26 @@ The pool holds 108 countries, 27 per tier. Selection is least-recently-used, rec
 
 Columns: `name` is what the answer slide says, `match_name` is the polygon to look up when the two differ (the boundary file still calls Eswatini "Swaziland"), and `center_lon`, `center_lat`, `zoom` and `context` override the default framing.
 
+Usage recency is recorded with a UTC timestamp so consecutive batches on the same
+day rotate through the pool before repeating low-use countries. Existing date-only
+records remain supported; lifetime use count breaks ties only after recency.
+
 Run `uv run tiktoks quiz status --validate` after editing the pool. It resolves every name against the boundary file, which beats a batch failing halfway through a render.
 
 ## Config options
+
+### Master quizzes
+
+`uv run tiktoks quiz next --tier master --count 6` builds an outline-only quiz.
+Master draws from the expert pool and shares its usage counters, so recent expert
+questions move to the back of the queue. It keeps the complete country outline,
+north up, with no surrounding land or locator rings. Each answer restores a
+regional map. Do not combine Master with `--variant`; its format is built in.
+`quiz status` shows Master as the same candidate pool as Expert, not extra countries.
+
+The first curated batch is `posts/geo-quiz/geo-master-001/quiz.yaml`.
+
+### Country overrides
 
 A batch config takes a `name` and `fact` per country, plus optional overrides. Match on the polygon `name` column, which uses short forms: `United States`, not `United States of America`.
 

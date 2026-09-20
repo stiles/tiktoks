@@ -1,0 +1,141 @@
+{
+  "slug": "geo-master-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "master",
+  "topic": "world geography outlines",
+  "title": "Master geography quiz",
+  "caption": "You got 6/6 on expert. Try master. Six country outlines. North is up; no neighboring land. Lock in each guess before swiping. How many did you get? #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth",
+    "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-master-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: You got 6/6 on expert. Try master. Difficulty master, 6 countries.",
+      "title": "You got 6/6 on expert. Try master."
+    },
+    {
+      "index": 2,
+      "file": "geo-master-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-master-001-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Guinea-Bissau highlighted and named. A small West African country with a ragged Atlantic coastline.",
+      "title": "Guinea-Bissau"
+    },
+    {
+      "index": 4,
+      "file": "geo-master-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-master-001-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Burkina Faso highlighted and named. Landlocked in West Africa, north of Ghana and Ivory Coast.",
+      "title": "Burkina Faso"
+    },
+    {
+      "index": 6,
+      "file": "geo-master-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-master-001-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Tajikistan highlighted and named. Mostly mountains. The Pamir range covers its eastern half.",
+      "title": "Tajikistan"
+    },
+    {
+      "index": 8,
+      "file": "geo-master-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-master-001-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Moldova highlighted and named. Landlocked between Romania and Ukraine.",
+      "title": "Moldova"
+    },
+    {
+      "index": 10,
+      "file": "geo-master-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-master-001-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Eswatini highlighted and named. Landlocked between South Africa and Mozambique. It was called Swaziland until 2018.",
+      "title": "Eswatini"
+    },
+    {
+      "index": 12,
+      "file": "geo-master-001-12-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 13,
+      "file": "geo-master-001-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Suriname highlighted and named. The smallest sovereign state in South America.",
+      "title": "Suriname"
+    },
+    {
+      "index": 14,
+      "file": "geo-master-001-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Tally your correct answers and put the number in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-20T15:20:02+00:00",
+  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "config": "posts/geo-quiz/geo-master-001/quiz.yaml",
+  "config_hash": "17e3f905bb267039",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": "2026-09-20",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

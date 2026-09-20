@@ -1,0 +1,141 @@
+{
+  "slug": "geo-master-006",
+  "format": "geo-quiz",
+  "theme": "paper",
+  "difficulty": "master",
+  "topic": "world geography outlines",
+  "title": "Master geography quiz",
+  "caption": "Master geography quiz Difficulty: master. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth",
+    "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-master-006-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Expert too easy? Try master. Difficulty master, 6 countries.",
+      "title": "Expert too easy? Try master."
+    },
+    {
+      "index": 2,
+      "file": "geo-master-006-02-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-master-006-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Palau highlighted and named. An island nation in the western Pacific, east of the Philippines.",
+      "title": "Palau"
+    },
+    {
+      "index": 4,
+      "file": "geo-master-006-04-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-master-006-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with San Marino highlighted and named. A microstate entirely surrounded by Italy.",
+      "title": "San Marino"
+    },
+    {
+      "index": 6,
+      "file": "geo-master-006-06-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-master-006-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Sao Tome and Principe highlighted and named. Two islands in the Gulf of Guinea, off Central Africa.",
+      "title": "Sao Tome and Principe"
+    },
+    {
+      "index": 8,
+      "file": "geo-master-006-08-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-master-006-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Seychelles highlighted and named. Islands in the Indian Ocean, northeast of Madagascar.",
+      "title": "Seychelles"
+    },
+    {
+      "index": 10,
+      "file": "geo-master-006-10-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-master-006-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with The Gambia highlighted and named. It follows a river inland, almost entirely surrounded by Senegal.",
+      "title": "The Gambia"
+    },
+    {
+      "index": 12,
+      "file": "geo-master-006-12-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled country outline, north up, with no surrounding land.",
+      "title": null
+    },
+    {
+      "index": 13,
+      "file": "geo-master-006-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Timor-Leste highlighted and named. It occupies the eastern half of an island north of Australia.",
+      "title": "Timor-Leste"
+    },
+    {
+      "index": 14,
+      "file": "geo-master-006-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Tally your correct answers and put the number in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-20T15:29:10+00:00",
+  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "config": "posts/geo-quiz/geo-master-006/quiz.yaml",
+  "config_hash": "8dfd668044a2c3d3",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

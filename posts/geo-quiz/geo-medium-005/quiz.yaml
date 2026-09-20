@@ -1,0 +1,19 @@
+slug: geo-medium-005
+title: Medium geography quiz
+difficulty: medium
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-09-19'
+countries:
+- name: Cuba
+  fact: The largest island in the Caribbean.
+- name: Ethiopia
+  fact: It lost its coastline when Eritrea became independent in 1993.
+- name: Finland
+  fact: It borders Russia, Sweden and Norway, with thousands of lakes inland.
+- name: Iceland
+  fact: A volcanic island in the North Atlantic, just below the Arctic Circle.
+- name: Iraq
+  fact: The Tigris and Euphrates run through it to the Persian Gulf.
+- name: Cambodia
+  fact: It wraps around the lower Mekong and the Tonle Sap in mainland Southeast Asia.

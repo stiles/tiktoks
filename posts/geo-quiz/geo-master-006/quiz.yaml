@@ -1,0 +1,22 @@
+slug: geo-master-006
+title: Master geography quiz
+difficulty: master
+topic: world geography outlines
+built_from: content/countries.csv
+built_on: '2026-09-20'
+countries:
+- name: Palau
+  fact: An island nation in the western Pacific, east of the Philippines.
+  zoom: 14.0
+- name: San Marino
+  fact: A microstate entirely surrounded by Italy.
+- name: Sao Tome and Principe
+  fact: Two islands in the Gulf of Guinea, off Central Africa.
+  zoom: 3.0
+- name: Seychelles
+  fact: Islands in the Indian Ocean, northeast of Madagascar.
+  zoom: 16.0
+- name: The Gambia
+  fact: It follows a river inland, almost entirely surrounded by Senegal.
+- name: Timor-Leste
+  fact: It occupies the eastern half of an island north of Australia.

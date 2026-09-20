@@ -30,6 +30,8 @@ Set `hero=True` on a title when the slide carries a world map. A world map is 2.
 - Sentence case, short headlines, a direct question on quiz prompts.
 - One short fact on answer slides.
 - Avoid rotated labels and dense legends.
+- For A/B country comparisons, use `A: Country` and `B: Country` on both prompt
+  and answer slides. Do not use bullets or middle dots between the letter and name.
 
 ## Color
 
@@ -48,6 +50,26 @@ The `night` theme:
 Difficulty sets the highlight and badge color: teal for easy, blue for medium, amber for hard, red for expert.
 
 Use one strong color per slide unless color encodes a real category. A single-measure bar chart stays one color.
+
+For area-comparison answers in `paper`, place the isolated country outlines
+directly on the cream background, without a blue panel or border. Blue behind
+unlocated silhouettes reads as water. Highlight the winner and mute the other
+country. This treatment is specific to comparisons; regional maps still use
+water to provide geographic context.
+
+## Country comparison quizzes
+
+Prompts show the question and two named choices, without maps or values. Answer
+slides identify the winning letter and country, show both values with units, and
+reveal the maps. Keep both answer maps at the same scale using equal-area
+projections; do not independently enlarge each outline to fill its panel.
+
+For land-area questions, state that inland water is excluded from the figures.
+Use “has more land” rather than “is larger” in answer headlines, and repeat the
+land-only definition on each prompt so the metric survives screenshots and sharing.
+The outlines include inland water, so retain the explanatory map note and use
+the sourced figures to determine the winner. Put the data source and year on
+the slides and retain the full source details beside the quiz config.
 
 ## Maps
 

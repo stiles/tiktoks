@@ -1,7 +1,11 @@
-.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check publish-status
+.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status area-quiz guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check publish-status
 
 setup:
 	uv sync --extra dev
+
+.PHONY: neighbors-quiz
+neighbors-quiz:
+	uv run tiktoks neighbors-quiz --config content/neighbors-quiz/$(or $(SLUG),neighbors-001)/quiz.yaml --theme $(or $(THEME),night)
 
 story:
 	uv run tiktoks story --slug $(SLUG)
@@ -18,6 +22,10 @@ quiz-progressive:
 
 quiz-status:
 	uv run tiktoks quiz status --validate
+
+# Render a curated land-area quiz; defaults to the pilot in the night theme.
+area-quiz:
+	uv run tiktoks area-quiz --config content/area-quiz/$(or $(SLUG),area-001)/quiz.yaml --theme $(or $(THEME),night)
 
 publish-status:
 	uv run tiktoks publish status

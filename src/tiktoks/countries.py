@@ -12,7 +12,7 @@ up where this one left off.
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import pandas as pd
@@ -20,7 +20,13 @@ import pandas as pd
 from tiktoks.config import COUNTRY_POOL_PATH
 
 CATALOG_PATH = COUNTRY_POOL_PATH
-TIERS = ("easy", "medium", "hard", "expert")
+TIERS = ("easy", "medium", "hard", "expert", "master")
+
+
+def tier_pool(frame: pd.DataFrame, tier: str) -> pd.DataFrame:
+    """Master shares expert candidates and usage; its challenge is the missing context."""
+    return frame[frame["tier"] == ("expert" if tier == "master" else tier)]
+
 
 COLUMNS = [
     "name",
@@ -69,7 +75,7 @@ def select(
     if by_tier:
         if tier not in TIERS:
             raise ValueError(f"Unknown tier {tier!r}. Options: {', '.join(TIERS)}")
-        pool = frame[frame["tier"] == tier]
+        pool = tier_pool(frame, tier)
         if pool.empty:
             raise ValueError(f"No countries in the {tier} tier")
         if len(pool) < count:
@@ -79,13 +85,22 @@ def select(
         if len(pool) < count:
             raise ValueError(f"Asked for {count} countries, the pool has {len(pool)}")
 
-    ordered = pool.sort_values(["last_rendered", "times_used", "name"], kind="stable")
-    return ordered.head(count)
+    # Legacy rows hold dates; new rows hold UTC timestamps. Parse both so offsets
+    # and date-only records compare chronologically, with never-used rows first.
+    ordered = pool.assign(
+        _recency=pd.to_datetime(pool["last_rendered"], format="mixed", utc=True)
+    ).sort_values(["_recency", "times_used", "name"], kind="stable", na_position="first")
+    return ordered.head(count).drop(columns="_recency")
 
 
-def mark_rendered(frame: pd.DataFrame, names: list[str], when: date | None = None) -> pd.DataFrame:
+def mark_rendered(
+    frame: pd.DataFrame, names: list[str], when: date | datetime | None = None
+) -> pd.DataFrame:
     """Bump the usage counters for the countries that just went into a batch."""
-    stamp = (when or date.today()).isoformat()
+    moment = when or datetime.now(UTC)
+    stamp = (
+        moment.astimezone(UTC).isoformat() if isinstance(moment, datetime) else moment.isoformat()
+    )
     chosen = frame["name"].isin(names)
     frame.loc[chosen, "times_used"] = frame.loc[chosen, "times_used"] + 1
     frame.loc[chosen, "last_rendered"] = stamp
@@ -127,7 +142,7 @@ def status(frame: pd.DataFrame) -> pd.DataFrame:
     """Per-tier pool depth, so it is obvious when a tier needs more countries."""
     rows = []
     for tier in TIERS:
-        pool = frame[frame["tier"] == tier]
+        pool = tier_pool(frame, tier)
         rows.append(
             {
                 "tier": tier,
@@ -149,9 +164,9 @@ def validate(frame: pd.DataFrame) -> list[str]:
     render rather than up front. Eswatini is the standing example: the boundary
     file still calls it Swaziland.
     """
-    from tiktoks.maps import country_match, world_countries
+    from tiktoks.maps import country_match, quiz_countries
 
-    countries = world_countries()
+    countries = quiz_countries()
     problems = []
     for _, row in frame.iterrows():
         lookup = row["match_name"] or row["name"]

@@ -1,0 +1,421 @@
+{
+  "archive_metadata": {
+    "date": "2020-11-30",
+    "parser_version": "0.0.4-beta",
+    "parsed_time": "2020-12-02 23:19:05 UTC"
+  },
+  "entries": {
+    "austria": {
+      "metadata": {
+        "date": "2020-11-27",
+        "source": "https://web.archive.org/web/20201127193829/https://www.cia.gov/library/publications/the-world-factbook/geos/au.html",
+        "nearby_dates": "https://web.archive.org/web/20201127000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/au.html"
+      },
+      "geography": {
+        "location": "Central Europe, north of Italy and Slovenia",
+        "land_boundaries": {
+          "total": {
+            "value": 2524,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "Czech Republic",
+              "border_length": {
+                "value": 402,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Germany",
+              "border_length": {
+                "value": 801,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Hungary",
+              "border_length": {
+                "value": 321,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Italy",
+              "border_length": {
+                "value": 404,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Liechtenstein",
+              "border_length": {
+                "value": 34,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Slovakia",
+              "border_length": {
+                "value": 105,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Slovenia",
+              "border_length": {
+                "value": 299,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Switzerland",
+              "border_length": {
+                "value": 158,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "landlocked"
+        }
+      }
+    },
+    "brazil": {
+      "metadata": {
+        "date": "2020-11-27",
+        "source": "https://web.archive.org/web/20201127195731/https://www.cia.gov/library/publications/the-world-factbook/geos/br.html",
+        "nearby_dates": "https://web.archive.org/web/20201127000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/br.html"
+      },
+      "geography": {
+        "location": "Eastern South America, bordering the Atlantic Ocean",
+        "land_boundaries": {
+          "total": {
+            "value": 16145,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "Argentina",
+              "border_length": {
+                "value": 1263,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Bolivia",
+              "border_length": {
+                "value": 3403,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Colombia",
+              "border_length": {
+                "value": 1790,
+                "units": "km"
+              }
+            },
+            {
+              "country": "French Guiana",
+              "border_length": {
+                "value": 649,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Guyana",
+              "border_length": {
+                "value": 1308,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Paraguay",
+              "border_length": {
+                "value": 1371,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Peru",
+              "border_length": {
+                "value": 2659,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Suriname",
+              "border_length": {
+                "value": 515,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Uruguay",
+              "border_length": {
+                "value": 1050,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Venezuela",
+              "border_length": {
+                "value": 2137,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 7491,
+          "units": "km"
+        }
+      }
+    },
+    "kazakhstan": {
+      "metadata": {
+        "date": "2020-11-27",
+        "source": "https://web.archive.org/web/20201127211454/https://www.cia.gov/library/publications/the-world-factbook/geos/kz.html",
+        "nearby_dates": "https://web.archive.org/web/20201127000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/kz.html"
+      },
+      "geography": {
+        "location": "Central Asia, northwest of China; a small portion west of the Ural (Zhayyq) River in easternmost Europe",
+        "land_boundaries": {
+          "total": {
+            "value": 13364,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "China",
+              "border_length": {
+                "value": 1765,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Kyrgyzstan",
+              "border_length": {
+                "value": 1212,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Russia",
+              "border_length": {
+                "value": 7644,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Turkmenistan",
+              "border_length": {
+                "value": 413,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Uzbekistan",
+              "border_length": {
+                "value": 2330,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "landlocked; note - Kazakhstan borders the Aral Sea, now split into two bodies of water (1,070 km), and the Caspian Sea 1,894 km"
+        }
+      }
+    },
+    "lesotho": {
+      "metadata": {
+        "date": "2020-11-27",
+        "source": "https://web.archive.org/web/20201127212531/https://www.cia.gov/library/publications/the-world-factbook/geos/lt.html",
+        "nearby_dates": "https://web.archive.org/web/20201127000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/lt.html"
+      },
+      "geography": {
+        "location": "Southern Africa, an enclave of South Africa",
+        "land_boundaries": {
+          "total": {
+            "value": 1106,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "South Africa",
+              "border_length": {
+                "value": 1106,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "landlocked"
+        }
+      }
+    },
+    "mongolia": {
+      "metadata": {
+        "date": "2020-11-27",
+        "source": "https://web.archive.org/web/20201127214755/https://www.cia.gov/library/publications/the-world-factbook/geos/mg.html",
+        "nearby_dates": "https://web.archive.org/web/20201127000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/mg.html"
+      },
+      "geography": {
+        "location": "Northern Asia, between China and Russia",
+        "land_boundaries": {
+          "total": {
+            "value": 8082,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "China",
+              "border_length": {
+                "value": 4630,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Russia",
+              "border_length": {
+                "value": 3452,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "landlocked"
+        }
+      }
+    },
+    "switzerland": {
+      "metadata": {
+        "date": "2020-11-29",
+        "source": "https://web.archive.org/web/20201129012533/https://www.cia.gov/library/publications/the-world-factbook/geos/sz.html",
+        "nearby_dates": "https://web.archive.org/web/20201129000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/sz.html"
+      },
+      "geography": {
+        "location": "Central Europe, east of France, north of Italy",
+        "land_boundaries": {
+          "total": {
+            "value": 1770,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "Austria",
+              "border_length": {
+                "value": 158,
+                "units": "km"
+              }
+            },
+            {
+              "country": "France",
+              "border_length": {
+                "value": 525,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Italy",
+              "border_length": {
+                "value": 698,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Liechtenstein",
+              "border_length": {
+                "value": 41,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Germany",
+              "border_length": {
+                "value": 348,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "landlocked"
+        }
+      }
+    },
+    "uzbekistan": {
+      "metadata": {
+        "date": "2020-11-30",
+        "source": "https://web.archive.org/web/20201130002911/https://www.cia.gov/library/publications/the-world-factbook/geos/uz.html",
+        "nearby_dates": "https://web.archive.org/web/20201130000000*/https://www.cia.gov/library/publications/the-world-factbook/geos/uz.html"
+      },
+      "geography": {
+        "location": "Central Asia, north of Turkmenistan, south of Kazakhstan",
+        "land_boundaries": {
+          "total": {
+            "value": 6893,
+            "units": "km"
+          },
+          "border_countries": [
+            {
+              "country": "Afghanistan",
+              "border_length": {
+                "value": 144,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Kazakhstan",
+              "border_length": {
+                "value": 2330,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Kyrgyzstan",
+              "border_length": {
+                "value": 1314,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Tajikistan",
+              "border_length": {
+                "value": 1312,
+                "units": "km"
+              }
+            },
+            {
+              "country": "Turkmenistan",
+              "border_length": {
+                "value": 1793,
+                "units": "km"
+              }
+            }
+          ]
+        },
+        "coastline": {
+          "value": 0,
+          "units": "km",
+          "note": "doubly landlocked); note - Uzbekistan includes the southern portion of the Aral Sea with a 420 km shoreline"
+        }
+      }
+    }
+  }
+}

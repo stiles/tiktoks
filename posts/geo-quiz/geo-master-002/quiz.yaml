@@ -1,0 +1,20 @@
+slug: geo-master-002
+title: Master geography quiz
+difficulty: master
+topic: world geography outlines
+built_from: content/countries.csv
+built_on: '2026-09-20'
+countries:
+- name: Timor-Leste
+  fact: It occupies the eastern half of an island north of Australia.
+- name: Togo
+  fact: One of Africa's narrowest countries, running inland from the Gulf of Guinea.
+- name: Turkmenistan
+  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.
+- name: Vanuatu
+  fact: An island chain in the South Pacific, east of Australia.
+  zoom: 4.0
+- name: Guinea-Bissau
+  fact: A small West African country with a ragged Atlantic coastline.
+- name: Montenegro
+  fact: A small Adriatic country wedged between Croatia and Albania.

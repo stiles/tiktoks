@@ -1,0 +1,51 @@
+slug: area-001
+title: Which country has more land?
+year: 2023
+indicator: AG.LND.TOTL.K2
+source_url: https://data.worldbank.org/indicator/AG.LND.TOTL.K2
+source_definition: Land area excludes inland water bodies. Figures are FAO data distributed
+  by the World Bank.
+questions:
+- choices:
+  - name: Italy
+    iso3: ITA
+    land_km2: 295720
+  - name: Japan
+    iso3: JPN
+    land_km2: 364569.27
+- choices:
+  - name: Egypt
+    iso3: EGY
+    land_km2: 995450
+  - name: Spain
+    iso3: ESP
+    land_km2: 499697.4
+- choices:
+  - name: Germany
+    iso3: DEU
+    land_km2: 349430
+  - name: Finland
+    iso3: FIN
+    land_km2: 303960
+- choices:
+  - name: Kazakhstan
+    iso3: KAZ
+    land_km2: 2699700
+  - name: Argentina
+    iso3: ARG
+    land_km2: 2736690
+- choices:
+  - name: DR Congo
+    iso3: COD
+    land_km2: 2267050
+    match_name: Dem. Rep. Congo
+  - name: Algeria
+    iso3: DZA
+    land_km2: 2381740
+- choices:
+  - name: China
+    iso3: CHN
+    land_km2: 9388210
+  - name: Canada
+    iso3: CAN
+    land_km2: 8788700

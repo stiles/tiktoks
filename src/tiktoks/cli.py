@@ -5,9 +5,11 @@ from shutil import copytree
 import click
 
 from tiktoks import batches, catalog, countries, publish, stage, video, youtube
+from tiktoks.area_quiz import render_area_quiz
 from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
 from tiktoks.guess_map import CATALOG_PATH, render_catalog, render_guess_map
+from tiktoks.neighbors_quiz import render_neighbors_quiz
 from tiktoks.style import THEMES
 
 
@@ -36,12 +38,28 @@ def geo_quiz(config_path: Path, theme: str | None) -> None:
     _echo(render_geo_quiz(config_path, theme=theme))
 
 
+@main.command("area-quiz")
+@config_option
+@theme_option
+def area_quiz(config_path: Path, theme: str | None) -> None:
+    """Render a two-choice country land-area quiz."""
+    _echo(render_area_quiz(config_path, theme=theme))
+
+
 @main.command("guess-map")
 @config_option
 @theme_option
 def guess_map(config_path: Path, theme: str | None) -> None:
     """Render one guess-the-map post from a directory config."""
     _echo(render_guess_map(config_path, theme=theme))
+
+
+@main.command("neighbors-quiz")
+@config_option
+@theme_option
+def neighbors_quiz(config_path: Path, theme: str | None) -> None:
+    """Render a curated A/B quiz about borders and landlocked countries."""
+    _echo(render_neighbors_quiz(config_path, theme=theme))
 
 
 @main.command("catalog")

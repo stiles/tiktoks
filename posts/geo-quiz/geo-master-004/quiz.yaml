@@ -1,0 +1,22 @@
+slug: geo-master-004
+title: Master geography quiz
+difficulty: master
+topic: world geography outlines
+built_from: content/countries.csv
+built_on: '2026-09-20'
+countries:
+- name: Guinea-Bissau
+  fact: A small West African country with a ragged Atlantic coastline.
+- name: Montenegro
+  fact: A small Adriatic country wedged between Croatia and Albania.
+- name: Comoros
+  fact: Islands in the channel between Madagascar and Mozambique.
+  zoom: 4.5
+- name: Djibouti
+  fact: It sits at the mouth of the Red Sea, across from Yemen.
+- name: Eswatini
+  fact: Landlocked between South Africa and Mozambique. It was called Swaziland until
+    2018.
+  match_name: Swaziland
+- name: Lesotho
+  fact: It is entirely surrounded by South Africa.

@@ -2,6 +2,12 @@
 
 Geo quizzes are carousel posts with alternating prompt and answer slides. The default format is three countries per post.
 
+The separate [land-area comparison pilot](../content/area-quiz/area-001/README.md)
+asks six A/B questions about countries instead of asking viewers to identify
+outlines. It uses `tiktoks area-quiz`, curated source-backed values, and its own
+configs under `content/area-quiz/`. It does not consume the country pool. Its
+14-slide sequence is cover, six question/answer pairs, and scorecard.
+
 ## Format
 
 - Slide 1: the cover. A world map behind the question, the difficulty, the country
@@ -21,10 +27,21 @@ in the batch config when a batch has a theme, such as island countries.
 - Medium: recognizable outline but less obvious to a general audience.
 - Hard: smaller country, similar neighbors or less familiar region.
 - Expert: enclaves, microstates, unusual borders or countries often missed on blank maps.
+- Master: expert-pool countries shown as isolated outlines, north up, with every
+  part retained. No surrounding land or locator rings on prompts; regional maps
+  return on answers. Run `tiktoks quiz next --tier master --count 6` without a
+  variant. Master shares the expert pool and usage counters.
 
 Difficulty should reflect the audience, not geography trivia purity. If the map needs a hint to be fair, lower the difficulty or make it a themed post.
 
 ## Batch workflow
+
+Prompts, hints and answer maps use Natural Earth 1:10-million country polygons.
+Cover backdrops retain the existing 1:50-million polygons. Both files are cached
+under `data/reference/`; rerender an existing config to use the detailed outlines
+without changing its country selection or usage counters. Natural Earth's default
+10m dataset uses de facto boundaries and is not a higher-resolution copy of the
+customized CNN file. Review disputed areas when they appear in a new batch.
 
 The country pool lives in `content/countries.csv`, not in this file. A
 batch is a query against it, and rendering records which countries were used, so
@@ -61,6 +78,9 @@ framing. `times_used` and `last_rendered` are written by the renderer.
 
 Selection is least-recently-used, recency first. Never-used countries come before
 used ones, and a country posted last week sorts behind one posted twice a year ago.
+New usage records include UTC timestamps so consecutive batches on the same day
+do not tie on recency. Legacy date-only records remain supported; lifetime use
+count is only a tiebreaker after recency.
 
 Run `uv run tiktoks quiz status --validate` after editing the pool. It checks every
 name against the boundary file, which is cheaper than a batch failing halfway

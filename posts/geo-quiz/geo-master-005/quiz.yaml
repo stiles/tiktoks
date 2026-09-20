@@ -1,0 +1,20 @@
+slug: geo-master-005
+title: Master geography quiz
+difficulty: master
+topic: world geography outlines
+built_from: content/countries.csv
+built_on: '2026-09-20'
+countries:
+- name: Guinea-Bissau
+  fact: A small West African country with a ragged Atlantic coastline.
+- name: Montenegro
+  fact: A small Adriatic country wedged between Croatia and Albania.
+- name: Liechtenstein
+  fact: A microstate between Switzerland and Austria.
+- name: Maldives
+  fact: Low-lying atolls southwest of India and Sri Lanka.
+  zoom: 6.0
+- name: Malta
+  fact: An island nation south of Sicily.
+- name: Mauritania
+  fact: It sits between Western Sahara and Senegal on the Atlantic coast.
