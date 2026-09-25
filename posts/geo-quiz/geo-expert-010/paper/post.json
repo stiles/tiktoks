@@ -1,0 +1,141 @@
+{
+  "slug": "geo-expert-010",
+  "format": "geo-quiz",
+  "theme": "paper",
+  "difficulty": "expert",
+  "topic": "world geography",
+  "title": "Expert geography quiz",
+  "caption": "Expert geography quiz Difficulty: expert. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth",
+    "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-expert-010-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: How many countries can you name? Difficulty expert, 6 countries.",
+      "title": "How many countries can you name?"
+    },
+    {
+      "index": 2,
+      "file": "geo-expert-010-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Togo"
+    },
+    {
+      "index": 3,
+      "file": "geo-expert-010-03-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Togo highlighted and named. One of Africa's narrowest countries, running inland from the Gulf of Guinea.",
+      "title": "Togo"
+    },
+    {
+      "index": 4,
+      "file": "geo-expert-010-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Turkmenistan"
+    },
+    {
+      "index": 5,
+      "file": "geo-expert-010-05-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Turkmenistan highlighted and named. It sits on the Caspian Sea, north of Iran and Afghanistan.",
+      "title": "Turkmenistan"
+    },
+    {
+      "index": 6,
+      "file": "geo-expert-010-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Vanuatu"
+    },
+    {
+      "index": 7,
+      "file": "geo-expert-010-07-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Vanuatu highlighted and named. An island chain in the South Pacific, east of Australia.",
+      "title": "Vanuatu"
+    },
+    {
+      "index": 8,
+      "file": "geo-expert-010-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Andorra"
+    },
+    {
+      "index": 9,
+      "file": "geo-expert-010-09-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Andorra highlighted and named. A microstate in the Pyrenees between France and Spain.",
+      "title": "Andorra"
+    },
+    {
+      "index": 10,
+      "file": "geo-expert-010-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Benin"
+    },
+    {
+      "index": 11,
+      "file": "geo-expert-010-11-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Benin highlighted and named. A narrow strip of West Africa between Togo and Nigeria.",
+      "title": "Benin"
+    },
+    {
+      "index": 12,
+      "file": "geo-expert-010-12-prompt.png",
+      "kind": "prompt",
+      "alt": "A regional map with one unlabeled country highlighted.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 13,
+      "file": "geo-expert-010-13-answer.png",
+      "kind": "answer",
+      "alt": "A regional map with Bhutan highlighted and named. A Himalayan kingdom between India and China.",
+      "title": "Bhutan"
+    },
+    {
+      "index": 14,
+      "file": "geo-expert-010-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Tally your correct answers and put the number in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-09-25T00:19:51+00:00",
+  "git_sha": "bb1f3267bd1f0166de11c557aeb09bd6acc6c196",
+  "config": "posts/geo-quiz/geo-expert-010/quiz.yaml",
+  "config_hash": "331b18837631b07e",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": "2026-09-24",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}
