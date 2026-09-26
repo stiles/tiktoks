@@ -7,6 +7,11 @@ Every post starts as a static `1080x1920` PNG slide. TikTok gets a carousel.
 YouTube Shorts gets an MP4 assembled from the same sequence. The code is Python
 because the early work is data, maps and batch exports.
 
+**[Browse the example gallery](EXAMPLES.md)** for globe, progressive, silhouette
+and outline quizzes, area comparisons, mystery maps and data stories.
+
+[![Globe quiz: prompt and answer](docs/examples/globe-quiz.jpg)](EXAMPLES.md)
+
 ## Setup
 
 ```bash

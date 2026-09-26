@@ -12,6 +12,9 @@ __pycache__/
 *.jpeg
 *.mp4
 
+# Compact, curated previews for the GitHub documentation gallery.
+!docs/examples/*.jpg
+
 # Throwaway renders from the review scripts.
 review/
 
