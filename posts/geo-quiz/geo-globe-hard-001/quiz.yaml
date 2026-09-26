@@ -1,0 +1,14 @@
+slug: geo-globe-hard-001
+title: Hard globe geography quiz
+difficulty: hard
+topic: world geography globe quiz
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: Zimbabwe
+  fact: Landlocked between Zambia, Mozambique, South Africa and Botswana.
+- name: Albania
+  fact: It faces Italy across the Adriatic, north of Greece.
+- name: Belize
+  fact: The only country in Central America with English as its official language.
+variant: globe

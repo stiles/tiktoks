@@ -1,0 +1,23 @@
+slug: geo-globe-expert-001
+title: Expert globe geography quiz
+difficulty: expert
+topic: world geography globe quiz
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: Maldives
+  fact: Low-lying atolls southwest of India and Sri Lanka.
+  zoom: 6.0
+- name: Malta
+  fact: An island nation south of Sicily.
+- name: Mauritania
+  fact: It sits between Western Sahara and Senegal on the Atlantic coast.
+- name: Palau
+  fact: An island nation in the western Pacific, east of the Philippines.
+  zoom: 14.0
+- name: San Marino
+  fact: A microstate entirely surrounded by Italy.
+- name: Sao Tome and Principe
+  fact: Two islands in the Gulf of Guinea, off Central Africa.
+  zoom: 3.0
+variant: globe

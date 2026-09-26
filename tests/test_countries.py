@@ -140,13 +140,19 @@ def test_silhouette_batches_use_global_selection_and_own_slug(pool, tmp_path):
     assert "variant: silhouette" in config
 
 
-def test_progressive_batches_use_global_selection_and_own_slug(pool, tmp_path):
+def test_progressive_batches_respect_difficulty_and_use_own_slug(pool, tmp_path):
     root = tmp_path / "quizzes"
-    path, names = batches.build("hard", 2, root=root, catalog_path=pool, variant="progressive")
-    assert names == ["Alpha", "Bravo"]
-    assert path.parent.name == "geo-progressive-hard-001"
+    path, names = batches.build("expert", 1, root=root, catalog_path=pool, variant="progressive")
+    assert names == ["Echo"]
+    assert path.parent.name == "geo-progressive-expert-001"
     config = path.read_text()
     assert "variant: progressive" in config
+
+
+def test_progressive_does_not_fill_expert_batch_with_easy_countries(pool, tmp_path):
+    with pytest.raises(ValueError, match="the pool has 1"):
+        batches.build("expert", 2, root=tmp_path, catalog_path=pool, variant="progressive")
+    assert not (tmp_path / "geo-progressive-expert-001").exists()
 
 
 def test_entries_drop_blank_overrides(pool):

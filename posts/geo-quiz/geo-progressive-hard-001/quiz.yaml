@@ -1,0 +1,19 @@
+slug: geo-progressive-hard-001
+title: Hard progressive geography quiz
+difficulty: hard
+topic: world geography progressive reveals
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: Iran
+  fact: It bridges the Persian Gulf and the Caspian world between the Middle East
+    and Central Asia.
+- name: Papua New Guinea
+  fact: It occupies the eastern half of New Guinea just north of Australia.
+- name: Sweden
+  fact: It runs down the eastern side of the Scandinavian Peninsula.
+- name: Ukraine
+  fact: The largest country lying entirely within Europe.
+- name: United Kingdom
+  fact: It includes England, Scotland, Wales and Northern Ireland.
+variant: progressive

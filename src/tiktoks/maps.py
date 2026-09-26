@@ -18,6 +18,7 @@ import requests
 from matplotlib.axes import Axes
 from matplotlib.colors import ListedColormap
 from matplotlib.patches import Circle
+from shapely.geometry import Point
 from shapely.ops import transform
 
 from tiktoks.config import CROSSWALK_PATH, GIS_URLS, REFERENCE_DIR
@@ -337,6 +338,71 @@ def prepare_region(
 
 
 # Drawing
+
+GLOBE_RADIUS = 6_371_000
+GLOBE_RED = "#d5263d"
+
+
+def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
+    """Clip to the visible hemisphere before orthographic projection.
+
+    An intermediate equal-area disk keeps horizon-crossing polygons finite.
+    The target sets orientation, while every globe retains a full hemisphere.
+    """
+    selected = country_match(countries, [name])
+    rough = selected.to_crs(laea_crs(*center_of(selected)))
+    lon, lat = center_of(core_parts(rough).to_crs("EPSG:4326"))
+    # A little northward tilt puts the target below the globe's center.
+    lat = float(np.clip(lat + 15, -70, 70))
+    common = f"+lat_0={lat} +lon_0={lon} +R={GLOBE_RADIUS} +units=m +no_defs"
+    intermediate = f"+proj=laea {common}"
+    ortho = f"+proj=ortho {common}"
+    disk = Point(0, 0).buffer(2 * GLOBE_RADIUS * np.sin(np.radians(89.9) / 2), quad_segs=256)
+
+    def project(frame):
+        projected = frame.to_crs(intermediate).copy()
+        projected.geometry = projected.geometry.make_valid().intersection(disk)
+        projected = projected.loc[~projected.geometry.is_empty]
+        # Both projections use the same sphere and center. Convert the radial
+        # coordinates directly, avoiding an unstable longitude at the poles.
+        def to_ortho(x, y, z=None):
+            x, y = np.asarray(x), np.asarray(y)
+            factor = np.sqrt(np.maximum(0, 1 - (x * x + y * y) / (4 * GLOBE_RADIUS**2)))
+            return x * factor, y * factor
+
+        projected.geometry = projected.geometry.map(lambda geom: transform(to_ortho, geom))
+        projected = projected.set_crs(ortho, allow_override=True)
+        # Curving the clipped edges can introduce tiny ring intersections.
+        projected.geometry = projected.geometry.make_valid()
+        return projected
+
+    base = project(near_center(countries, (lon, lat)))
+    target = project(selected)
+    radius = GLOBE_RADIUS * 1.025
+    return MapView(base, (-radius, -radius, radius, radius), target, crs=ortho)
+
+
+def draw_globe(ax: Axes, view: MapView, *, aspect: float = 1.0) -> None:
+    """A physical-globe palette, independent of the slide's theme."""
+    ax.add_patch(
+        Circle(
+            (0, 0), GLOBE_RADIUS, facecolor="#b8dfea", edgecolor="#79a7b8", linewidth=1.2, zorder=0
+        )
+    )
+    view.base.plot(ax=ax, color="#faf5df", edgecolor="#7e8378", linewidth=0.45)
+    view.target.plot(ax=ax, color=GLOBE_RED, edgecolor="#962637", linewidth=0.65)
+    frame_axes(ax, view.bounds, aspect)
+    if needs_locator(view):
+        point = view.target.union_all().representative_point()
+        ax.add_patch(
+            Circle(
+                (point.x, point.y),
+                GLOBE_RADIUS * 0.045,
+                facecolor="none",
+                edgecolor=GLOBE_RED,
+                linewidth=1.5,
+            )
+        )
 
 
 def frame_axes(ax: Axes, bounds, aspect: float) -> None:

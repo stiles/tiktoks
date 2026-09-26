@@ -1,12 +1,16 @@
+from dataclasses import replace
 from pathlib import Path
 
 from tiktoks.io import read_yaml
 from tiktoks.maps import (
+    GLOBE_RED,
     MapView,
     draw_backdrop,
+    draw_globe,
     draw_highlight,
     draw_outline,
     prepare_country,
+    prepare_globe,
     prepare_outline,
     prepare_world,
     quiz_countries,
@@ -110,6 +114,12 @@ HOOKS = {
 }
 
 VARIANTS = {
+    "globe": {
+        "cover_title": "Name the country in red.",
+        "kicker": "Globe quiz",
+        "topic": "world geography globe quiz",
+        "mode": "two-beat",
+    },
     "classic": {
         "borders": True,
         "cover_title": "How many countries can you name?",
@@ -183,6 +193,8 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     theme = get_theme(theme or config.get("theme"))
     difficulty = config.get("difficulty", "medium")
     variant = config.get("variant", "classic")
+    if variant == "globe":
+        theme = replace(theme, map_panel=False)
     if difficulty == "master" and variant != "classic":
         raise ValueError("Master uses isolated outlines; omit variant from the config.")
     if variant not in VARIANTS:
@@ -194,7 +206,7 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     custom_source = config.get("countries_geojson")
     countries = quiz_countries(custom_source)
     cover_countries = world_countries(custom_source)
-    color = theme.color_for(difficulty)
+    color = GLOBE_RED if variant == "globe" else theme.color_for(difficulty)
     items = config["countries"]
     total = len(items)
 
@@ -238,7 +250,9 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     )
 
     for index, item in enumerate(items, start=1):
-        if difficulty == "master":
+        if variant == "globe":
+            _add_globe_item(post, item, countries, theme, difficulty, color, index, total)
+        elif difficulty == "master":
             _add_master_item(post, item, countries, theme, color, index, total)
         elif variant_spec["mode"] == "three-beat":
             _add_progressive_item(
@@ -252,6 +266,28 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     post.add(_scorecard(theme, difficulty, color, total), kind="scorecard", alt=SCORECARD["dek"])
     post.finish()
     return post.paths
+
+
+def _add_globe_item(post, item, countries, theme, difficulty, color, index, total):
+    view = prepare_globe(countries, item.get("match_name") or item["name"])
+    prompt = _prompt(
+        {**item, "hook": "Name the country in red."},
+        theme,
+        difficulty,
+        color,
+        index,
+        total,
+        VARIANTS["globe"],
+    )
+    answer = _answer(item, theme, difficulty, color, index, total)
+    slot = shared_slot(prompt, answer)
+    for kind, slide in (("prompt", prompt), ("answer", answer)):
+        axes, aspect = slide.map_axes(slot=slot, data_aspect=1.0)
+        draw_globe(axes, view, aspect=aspect)
+        alt = "An unlabeled globe with one country highlighted in red."
+        if kind == "answer":
+            alt = f"{item['name']} highlighted in red on a globe."
+        post.add(slide, kind=kind, alt=alt, title=item["name"] if kind == "answer" else None)
 
 
 def _view_for(item: dict, countries, frame_zoom: float) -> MapView:
@@ -317,6 +353,23 @@ def _add_standard_item(
         post.add(slide, kind=kind, alt=_alt(item, kind, world), title=item["name"])
 
 
+def _progressive_views(item, countries, difficulty: str, variant_spec: dict):
+    # Scale the completed window, not prepare_country's minimum context span:
+    # large countries exceed that minimum and otherwise never zoom out.
+    base = _view_for({**item, "context": "regional"}, countries, 1.0)
+    left, bottom, right, top = base.bounds
+    cx, cy = (left + right) / 2, (bottom + top) / 2
+
+    def scaled(factor):
+        half_w, half_h = (right - left) * factor / 2, (top - bottom) * factor / 2
+        return replace(base, bounds=(cx - half_w, cy - half_h, cx + half_w, cy + half_h))
+
+    return (
+        scaled(variant_spec["prompt_frame_by_difficulty"].get(difficulty, 1.0)),
+        scaled(variant_spec["reveal_frame_by_difficulty"].get(difficulty, 1.0)),
+    )
+
+
 def _add_progressive_item(
     post: Post,
     item: dict,
@@ -328,12 +381,7 @@ def _add_progressive_item(
     total: int,
     variant_spec: dict,
 ) -> None:
-    prompt_view = _view_for(
-        item, countries, variant_spec["prompt_frame_by_difficulty"].get(difficulty, 1.0)
-    )
-    reveal_view = _view_for(
-        item, countries, variant_spec["reveal_frame_by_difficulty"].get(difficulty, 1.0)
-    )
+    prompt_view, reveal_view = _progressive_views(item, countries, difficulty, variant_spec)
     reveal_borders = variant_spec.get("reveal_borders_by_difficulty", {}).get(difficulty, False)
     reveal_border_width = variant_spec.get("reveal_border_width_by_difficulty", {}).get(difficulty)
     reveal_border_color = (
@@ -342,9 +390,11 @@ def _add_progressive_item(
     prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec, salt=post.slug)
     hint = _hint(item, theme, difficulty, color, index, total, variant_spec)
     answer = _answer(item, theme, difficulty, color, index, total)
-    world = item.get("context") == "world"
+    world = False
+    slot = shared_slot(prompt, hint, answer)
 
     prompt_axes, prompt_aspect = prompt.map_axes(
+        slot=slot,
         data_aspect=prompt_view.aspect if world else None,
         bleed=world,
     )
@@ -358,10 +408,9 @@ def _add_progressive_item(
     )
     post.add(prompt, kind="prompt", alt=_alt(item, "prompt", world), title=item["name"])
 
-    reveal_slot = shared_slot(hint, answer)
     for kind, slide in (("hint", hint), ("answer", answer)):
         axes, aspect = slide.map_axes(
-            slot=reveal_slot,
+            slot=slot,
             data_aspect=reveal_view.aspect if world else None,
             bleed=world,
         )

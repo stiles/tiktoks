@@ -60,7 +60,8 @@ the usage counters. The batch config stays on disk as the record of what the pos
 contained, and can be edited before re-rendering. `--variant silhouette` writes
 to `posts/geo-quiz/geo-silhouette-<tier>-NNN/quiz.yaml` and uses the tier as the
 amount of orientation help rather than a separate country pool. `--variant progressive`
-does the same, but adds a wider hint slide before the answer.
+uses countries from the requested difficulty tier and adds a wider hint slide
+before the answer. Its tier controls both country selection and framing.
 
 1. Check the pool has depth in the tier you want.
 2. Build the batch.
@@ -99,6 +100,18 @@ Progressive quizzes are the reveal variant:
 - Prompt: a tighter frame
 - Hint: a wider view of the same country
 - Answer: the same wider frame, now labeled
+
+Globe quizzes (`--variant globe`, or `make quiz-globe TIER=hard`) use an
+orthographic hemisphere with light blue water, cream land, visible borders and
+a red target. The prompt asks for the country in red; the answer keeps the same
+view and adds the name and fact. Small targets get a locator ring. Selection
+honors the country tier. Globe orientation follows the target, independently of
+the pool's regional center/zoom overrides. Master remains an outline-only format.
+
+All three maps share a fixed position and size. Frame multipliers scale the
+completed regional window, so large countries zoom out too. Progressive uses
+regional framing even for pool entries with `context: world`; center and zoom
+overrides still set the starting regional view.
 
 On easier progressive tiers, the hint and answer can add country borders back in.
 That keeps the first beat as a real shape guess, then makes the reveal feel more

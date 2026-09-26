@@ -100,12 +100,12 @@ def quiz() -> None:
 @click.option("--slug", default=None, help="Batch directory name. Auto-numbered by default.")
 @click.option(
     "--variant",
-    type=click.Choice(["classic", "silhouette", "progressive"]),
+    type=click.Choice(["classic", "silhouette", "progressive", "globe"]),
     default="classic",
     show_default=True,
     help=(
         "Quiz format. Silhouette is borderless; progressive adds a wider hint slide "
-        "before the answer."
+        "before the answer; globe highlights a country in red on a hemisphere."
     ),
 )
 @click.option("--dry-run", is_flag=True, help="Show the picks without writing anything.")

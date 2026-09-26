@@ -1,0 +1,18 @@
+slug: geo-silhouette-hard-002
+title: Hard silhouette geography quiz
+difficulty: hard
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: Paraguay
+  fact: Landlocked between Brazil, Argentina and Bolivia.
+- name: South Africa
+  fact: It sits at the southern end of the African continent.
+- name: Spain
+  fact: It shares the Iberian Peninsula with Portugal.
+- name: Armenia
+  fact: A small landlocked country in the South Caucasus east of Turkey.
+- name: Botswana
+  fact: Landlocked in southern Africa, with the Okavango Delta in its northwest.
+variant: silhouette

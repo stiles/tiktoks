@@ -23,6 +23,7 @@ make quiz TIER=medium    # build and render the next quiz batch
 make quiz TIER=master COUNT=6  # isolated outlines, regional answer reveals
 make quiz-silhouette TIER=hard  # borderless shape quiz; difficulty controls context zoom
 make quiz-progressive TIER=medium  # tight prompt, wider hint, then answer
+make quiz-globe TIER=hard  # country in red on a globe, then the answer
 make area-quiz                 # land-area pilot, night theme
 make neighbors-quiz THEME=paper  # borders and landlocked-country pilot
 make area-quiz SLUG=area-001 THEME=paper  # choose a curated batch and theme
@@ -326,7 +327,7 @@ done
 
 That example is five quizzes in each tier, three countries each, in the paper theme. Each pass writes usage back to the pool so the next pick does not repeat the last one. `--dry-run` does not write usage, so looping a dry run shows the same countries every time.
 
-The pool holds 108 countries, 27 per tier. Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained. Silhouette and progressive batches write to `posts/geo-quiz/geo-<variant>-<tier>-NNN/quiz.yaml` and draw from the whole pool, because there the tier is the amount of context rather than the country bucket.
+The pool holds 108 countries, 27 per tier. Selection is least-recently-used, recency ahead of use count: never-used countries first, then whatever ran longest ago. Rendering writes `times_used` and `last_rendered` back, and the batch config lands in `posts/geo-quiz/geo-<tier>-NNN/quiz.yaml` as the record of what the post contained. Silhouette and progressive batches write to `posts/geo-quiz/geo-<variant>-<tier>-NNN/quiz.yaml`. Progressive draws from the requested country tier, with difficulty also controlling the framing. Silhouette draws from the whole pool and uses the tier to control context only.
 
 Columns: `name` is what the answer slide says, `match_name` is the polygon to look up when the two differ (the boundary file still calls Eswatini "Swaziland"), and `center_lon`, `center_lat`, `zoom` and `context` override the default framing.
 

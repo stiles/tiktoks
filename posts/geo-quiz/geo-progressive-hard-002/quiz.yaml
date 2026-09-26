@@ -1,0 +1,20 @@
+slug: geo-progressive-hard-002
+title: Hard progressive geography quiz
+difficulty: hard
+topic: world geography progressive reveals
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: Senegal
+  fact: It wraps around the Gambia on Africa's westernmost coast.
+- name: Slovenia
+  fact: It sits between the Alps and the Adriatic, south of Austria.
+- name: Sri Lanka
+  fact: An island off the southeastern tip of India.
+- name: Tunisia
+  fact: The northernmost country in Africa.
+- name: Uruguay
+  fact: It sits between Brazil and Argentina on the Atlantic coast.
+- name: Zambia
+  fact: Victoria Falls sits on its border with Zimbabwe.
+variant: progressive

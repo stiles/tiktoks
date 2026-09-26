@@ -1,0 +1,21 @@
+slug: geo-globe-easy-001
+title: Easy globe geography quiz
+difficulty: easy
+topic: world geography globe quiz
+built_from: content/countries.csv
+built_on: '2026-09-26'
+countries:
+- name: China
+  fact: It borders 14 countries, from Russia to Vietnam.
+- name: Egypt
+  fact: The Nile runs through it before reaching the Mediterranean Sea.
+- name: France
+  fact: It borders both the Atlantic Ocean and the Mediterranean Sea.
+- name: Germany
+  fact: It borders nine countries, from Denmark in the north to Switzerland in the
+    south.
+- name: India
+  fact: It is the most populous country in the world.
+- name: Indonesia
+  fact: Thousands of islands stretch along the equator between Asia and Australia.
+variant: globe

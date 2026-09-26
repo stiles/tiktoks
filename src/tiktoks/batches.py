@@ -36,12 +36,15 @@ def build(
         raise ValueError("Master uses isolated outlines; omit --variant.")
     root = Path(root or QUIZ_ROOT)
     pool = countries.load(catalog_path)
-    by_tier = variant == "classic"
+    by_tier = variant != "silhouette"
     chosen = countries.select(pool, tier if by_tier else None, count, by_tier=by_tier)
     names = list(chosen["name"])
 
     slug = slug or countries.next_slug(tier, root, variant=variant)
-    if variant == "silhouette":
+    if variant == "globe":
+        title = f"{tier.capitalize()} globe geography quiz"
+        topic = "world geography globe quiz"
+    elif variant == "silhouette":
         title = f"{tier.capitalize()} silhouette geography quiz"
         topic = "world geography silhouettes"
     elif variant == "progressive":

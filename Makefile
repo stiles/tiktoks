@@ -20,6 +20,10 @@ quiz-silhouette:
 quiz-progressive:
 	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant progressive
 
+.PHONY: quiz-globe
+quiz-globe:
+	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant globe
+
 quiz-status:
 	uv run tiktoks quiz status --validate
 
