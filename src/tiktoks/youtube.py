@@ -10,13 +10,14 @@ Needs the `youtube` extra and a Desktop OAuth client JSON at
 
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import date
 from pathlib import Path
 
 from tiktoks.config import POSTS_DIR, YOUTUBE_CLIENT_SECRETS, YOUTUBE_TOKEN
 from tiktoks.post import merge_publish
-from tiktoks.video import assemble, load_manifest, resolve_post_dir
+from tiktoks.video import assemble, audio_approval, load_manifest, resolve_post_dir
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 # Education. Geography quizzes and data maps belong here more than People & Blogs.
@@ -62,10 +63,27 @@ def upload(
     directory = resolve_post_dir(post_dir)
     manifest = load_manifest(directory)
     video_path = directory / f"{manifest['slug']}.mp4"
-    if not video_path.exists():
+    if audio is not None or not video_path.exists():
         if not assemble_if_missing:
-            raise YouTubeError(f"No video at {video_path}. Run tiktoks video first.")
+            raise YouTubeError(
+                "Assembly required. Remove --no-assemble or run tiktoks video first."
+            )
         video_path = assemble(directory, audio=audio)
+        manifest = load_manifest(directory)
+
+    if "audio" not in manifest:
+        raise YouTubeError("Audio provenance missing. Rebuild with tiktoks video first.")
+    if manifest["audio"] is not None:
+        reason = (
+            audio_approval(manifest["audio"])
+            if isinstance(manifest["audio"], dict)
+            else "invalid audio metadata"
+        )
+        if reason:
+            raise YouTubeError(f"Upload blocked: {reason}. Rebuild with reviewed, licensed music.")
+
+    if manifest.get("video_sha256") != hashlib.sha256(video_path.read_bytes()).hexdigest():
+        raise YouTubeError("Video changed or has no verified render record. Rebuild it first.")
 
     youtube = _service(secrets=secrets, token=token)
     media_cls = _media()

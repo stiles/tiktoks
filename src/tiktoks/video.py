@@ -7,6 +7,7 @@ A Ken Burns push on the map is still open.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -128,7 +129,7 @@ def assemble(
 ) -> Path:
     """Write `{slug}.mp4` next to the PNGs. Returns the video path.
 
-    `audio` is the bed track, False for silence, None for the default bed.
+    `audio` is the bed track, False for silence, None for format matching.
     """
     directory = resolve_post_dir(post_dir)
     manifest = load_manifest(directory)
@@ -136,7 +137,7 @@ def assemble(
     destination = Path(output) if output else directory / f"{manifest['slug']}.mp4"
     ffmpeg = _ffmpeg()
     duration = total_duration(rows)
-    audio_path, audio_meta = resolve_bed(audio)
+    audio_path, audio_meta = resolve_bed(audio, manifest=manifest)
 
     concat_path = directory / CONCAT_NAME
     concat_path.write_text(concat_script(rows), encoding="utf-8")
@@ -185,26 +186,73 @@ def assemble(
         detail = (result.stderr or result.stdout or "").strip().splitlines()
         tail = "\n".join(detail[-12:]) if detail else "no ffmpeg output"
         raise VideoError(f"ffmpeg failed for {destination}:\n{tail}")
-    _record_audio(directory / "post.json", audio_meta)
+    _record_audio(directory / "post.json", audio_meta, destination)
     return destination
 
 
-def resolve_bed(audio: Path | str | bool | None) -> tuple[Path | None, dict | None]:
-    """False is silence. None is the catalog default. A slug or a file path otherwise."""
+def audio_approval(entry: dict) -> str | None:
+    """Catalog evidence is a human review record, not a legal guarantee."""
+    license_name = entry.get("license")
+    if license_name not in {
+        "CC0 1.0",
+        "CC BY 3.0",
+        "CC BY 4.0",
+        "Artlist",
+        "YouTube Audio Library",
+    }:
+        return "unsupported or missing music license"
+    if license_name in {"Artlist", "YouTube Audio Library"}:
+        if entry.get("rights_verified") is not True or not entry.get("license_evidence"):
+            return "confirm license coverage and record license_evidence for this track"
+    if license_name in {"CC BY 3.0", "CC BY 4.0"} and not entry.get("attribution"):
+        return "missing required Creative Commons attribution"
+    if not entry.get("source") or not entry.get("license_url"):
+        return "missing source or license evidence"
+    if entry.get("reviewed_clean") is not True:
+        return "not reviewed for spoken ads, vocals and preview watermarks"
+    if not entry.get("sha256"):
+        return "missing checksum for the reviewed audio file"
+    return None
+
+
+def select_bed(manifest: dict) -> str:
+    """Choose only reviewed tracks explicitly matched to this post's format."""
+    candidates = [
+        slug
+        for slug, entry in beds().items()
+        if audio_approval(entry) is None and manifest.get("format") in entry.get("formats", [])
+    ]
+    if not candidates:
+        raise VideoError(
+            f"No reviewed music for format {manifest.get('format')!r}. "
+            "Add a clean, style-matched track to content/audio/catalog.yaml, "
+            "then retry. See docs/youtube-workflow.md."
+        )
+    preferred = load_catalog().get("default")
+    return preferred if preferred in candidates else sorted(candidates)[0]
+
+
+def resolve_bed(
+    audio: Path | str | bool | None, *, manifest: dict | None = None
+) -> tuple[Path | None, dict | None]:
+    """False is silence; None chooses reviewed music for the post format."""
     if audio is False:
         return None, None
     catalog = beds()
     if audio in (None, True):
-        slug = load_catalog().get("default")
-        if not slug:
-            return None, None
+        slug = select_bed(manifest or {})
         audio = slug
     text = str(audio)
     if text in catalog:
         entry = catalog[text]
+        reason = audio_approval(entry)
+        if reason:
+            raise VideoError(f"Audio {text!r} blocked: {reason}. See docs/youtube-workflow.md.")
         path = AUDIO_DIR / entry["file"]
         if not path.exists():
             raise VideoError(f"Audio file for {text!r} is missing: {path}")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != entry["sha256"]:
+            raise VideoError(f"Audio {text!r} changed since review; review the file again.")
         return path, entry
     path = Path(text)
     if path.exists():
@@ -212,18 +260,12 @@ def resolve_bed(audio: Path | str | bool | None) -> tuple[Path | None, dict | No
         for entry in catalog.values():
             candidate = AUDIO_DIR / entry["file"]
             if candidate.exists() and candidate.resolve() == resolved:
-                return path, entry
-        return path, _meta_from_filename(path)
+                return resolve_bed(entry["slug"], manifest=manifest)
+        raise VideoError(
+            "Uncataloged audio is blocked. Add license evidence and a clean-file review."
+        )
     known = ", ".join(catalog) or "(none)"
     raise VideoError(f"Unknown audio {text!r}. Known beds: {known}")
-
-
-def _meta_from_filename(path: Path) -> dict:
-    stem = path.stem
-    if " - " in stem:
-        artist, title = stem.split(" - ", 1)
-        return {"title": title, "artist": artist, "file": path.name}
-    return {"title": stem, "file": path.name}
 
 
 def _audio_input(audio_path: Path | None, duration: float) -> list[str]:
@@ -246,19 +288,25 @@ def _audio_filters(audio_path: Path | None, duration: float) -> list[str]:
     ]
 
 
-def _record_audio(manifest_path: Path, meta: dict | None) -> None:
+def _record_audio(manifest_path: Path, meta: dict | None, video_path: Path) -> None:
     if not manifest_path.exists():
         return
     try:
         payload = json.loads(manifest_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return
+    payload["video_sha256"] = hashlib.sha256(video_path.read_bytes()).hexdigest()
     if meta:
         payload["audio"] = {
             "slug": meta.get("slug"),
             "title": meta.get("title"),
             "artist": meta.get("artist"),
             "license": meta.get("license"),
+            "license_url": meta.get("license_url"),
+            "rights_verified": meta.get("rights_verified"),
+            "license_evidence": meta.get("license_evidence"),
+            "reviewed_clean": meta.get("reviewed_clean"),
+            "sha256": meta.get("sha256"),
             "source": meta.get("source"),
             "attribution": (meta.get("attribution") or "").strip() or None,
         }

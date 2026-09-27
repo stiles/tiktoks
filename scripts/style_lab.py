@@ -33,7 +33,7 @@ BOUNDARIES = "Boundaries: Natural Earth"
 def country_pair(theme: Theme, countries, name: str, fact: str, difficulty: str) -> list[Slide]:
     color = theme.color_for(difficulty)
     prompt = Slide(
-        theme, source=BOUNDARIES, cue="Swipe for the answer", badge=difficulty, badge_color=color
+        theme, source=BOUNDARIES, cue="Swipe for answer", badge=difficulty, badge_color=color
     )
     prompt.kicker("Name that country")
     prompt.title("Which country is highlighted?")

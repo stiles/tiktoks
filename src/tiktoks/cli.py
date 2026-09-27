@@ -180,6 +180,7 @@ def video_command(
         default = video.load_catalog().get("default")
         for slug, entry in video.beds().items():
             mark = " (default)" if slug == default else ""
+            mark += " — " + (video.audio_approval(entry) or "reviewed / licensed")
             click.echo(f"{slug:24} {entry.get('artist', '')}: {entry.get('title', '')}{mark}")
         return
     if post_dir is None:
@@ -229,17 +230,24 @@ def youtube_auth() -> None:
     "--audio",
     "audio_choice",
     default=None,
-    help="Bed slug if the MP4 has to be assembled first.",
+    help="Reviewed, licensed bed slug; rebuilds the MP4 with this music.",
 )
+@click.option("--silent", is_flag=True, help="Rebuild without music before uploading.")
 def youtube_upload(
     post_dir: Path | None,
     upload_all: bool,
     privacy: str,
     no_assemble: bool,
     audio_choice: str | None,
+    silent: bool,
 ) -> None:
     """Upload a post's MP4. Assembles it first if needed. Default is private."""
     from tiktoks.config import POSTS_DIR
+
+    if silent and audio_choice:
+        raise click.UsageError("Choose --silent or --audio, not both.")
+    if no_assemble and (silent or audio_choice):
+        raise click.UsageError("--no-assemble cannot be combined with --silent or --audio.")
 
     if upload_all:
         directories = youtube.pending_uploads(post_dir or POSTS_DIR)
@@ -258,7 +266,7 @@ def youtube_upload(
                 directory,
                 privacy=privacy,
                 assemble_if_missing=not no_assemble,
-                audio=audio_choice,
+                audio=False if silent else audio_choice,
             )
         except (youtube.YouTubeError, video.VideoError) as exc:
             failures += 1

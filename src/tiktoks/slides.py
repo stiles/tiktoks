@@ -8,6 +8,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.axes import Axes  # noqa: E402
+from matplotlib.font_manager import FontProperties, findfont  # noqa: E402
 from matplotlib.patches import FancyBboxPatch  # noqa: E402
 
 from tiktoks import safe  # noqa: E402
@@ -486,9 +487,14 @@ class Slide:
 
     def _draw_cue(self, text: str) -> None:
         size = self.theme.badge_size
-        width, _ = measure(
-            self.figure, text, fontsize=size, fontfamily=self.theme.body_font, fontweight="bold"
-        )
+        properties = FontProperties(family=self.theme.body_font, weight="semibold", size=size)
+        # Resolve one face so fallback families need not all include semibold.
+        properties = FontProperties(fname=findfont(properties), size=size)
+        font = {"fontproperties": properties}
+        tracking = size * PT_TO_PX * 0.015
+        # Prefix measurements preserve kerning while adding a small gap per glyph.
+        advances = [measure(self.figure, text[:i], **font)[0] for i in range(len(text) + 1)]
+        width = advances[-1] + tracking * max(len(text) - 1, 0)
         pad_x, pad_y = 30, 18
         box_height = size * PT_TO_PX + pad_y * 2
         top = self.floor - box_height
@@ -506,18 +512,22 @@ class Slide:
         self._record(
             "cue pill", Box(self.left, top, self.left + width + pad_x * 2, top + box_height)
         )
-        self.canvas.text(
-            self.left + pad_x + width / 2,
-            top + box_height / 2,
-            text,
-            color=self.theme.badge_text,
-            fontsize=size,
-            fontweight="bold",
-            fontfamily=self.theme.body_font,
-            ha="center",
-            va="center",
-            zorder=4,
+        _, height, descent = self.figure.canvas.get_renderer().get_text_width_height_descent(
+            text, properties, ismath=False
         )
+        baseline = top + box_height / 2 + height / 2 - descent
+        for index, character in enumerate(text):
+            char_width, _ = measure(self.figure, character, **font)
+            self.canvas.text(
+                self.left + pad_x + advances[index + 1] - char_width + index * tracking,
+                baseline,
+                character,
+                color=self.theme.badge_text,
+                **font,
+                ha="left",
+                va="baseline",
+                zorder=4,
+            )
         self.floor = top - 28
 
     def _draw_badge(self, text: str, color: str) -> None:

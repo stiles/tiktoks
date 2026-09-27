@@ -441,7 +441,7 @@ def _prompt(
     slide = Slide(
         theme,
         source=BOUNDARY_SOURCE,
-        cue="Swipe for the answer" if variant_spec["mode"] == "two-beat" else "Need a hint?",
+        cue="Swipe for answer" if variant_spec["mode"] == "two-beat" else "Need a hint?",
         badge=f"{index}/{total}",
         badge_color=color,
     )

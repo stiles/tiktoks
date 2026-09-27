@@ -186,17 +186,20 @@ quiz is already eight frames, so Shorts here means a video.
 `tiktoks video` holds each slide by kind (longer on the prompt, a cut on the
 answer) and writes `{slug}.mp4` next to the PNGs. ffmpeg has to be on PATH.
 
-The beds live in `content/audio/catalog.yaml`. Default is Kevin MacLeod's
-"Comfortable Mystery 2" (CC BY 3.0). The other two are Artlist tracks: they need
-an active Artlist license and the YouTube channel on [Clearlist](https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license),
-or the upload can take a Content ID claim.
+Music requires clean, licensed recordings, with source/license evidence,
+a checksum, and an explicit match to the post's format. Artlist, YouTube Audio Library, CC BY and CC0 tracks are supported.
+Carefree is the approved default for geography quizzes, with its required credit
+included automatically. Other tracks still need review; Artlist also needs license coverage confirmed.
+See [the music and upload workflow](docs/youtube-workflow.md) for selection criteria
+and adding clean files without spoken ads or preview watermarks.
 
 ```bash
 uv run tiktoks video --list-audio
 uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night
-uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night --audio groovy-panda
-uv run tiktoks video --dir posts/geo-quiz/geo-easy-001/night --silent
 ```
+
+Once reviewed tracks are added, music is matched to the format automatically; use `--audio SLUG` to choose one. Uploading with `--audio` or `--silent`
+rebuilds an existing MP4 and uses its updated music metadata.
 
 Upload uses the ordinary YouTube Data API `videos.insert` endpoint. A vertical
 MP4 under three minutes is classified as a Short. There is no Shorts flag.

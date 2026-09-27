@@ -1,5 +1,6 @@
 """Video assembly from a post.json slide list."""
 
+import hashlib
 import json
 from datetime import date
 from pathlib import Path
@@ -19,7 +20,7 @@ from tiktoks.video import (
     slide_files,
     total_duration,
 )
-from tiktoks.youtube import _description, record_upload
+from tiktoks.youtube import record_upload
 
 
 def _png(path: Path) -> None:
@@ -86,9 +87,8 @@ def test_catalog_includes_artlist_beds():
     panda = AUDIO_DIR / "IamDayLight - Groovy Panda.mp3"
     if not panda.exists():
         pytest.skip("Artlist beds are not in the checkout")
-    path, meta = resolve_bed("groovy-panda")
-    assert path == panda
-    assert meta["license"] == "Artlist"
+    with pytest.raises(VideoError, match="license coverage"):
+        resolve_bed("groovy-panda")
 
 
 def test_unknown_audio_slug_fails():
@@ -97,25 +97,103 @@ def test_unknown_audio_slug_fails():
 
 
 def test_default_bed_has_required_credit():
-    credit = music_attribution()
+    credit = music_attribution(beds()["comfortable-mystery"])
     assert credit is not None
     assert "Kevin MacLeod" in credit
     assert "Comfortable Mystery 2" in credit
     assert "creativecommons.org/licenses/by/3.0" in credit
 
 
-def test_assemble_with_bed_records_attribution(tmp_path):
-    from tiktoks.config import AUDIO_BED_PATH
+def test_legacy_bed_blocked(tmp_path):
+    with pytest.raises(VideoError, match="not reviewed"):
+        assemble(_post(tmp_path), audio="comfortable-mystery")
 
-    if not AUDIO_BED_PATH.exists():
-        pytest.skip("default bed is not in the checkout")
-    assemble(_post(tmp_path))
-    saved = json.loads((tmp_path / "post.json").read_text(encoding="utf-8"))
-    assert saved["audio"]["artist"] == "Kevin MacLeod"
-    assert "incompetech.com" in saved["audio"]["attribution"]
-    text = _description(saved)
-    assert "Comfortable Mystery 2" in text
-    assert "#Shorts" in text
+
+def test_no_matching_music_requires_explicit_silence(tmp_path):
+    with pytest.raises(VideoError, match="No reviewed music"):
+        assemble(_post(tmp_path))
+
+
+def test_reviewed_track_selection_and_changed_file(tmp_path, monkeypatch):
+    from tiktoks import video
+
+    track = tmp_path / "clean.wav"
+    track.write_bytes(b"reviewed recording")
+    entry = {
+        "slug": "clean",
+        "file": track.name,
+        "license": "CC0 1.0",
+        "source": "https://example.org/track",
+        "license_url": "https://example.org/cc0",
+        "reviewed_clean": True,
+        "sha256": hashlib.sha256(track.read_bytes()).hexdigest(),
+        "formats": ["geo-quiz"],
+    }
+    monkeypatch.setattr(video, "beds", lambda: {"clean": entry})
+    monkeypatch.setattr(video, "AUDIO_DIR", tmp_path)
+    assert resolve_bed(None, manifest={"format": "geo-quiz"}) == (track, entry)
+    with pytest.raises(VideoError, match="No reviewed"):
+        resolve_bed(None, manifest={"format": "data-story"})
+    track.write_bytes(b"different recording")
+    with pytest.raises(VideoError, match="changed since review"):
+        resolve_bed("clean")
+
+
+def test_uncataloged_audio_blocked(tmp_path):
+    track = tmp_path / "unknown.mp3"
+    track.write_bytes(b"audio")
+    with pytest.raises(VideoError, match="Uncataloged"):
+        resolve_bed(track)
+
+
+def test_upload_rebuilds_existing_video_and_reloads_credit(tmp_path, monkeypatch):
+    from tiktoks import youtube
+
+    _post(tmp_path)
+    (tmp_path / "demo.mp4").write_bytes(b"old video")
+    calls = []
+
+    def assemble(directory, *, audio):
+        calls.append(audio)
+        manifest = json.loads((directory / "post.json").read_text())
+        manifest["video_sha256"] = hashlib.sha256((directory / "demo.mp4").read_bytes()).hexdigest()
+        manifest["audio"] = {
+            "license": "CC0 1.0",
+            "source": "source",
+            "license_url": "license",
+            "reviewed_clean": True,
+            "sha256": "checksum",
+            "attribution": "New credit",
+        }
+        (directory / "post.json").write_text(json.dumps(manifest))
+        return directory / "demo.mp4"
+
+    class Service:
+        def videos(self):
+            return self
+
+        def insert(self, **kwargs):
+            assert "New credit" in kwargs["body"]["snippet"]["description"]
+            return self
+
+        def execute(self):
+            return {"id": "new-video"}
+
+    monkeypatch.setattr(youtube, "assemble", assemble)
+    monkeypatch.setattr(youtube, "_service", lambda **kwargs: Service())
+    monkeypatch.setattr(youtube, "_media", lambda: lambda *args, **kwargs: None)
+    youtube.upload(tmp_path, audio="clean")
+    assert calls == ["clean"]
+
+
+def test_upload_blocks_unknown_existing_audio_before_network(tmp_path, monkeypatch):
+    from tiktoks import youtube
+
+    _post(tmp_path)
+    (tmp_path / "demo.mp4").write_bytes(b"old video")
+    monkeypatch.setattr(youtube, "_service", lambda **kwargs: pytest.fail("network reached"))
+    with pytest.raises(youtube.YouTubeError, match="provenance missing"):
+        youtube.upload(tmp_path)
 
 
 def test_merge_publish_keeps_posted_ids():
@@ -171,3 +249,75 @@ def test_record_upload_fills_youtube_and_leaves_tiktok(tmp_path):
     assert recorded["video_id"] == "yt-9"
     assert saved["publish"]["post_id"] == "tt-1"
     assert saved["publish"]["youtube"]["url"].endswith("/yt-9")
+
+
+def test_upload_rejects_replaced_silent_render(tmp_path, monkeypatch):
+    from tiktoks import youtube
+
+    _post(tmp_path)
+    path = tmp_path / "demo.mp4"
+    path.write_bytes(b"replacement with unknown audio")
+    manifest_path = tmp_path / "post.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest.update(audio=None, video_sha256=hashlib.sha256(b"original silent video").hexdigest())
+    manifest_path.write_text(json.dumps(manifest))
+    monkeypatch.setattr(youtube, "_service", lambda **kwargs: pytest.fail("network reached"))
+    with pytest.raises(youtube.YouTubeError, match="Video changed"):
+        youtube.upload(tmp_path)
+
+
+@pytest.mark.parametrize("license_name", ["Artlist", "YouTube Audio Library"])
+def test_licensed_music_requires_evidence_and_clean_review(license_name):
+    from tiktoks.video import audio_approval
+
+    entry = {
+        "license": license_name,
+        "source": "track page",
+        "license_url": "terms",
+        "reviewed_clean": True,
+        "sha256": "reviewed-file-hash",
+    }
+    assert "license coverage" in audio_approval(entry)
+    entry.update(rights_verified=True, license_evidence="saved track license and coverage details")
+    assert audio_approval(entry) is None
+    entry["reviewed_clean"] = False
+    assert "not reviewed" in audio_approval(entry)
+
+
+def test_cc_by_requires_credit():
+    from tiktoks.video import audio_approval
+
+    entry = {
+        "license": "CC BY 3.0",
+        "source": "track page",
+        "license_url": "terms",
+        "reviewed_clean": True,
+        "sha256": "reviewed-file-hash",
+    }
+    assert "attribution" in audio_approval(entry)
+    entry["attribution"] = "Full required credit"
+    assert audio_approval(entry) is None
+
+
+def test_preferred_music_must_match_format(monkeypatch):
+    from tiktoks import video
+
+    common = {
+        "license": "CC0 1.0",
+        "source": "source",
+        "license_url": "license",
+        "reviewed_clean": True,
+        "sha256": "checksum",
+    }
+    monkeypatch.setattr(
+        video,
+        "beds",
+        lambda: {
+            "a-quiz": {**common, "formats": ["geo-quiz"]},
+            "preferred": {**common, "formats": ["geo-quiz"]},
+            "story": {**common, "formats": ["data-story"]},
+        },
+    )
+    monkeypatch.setattr(video, "load_catalog", lambda: {"default": "preferred"})
+    assert video.select_bed({"format": "geo-quiz"}) == "preferred"
+    assert video.select_bed({"format": "data-story"}) == "story"

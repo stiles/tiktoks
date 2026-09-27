@@ -116,7 +116,7 @@ def render_area_quiz(config_path: str | Path, theme=None, *, output_dir=None) ->
     ):
         choices = question["choices"]
         prompt = Slide(
-            theme, source=source, cue="Lock it in. Swipe for the answer", badge=f"{index}/{total}"
+            theme, source=source, cue="Lock it in. Swipe for answer", badge=f"{index}/{total}"
         )
         stack(
             prompt,

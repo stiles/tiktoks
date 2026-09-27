@@ -1,0 +1,26 @@
+{
+  "track": {
+    "title": "Monkeys Spinning Monkeys",
+    "filename": "Monkeys Spinning Monkeys.mp3",
+    "length": "00:02:05",
+    "instruments": "Flutes, Violin, Viola, Cello",
+    "genre": "22",
+    "bpm": "144",
+    "description": "Loopable happy light fluffy piece with bright flutes and a bunch of pizzicato strings.",
+    "feel": "Bouncy, Bright, Humorous, Uplifting",
+    "uploaded": "2014-02-03",
+    "isrc": "USUAN1400011",
+    "collection": "34",
+    "sheetmusic": "Monkeys Spinning Monkeys - Piano Solo.pdf",
+    "video": "https://youtu.be/2eZVbrO6Z1M",
+    "itunes": null,
+    "filmmusicURL": null
+  },
+  "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400011",
+  "catalog_source": "https://incompetech.com/music/royalty-free/pieces.json",
+  "retrieved_at": "2026-09-27",
+  "license": "CC BY 4.0",
+  "attribution": "\"Monkeys Spinning Monkeys\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 4.0 License\nhttp://creativecommons.org/licenses/by/4.0/",
+  "sha256": "a5bb345c23849ad0786aa0bc5157a9f2d4039660fe00282e55754d475f36dc14",
+  "review_status": "Downloaded directly from composer; listening review pending"
+}

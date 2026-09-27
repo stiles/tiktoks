@@ -41,7 +41,7 @@ def test_no_slide_content_lands_under_the_interface(theme):
     slide = Slide(
         theme,
         source="Source: World Bank, NY.GDP.PCAP.CD. Boundaries: Natural Earth.",
-        cue="Swipe for the answer",
+        cue="Swipe for answer",
         badge="expert",
     )
     slide.kicker("Guess the map")

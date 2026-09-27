@@ -1,4 +1,6 @@
-default: comfortable-mystery
+# Carefree approved by the user from the globe-quiz preview; other tracks remain unapproved.
+# See docs/youtube-workflow.md for adding reviewed, style-matched music.
+default: carefree
 beds:
   - slug: comfortable-mystery
     file: bed.mp3
@@ -17,6 +19,9 @@ beds:
     title: Here for a Good Time
     artist: Ben Fox
     license: Artlist
+    license_url: https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license
+    rights_verified: false
+    reviewed_clean: false
     source: https://artlist.io/royalty-free-music
     attribution: |
       Music: "Here for a Good Time" by Ben Fox via Artlist
@@ -25,6 +30,44 @@ beds:
     title: Groovy Panda
     artist: IamDayLight
     license: Artlist
+    license_url: https://help.artlist.io/hc/en-us/articles/29490991524253-Understanding-Artlist-s-license
+    rights_verified: false
+    reviewed_clean: false
     source: https://artlist.io/royalty-free-music
     attribution: |
       Music: "Groovy Panda" by IamDayLight via Artlist
+  - slug: carefree
+    file: carefree.mp3
+    title: Carefree
+    artist: Kevin MacLeod
+    license: CC BY 4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037
+    license_evidence: content/audio/carefree.license.json
+    reviewed_clean: true
+    review_notes: User approved the 45-second globe-quiz preview on 2026-09-27.
+    sha256: 8433b770a630d9b1594fd484442c677907ece899a4d149954cd2e74fd733e311
+    formats:
+    - geo-quiz
+    attribution: '"Carefree" Kevin MacLeod (incompetech.com)
+
+      Licensed under Creative Commons: By Attribution 4.0 License
+
+      http://creativecommons.org/licenses/by/4.0/'
+  - slug: monkeys-spinning-monkeys
+    file: monkeys-spinning-monkeys.mp3
+    title: Monkeys Spinning Monkeys
+    artist: Kevin MacLeod
+    license: CC BY 4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400011
+    license_evidence: content/audio/monkeys-spinning-monkeys.license.json
+    reviewed_clean: false
+    sha256: a5bb345c23849ad0786aa0bc5157a9f2d4039660fe00282e55754d475f36dc14
+    formats:
+    - geo-quiz
+    attribution: '"Monkeys Spinning Monkeys" Kevin MacLeod (incompetech.com)
+
+      Licensed under Creative Commons: By Attribution 4.0 License
+
+      http://creativecommons.org/licenses/by/4.0/'
