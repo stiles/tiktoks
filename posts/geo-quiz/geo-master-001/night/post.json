@@ -122,8 +122,8 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-20T15:20:02+00:00",
-  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "rendered_at": "2026-09-27T18:24:24+00:00",
+  "git_sha": "be1eebf477b87aa4dda391d0b2e9a72b0e1aa4e5",
   "config": "posts/geo-quiz/geo-master-001/quiz.yaml",
   "config_hash": "17e3f905bb267039",
   "layout_problems": [],

@@ -1,5 +1,6 @@
 """Refresh the documentation gallery from existing local slide renders."""
 
+import argparse
 import json
 from pathlib import Path
 
@@ -77,39 +78,93 @@ EXAMPLES = [
         [1, 2, 3],
         "The opening three slides of a story about the name Karen, built from Social "
         "Security baby-name data.",
+        "# Fetch shared SSA data first if it is not cached.\n"
+        "uv run python content/stories/2026-ssa-name-comeback/fetch.py\n"
         "make karen",
     ),
 ]
 
 
+# Keep workflow descriptions here: this script also generates EXAMPLES.md.
+WORKFLOWS = {
+    "Globe quiz": ("Country pool", "Choose tier and format; maintain facts and review framing."),
+    "Progressive quiz": ("Country pool", "Choose tier; review prompt and hint difficulty."),
+    "Classic geography quiz": ("Country pool", "Choose tier; maintain facts and review framing."),
+    "Silhouette quiz": ("Country pool", "Choose context difficulty; review shape recognition."),
+    "Master outline quiz": ("Country pool", "Review the expert candidates and isolated outlines."),
+    "Land-area comparison": (
+        "Curated question config",
+        "Editors choose pairs and verify saved figures; code computes winners. "
+        "[Authoring guide](content/area-quiz/area-001/README.md).",
+    ),
+    "Neighbors quiz": (
+        "Curated question config",
+        "Editors supply answers, evidence, explanations, map bounds and labels. "
+        "[Authoring guide](content/neighbors-quiz/neighbors-001/README.md).",
+    ),
+    "Mystery map": (
+        "Authored query catalog",
+        "Editors define the premise and query, verify the mapped countries and write the answer. "
+        "[Catalog workflow](README.md#mystery-maps).",
+    ),
+    "Data story": (
+        "Custom story scripts",
+        "Editors determine the reporting, analysis, sequence and copy. "
+        "[Story workflow](README.md#data-stories).",
+    ),
+}
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--markdown-only", action="store_true", help="Refresh text using manifests, without PNGs."
+    )
+    args = parser.parse_args()
     OUTPUT.mkdir(parents=True, exist_ok=True)
     sections = [
         "# Examples\n\n"
         "A gallery of rendered posts for TikTok carousels and YouTube Shorts. "
         "These are selected slide sequences, read left to right, rather than full posts. "
         "Click a preview to enlarge it.\n\n"
-        "[Setup and all commands](README.md#setup) · "
-        "[Geography quiz guide](docs/geo-quiz-rollout.md)\n\n"
-        "The commands below create or render examples after setup. "
-        "Commands that select a new quiz batch rotate countries, so your picks may differ."
+        "[Setup](README.md#setup) · [Choose a workflow](README.md#choose-a-workflow) · "
+        "[Review and publish](README.md#review-and-publish)\n\n"
+        "| How it is made | Examples | What running the command does |\n"
+        "| --- | --- | --- |\n"
+        "| Country pool | [Globe](#globe-quiz), [progressive](#progressive-quiz), "
+        "[classic](#classic-geography-quiz), [silhouette](#silhouette-quiz), "
+        "[Master](#master-outline-quiz) | Selects a new batch and updates shared usage; "
+        "your countries may differ from the preview |\n"
+        "| Curated questions | [Land area](#land-area-comparison), [neighbors](#neighbors-quiz) "
+        "| Renders the existing pilot question list |\n"
+        "| Authored query catalog | [Mystery map](#mystery-map) "
+        "| Fetches or uses cached data and renders the named entry |\n"
+        "| Custom story scripts | [Data story](#data-story) "
+        "| Runs an existing story implementation |\n\n"
+        "All examples require editorial review. Automatic rendering does not mean "
+        "automatic question writing or fact-checking.\n\n"
+        "Commands assume [setup](README.md#setup) is complete. For pool quizzes, "
+        "`COUNT` is countries in one post. To reproduce a saved geography batch instead "
+        "of selecting new countries, run `uv run tiktoks geo-quiz --config "
+        "posts/geo-quiz/<slug>/quiz.yaml`; find the sample slug in its metadata link."
     ]
     for title, directory, indices, description, command in EXAMPLES:
         source = ROOT / "posts" / directory
         manifest = json.loads((source / "post.json").read_text())
         records = [manifest["slides"][i - 1] for i in indices]
-        width, height, gap = 360, 640, 12
-        preview = Image.new(
-            "RGB", (width * len(records) + gap * (len(records) - 1), height), "#ddd9d2"
-        )
-        for i, record in enumerate(records):
-            with Image.open(source / record["file"]) as slide:
-                preview.paste(
-                    slide.convert("RGB").resize((width, height), Image.Resampling.LANCZOS),
-                    (i * (width + gap), 0),
-                )
         filename = title.lower().replace(" ", "-") + ".jpg"
-        preview.save(OUTPUT / filename, quality=88, optimize=True)
+        if not args.markdown_only:
+            width, height, gap = 360, 640, 12
+            preview = Image.new(
+                "RGB", (width * len(records) + gap * (len(records) - 1), height), "#ddd9d2"
+            )
+            for i, record in enumerate(records):
+                with Image.open(source / record["file"]) as slide:
+                    preview.paste(
+                        slide.convert("RGB").resize((width, height), Image.Resampling.LANCZOS),
+                        (i * (width + gap), 0),
+                    )
+            preview.save(OUTPUT / filename, quality=88, optimize=True)
         image_path = f"docs/examples/{filename}"
         alt = (
             " / ".join(record["alt"] for record in records)
@@ -117,8 +172,10 @@ def main():
             .replace("]", ")")
             .replace("\n", " ")
         )
+        workflow, editorial = WORKFLOWS[title]
         sections.append(
             f"## {title}\n\n{description}\n\n"
+            f"**Workflow: {workflow}.** {editorial}\n\n"
             f"[![{alt}]({image_path})]({image_path})\n\n"
             f"```bash\n{command}\n```\n\n"
             f"[Sample metadata](posts/{directory}/post.json)"
@@ -130,10 +187,18 @@ def main():
         "remain ignored. After rendering the sample posts listed in "
         "[the gallery script](scripts/build_examples.py), refresh the previews and "
         "this page with:\n\n"
-        "```bash\nuv run python scripts/build_examples.py\n```"
+        "```bash\nuv run python scripts/build_examples.py\n```\n\n"
+        "This script generates the page as well as the images. Edit example descriptions "
+        "and workflow notes in the script so a future refresh keeps them. To update only "
+        "the Markdown from tracked manifests, without local slide PNGs:\n\n"
+        "```bash\nuv run python scripts/build_examples.py --markdown-only\n```"
     )
     (ROOT / "EXAMPLES.md").write_text("\n\n".join(sections) + "\n")
-    print(f"Wrote {len(EXAMPLES)} gallery previews and EXAMPLES.md")
+    print(
+        "Wrote EXAMPLES.md"
+        if args.markdown_only
+        else f"Wrote {len(EXAMPLES)} gallery previews and EXAMPLES.md"
+    )
 
 
 if __name__ == "__main__":

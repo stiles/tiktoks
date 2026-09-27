@@ -13,7 +13,9 @@
     "maps"
   ],
   "sources": [
-    "Boundaries: Natural Earth"
+    "Boundaries: Natural Earth",
+    "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
   ],
   "canvas": [
     1080,
@@ -120,8 +122,8 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-20T14:45:31+00:00",
-  "git_sha": "60088817386191be3cbe66af0110626469491868",
+  "rendered_at": "2026-09-27T18:25:30+00:00",
+  "git_sha": "be1eebf477b87aa4dda391d0b2e9a72b0e1aa4e5",
   "config": "posts/geo-quiz/geo-medium-006/quiz.yaml",
   "config_hash": "d241fe63ee8af49d",
   "layout_problems": [],

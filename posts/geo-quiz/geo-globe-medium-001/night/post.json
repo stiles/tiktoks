@@ -122,8 +122,8 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-27T17:36:13+00:00",
-  "git_sha": "4ca144268a5d4cdf367e79ac165b589703073efb",
+  "rendered_at": "2026-09-27T18:23:19+00:00",
+  "git_sha": "be1eebf477b87aa4dda391d0b2e9a72b0e1aa4e5",
   "config": "posts/geo-quiz/geo-globe-medium-001/quiz.yaml",
   "config_hash": "a77c0b0253a4c224",
   "layout_problems": [],
@@ -137,19 +137,5 @@
       "url": "https://www.youtube.com/shorts/nq1lqUtBchU",
       "posted_at": "2026-09-27"
     }
-  },
-  "video_sha256": "d8305ff98924b11d0ebe58de4a3506f5087798798cb9a651cc42a7d9cdc38162",
-  "audio": {
-    "slug": "carefree",
-    "title": "Carefree",
-    "artist": "Kevin MacLeod",
-    "license": "CC BY 4.0",
-    "license_url": "https://creativecommons.org/licenses/by/4.0/",
-    "rights_verified": null,
-    "license_evidence": "content/audio/carefree.license.json",
-    "reviewed_clean": true,
-    "sha256": "8433b770a630d9b1594fd484442c677907ece899a4d149954cd2e74fd733e311",
-    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400037",
-    "attribution": "\"Carefree\" Kevin MacLeod (incompetech.com)\nLicensed under Creative Commons: By Attribution 4.0 License\nhttp://creativecommons.org/licenses/by/4.0/"
   }
 }

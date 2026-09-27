@@ -122,8 +122,8 @@
       "title": null
     }
   ],
-  "rendered_at": "2026-09-25T21:48:22+00:00",
-  "git_sha": "cd2de6bc91704727236c398d2c07964f05f306f8",
+  "rendered_at": "2026-09-27T18:22:25+00:00",
+  "git_sha": "be1eebf477b87aa4dda391d0b2e9a72b0e1aa4e5",
   "config": "posts/geo-quiz/geo-expert-011/quiz.yaml",
   "config_hash": "f791ad6fefea4130",
   "layout_problems": [],

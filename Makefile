@@ -72,11 +72,11 @@ matthew:
 	uv run python content/stories/2026-ssa-name-matthew/process.py
 	uv run python content/stories/2026-ssa-name-matthew/render.py
 
-# Re-render every batch and catalog entry from content/.
+# Re-render saved geography batches and the mystery-map catalog.
 rebuild:
 	@for d in posts/geo-quiz/*/; do uv run tiktoks geo-quiz --config $$d/quiz.yaml >/dev/null; done
 	@uv run tiktoks catalog --all >/dev/null
-	@echo "rebuilt posts/ from content/"
+	@echo "Rebuilt saved geography batches and mystery-map catalog entries"
 
 test:
 	uv run pytest -q
