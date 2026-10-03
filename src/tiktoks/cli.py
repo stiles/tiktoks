@@ -4,7 +4,7 @@ from shutil import copytree
 
 import click
 
-from tiktoks import batches, catalog, countries, publish, stage, video, youtube
+from tiktoks import batches, catalog, countries, publish, stage, video, voiceover, youtube
 from tiktoks.area_quiz import render_area_quiz
 from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
@@ -193,6 +193,64 @@ def video_command(
     try:
         click.echo(video.assemble(post_dir, audio=audio))
     except video.VideoError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+
+@main.group("voiceover")
+def voiceover_group() -> None:
+    """Narrated videos: cut slides to a recorded or synthesized voice track."""
+
+
+voiceover_config = click.option(
+    "--config",
+    "config_path",
+    required=True,
+    type=click.Path(exists=True, path_type=Path),
+    help="A voiceover.yaml.",
+)
+
+
+@voiceover_group.command("cues")
+@voiceover_config
+def voiceover_cues(config_path: Path) -> None:
+    """Suggest a cue per slide from the pauses in each recording."""
+    config = voiceover.load(config_path)
+    if not config.tracks:
+        raise click.ClickException("No tracks in the config.")
+    offset = 0
+    for track in config.tracks:
+        if not track.file.exists():
+            raise click.ClickException(f"Missing audio: {track.file}")
+        lines = config.script[offset : offset + track.slides]
+        if len(lines) != track.slides:
+            raise click.ClickException(
+                f"{track.file.name} covers {track.slides} slides; the script has {len(lines)} left."
+            )
+        pauses = voiceover.detect_pauses(track.file)
+        span = voiceover.speech_span(pauses, voiceover.audio_duration(track.file))
+        rows = voiceover.suggest_cues(pauses, [len(line.split()) for line in lines], span)
+        click.echo(f"\n{track.file.name}")
+        for number, (cue, estimate, length) in enumerate(rows, start=offset + 1):
+            if number == offset + 1:
+                found = "start of take"
+            elif length:
+                found = f"{length:.2f}s pause"
+            else:
+                found = "no pause nearby; check by ear"
+            click.echo(f"  slide {number}: {cue:7.2f}s  (estimate {estimate:6.2f}s, {found})")
+        click.echo(f"  cues: [{', '.join(f'{cue:.2f}' for cue, _, _ in rows)}]")
+        offset += track.slides
+
+
+@voiceover_group.command("build")
+@voiceover_config
+@click.option("--tts", is_flag=True, help="Voice the script with OpenAI TTS instead.")
+@click.option("--voice", default=None, help="TTS voice. Overrides the config.")
+def voiceover_build(config_path: Path, tts: bool, voice: str | None) -> None:
+    """Write the post's MP4 with each slide held for its narration."""
+    try:
+        click.echo(voiceover.build(config_path, tts=tts, voice=voice))
+    except voiceover.VoiceoverError as exc:
         raise click.ClickException(str(exc)) from exc
 
 

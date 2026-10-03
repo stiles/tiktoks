@@ -206,6 +206,28 @@ Other existing shortcuts include `make matthew`, `make name-trends` and
 its data prerequisites. Stories write to `posts/stories/<slug>/`; their scripts
 control layout, themes and output structure.
 
+### Narrated video
+
+A story can carry a `voiceover.yaml`: the script, one entry per slide, plus your
+recorded takes or TTS settings. The video then cuts each slide to its narration
+instead of using fixed holds. `make la-heat` shows the whole flow.
+
+Record the script in one or more takes, pausing a beat between slides, and drop
+the files in the story's `voice/` folder (ignored by Git). List each take under
+`tracks` with how many slides it covers, then find the cue times:
+
+```bash
+uv run tiktoks voiceover cues --config content/stories/2026-la-fall-heat/voiceover.yaml
+uv run tiktoks voiceover build --config content/stories/2026-la-fall-heat/voiceover.yaml
+```
+
+`cues` splits each take by script word count and snaps every slide change to the
+longest pause nearby. Paste the suggested `cues` into the config and watch the
+transitions; nudge any that land early or late. `build --tts` voices the script
+with OpenAI instead (needs `OPENAI_API_KEY`). Either way the output is the post's
+`<slug>.mp4`, with the cues and recording checksums written to `post.json` and no
+music bed.
+
 ## Review and publish
 
 1. Render a new or existing post with the appropriate command above.

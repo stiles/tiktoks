@@ -8,6 +8,9 @@ from dataclasses import dataclass, field, replace
 # Plain "Avenir" has 300/400/500/800 and no 700, which is what warned on bold.
 SANS = ("Avenir Next", "Helvetica Neue", "Arial", "DejaVu Sans")
 CONDENSED = ("Barlow Condensed", "Archivo Narrow", "Arial Narrow", "DejaVu Sans")
+# Inter carries every weight from 100 to 900, so it needs no fallbacks; listing the
+# ones above would warn on semibold.
+INTER = ("Inter",)
 
 
 @dataclass(frozen=True)

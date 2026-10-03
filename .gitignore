@@ -31,3 +31,9 @@ data/stories/
 .env
 data/youtube-client-secrets.json
 data/youtube-token.json
+
+# Voiceover recordings and TTS clips. Cues and scripts in voiceover.yaml stay tracked.
+content/stories/*/voice/
+
+# Voiceover build scratch: per-slide segments and the mixed voice track.
+posts/**/.voiceover/

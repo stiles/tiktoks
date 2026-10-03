@@ -149,10 +149,10 @@ class Slide:
         self._draw_lines(lines, size, self.theme.title_leading, self.theme.text, font, "title")
         self.cursor += self.theme.gap_title
 
-    def dek(self, text: str) -> None:
+    def dek(self, text: str, *, color: str | None = None, weight: str = "normal") -> None:
         if not text:
             return
-        font = {"fontfamily": self.theme.body_font, "fontweight": "normal"}
+        font = {"fontfamily": self.theme.body_font, "fontweight": weight}
         lines, size = self._fit_block(
             text,
             size=self.theme.dek_size,
@@ -161,7 +161,9 @@ class Slide:
             leading=self.theme.dek_leading,
             font=font,
         )
-        self._draw_lines(lines, size, self.theme.dek_leading, self.theme.muted, font, "dek")
+        self._draw_lines(
+            lines, size, self.theme.dek_leading, color or self.theme.muted, font, "dek"
+        )
         self.cursor += self.theme.gap_dek
 
     def _fit_block(
@@ -357,22 +359,31 @@ class Slide:
         min_height: int = 520,
         gutter_left: int = 96,
         gutter_bottom: int = 70,
+        gutter_right: int = 0,
     ) -> Axes:
         """Place a chart axes between the last text block and the footer. The gutters
-        leave room for tick labels, which matplotlib draws outside the data area."""
+        leave room for tick labels, which matplotlib draws outside the data area.
+
+        Labels drawn inside the axes are not layout-checked. Pass `gutter_right`
+        (or use `rail_gutter()`) when they run to the right edge, where the button
+        rail covers them."""
         top, height = slot or self.content_slot()
         height = max(height, min_height)
         axes = self.figure.add_axes(
             [
                 (self.left + gutter_left) / self.width,
                 1 - (top + height - gutter_bottom) / self.height,
-                (self.content_width - gutter_left) / self.width,
+                (self.content_width - gutter_left - gutter_right) / self.width,
                 (height - gutter_bottom) / self.height,
             ],
             zorder=2,
         )
         axes.set_facecolor(self.theme.background)
         return axes
+
+    def rail_gutter(self, pad: int = 16) -> int:
+        """Right gutter that keeps a chart clear of the button rail."""
+        return max(int(self.right - safe.RAIL_LEFT) + pad, 0) if self.safe_area else 0
 
     def content_slot(self) -> tuple[float, float]:
         """The (top, height) the map would get right now. Use it to lock a pair of
