@@ -1,0 +1,60 @@
+# Narration for posts/stories/2026-la-fall-heat. Recordings go in voice/ next to
+# this file and stay out of Git.
+#
+#   uv run tiktoks voiceover cues --config content/stories/2026-la-fall-heat/voiceover.yaml
+#   uv run tiktoks voiceover build --config content/stories/2026-la-fall-heat/voiceover.yaml
+post: posts/stories/2026-la-fall-heat
+lead: 0.25
+gap: 0.3
+tail: 1.0
+
+# One entry per slide, in slide order. Numbers come from data/stories/
+# 2026-la-fall-heat/processed/facts.json; recheck them after a refetch.
+script:
+  - >-
+    If you're in LA and wondering why it still feels like summer, it's because it
+    basically is. October isn't fall here. It's one of the hottest months of the year.
+  - >-
+    Here's an average year in downtown LA. August is the hottest month, with highs
+    around 85. September is right behind it at 84. October comes in fourth, at about
+    79. That's warmer than June. So if you were hoping the heat would break when the
+    calendar flipped, the averages were never on your side.
+  - >-
+    It gets better. Or worse. Downtown, the single hottest day of the year lands in
+    September more than any other month, about a third of the time. Out by the coast
+    at LAX, it's even later. The hottest day of the year usually comes in September
+    or October. October by itself is the most likely month. That's when the offshore
+    winds kick in, Santa Anas included, and push the heat all the way to the beach.
+  - >-
+    But this year wasn't just normal-hot. Each bar is one day at LAX, the high on top
+    and the low on the bottom. The gray band is normal. Since mid-July, 73 out of 79
+    days beat the normal high. And on Sept. 9, it hit 99 at the airport.
+  - >-
+    Put it all together, and this was the fifth-warmest September at LAX since records
+    started in 1936. The average temperature ran about four and a half degrees above
+    normal. The only Septembers hotter than this one were 1984, 2022, 2015 and 1997.
+  - >-
+    And here's why it felt so rough. The nights didn't cool off. In a typical
+    September, LAX gets about four nights where the low stays at 68 or warmer. This
+    year it got 15. So no, you're not imagining it. It was a hot September. And
+    October isn't going to be much of a break.
+
+# Matt's takes. Cues are where each slide's line starts, in seconds into the file.
+tracks:
+  - file: voice/script1-5.m4a
+    slides: 5
+    cues: [0.0, 9.90, 29.78, 55.46, 73.60]
+  - file: voice/script6.m4a
+    slides: 1
+    cues: [0.0]
+
+# Used by `voiceover build --tts`.
+tts:
+  model: gpt-4o-mini-tts
+  voice: marin
+  style: >-
+    A local LA news explainer talking to a friend. Warm, conversational, a little wry.
+    Relaxed pace with natural pauses between sentences. Land the numbers clearly.
+  say:
+    '\bLAX\b': L-A-X
+    '\bSept\. (\d+)': September \1

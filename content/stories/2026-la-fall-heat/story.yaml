@@ -1,0 +1,36 @@
+slug: 2026-la-fall-heat
+title: October isn't fall in LA
+topic: weather
+kicker: LA heat
+source: "Source: NOAA, via the Regional Climate Centers' ACIS."
+caption: >-
+  October isn't fall in LA. It's one of the hottest months of the year, and this
+  September ran hot. #losangeles #weather #heat #data
+hashtags:
+  - losangeles
+  - weather
+  - heat
+  - data
+
+# ACIS station IDs. Downtown carries the "what LA is like" slides; LAX carries
+# this year's outlier.
+stations:
+  downtown: {sid: "045115", name: Downtown LA}
+  lax: {sid: "045114", name: LAX}
+year: 2026
+normals: [1991, 2020]
+# A night counts as warm when the low stays at or above this. Chosen for this
+# story, not an official threshold.
+warm_night: 68
+
+cover_dek: It's one of the hottest months of the year.
+normals_title: October is LA's {rank}-warmest month
+normals_dek: Average daily high and low by month, downtown Los Angeles, {start}–{end}
+hottest_title: The year's hottest day usually comes in fall
+hottest_dek: Share of years when the year's highest temperature fell in each month
+summer_title: This September ran hot at LAX
+summer_dek: Daily high and low temperatures compared with normal, {year}
+septembers_title: One of LAX's hottest Septembers on record
+septembers_dek: Warmest Septembers since {first}, degrees above the {start}–{end} average
+nights_title: The nights didn't cool off
+nights_dek: Nights in September when the low stayed at {threshold}° or warmer, LAX

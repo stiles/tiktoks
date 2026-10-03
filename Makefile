@@ -1,4 +1,4 @@
-.PHONY: setup story quiz quiz-silhouette quiz-progressive quiz-status area-quiz guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check publish-status
+.PHONY: setup story la-heat quiz quiz-silhouette quiz-progressive quiz-status area-quiz guess-map catalog catalog-list crosswalk styles example name-trends texas-top-names karen matthew rebuild test lint format check publish-status
 
 setup:
 	uv sync --extra dev
@@ -71,6 +71,13 @@ karen:
 matthew:
 	uv run python content/stories/2026-ssa-name-matthew/process.py
 	uv run python content/stories/2026-ssa-name-matthew/render.py
+
+# Needs the recordings in content/stories/2026-la-fall-heat/voice/.
+la-heat:
+	uv run python content/stories/2026-la-fall-heat/fetch.py
+	uv run python content/stories/2026-la-fall-heat/process.py
+	uv run python content/stories/2026-la-fall-heat/render.py
+	uv run tiktoks voiceover build --config content/stories/2026-la-fall-heat/voiceover.yaml
 
 # Re-render saved geography batches and the mystery-map catalog.
 rebuild:

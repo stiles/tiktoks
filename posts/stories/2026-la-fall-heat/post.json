@@ -1,0 +1,135 @@
+{
+  "slug": "2026-la-fall-heat",
+  "format": "story",
+  "theme": "night",
+  "difficulty": null,
+  "topic": "weather",
+  "title": "October isn't fall in LA",
+  "caption": "October isn't fall in LA. It's one of the hottest months of the year, and this September ran hot. #losangeles #weather #heat #data",
+  "hashtags": [
+    "losangeles",
+    "weather",
+    "heat",
+    "data"
+  ],
+  "sources": [
+    "Source: NOAA, via the Regional Climate Centers' ACIS. Data through Oct. 1, 2026."
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-la-fall-heat-01-cover.png",
+      "kind": "cover",
+      "alt": "Title slide: October isn't fall in LA.",
+      "title": "October isn't fall in LA"
+    },
+    {
+      "index": 2,
+      "file": "2026-la-fall-heat-02-story.png",
+      "kind": "story",
+      "alt": "Range bars of average daily highs and lows by month in downtown LA, with July through October highlighted.",
+      "title": "October is LA's {rank}-warmest month"
+    },
+    {
+      "index": 3,
+      "file": "2026-la-fall-heat-03-story.png",
+      "kind": "story",
+      "alt": "Bar charts of the month in which each year's hottest day fell, downtown and at LAX. September and October lead.",
+      "title": "The year's hottest day usually comes in fall"
+    },
+    {
+      "index": 4,
+      "file": "2026-la-fall-heat-04-story.png",
+      "kind": "story",
+      "alt": "Daily high-low bars at LAX since July 2026 against the normal range, peaking at 99 degrees.",
+      "title": "This September ran hot at LAX"
+    },
+    {
+      "index": 5,
+      "file": "2026-la-fall-heat-05-story.png",
+      "kind": "story",
+      "alt": "The 10 warmest Septembers at LAX; 2026 ranks No. 5.",
+      "title": "One of LAX's hottest Septembers on record"
+    },
+    {
+      "index": 6,
+      "file": "2026-la-fall-heat-06-story.png",
+      "kind": "story",
+      "alt": "Warm September nights at LAX by year; 2026 had 15.",
+      "title": "The nights didn't cool off"
+    }
+  ],
+  "rendered_at": "2026-10-03T01:47:57+00:00",
+  "git_sha": "295b5e76bbd7d574582fb53c624bc58f1d95680c",
+  "config": "content/stories/2026-la-fall-heat/story.yaml",
+  "config_hash": "68daff3b1126a010",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  },
+  "video_sha256": "2d187c72a63e2cf3c430d5064f5ca9aadb8827357e5095858fd124c8a3789adc",
+  "audio": null,
+  "voiceover": {
+    "config": "content/stories/2026-la-fall-heat/voiceover.yaml",
+    "source": "recorded",
+    "tracks": [
+      {
+        "file": "script1-5.m4a",
+        "sha256": "73152ea75ed40707",
+        "cues": [
+          0.0,
+          9.9,
+          29.78,
+          55.46,
+          73.6
+        ]
+      },
+      {
+        "file": "script6.m4a",
+        "sha256": "385f14ff6818f3f9",
+        "cues": [
+          0.0
+        ]
+      }
+    ],
+    "slides": [
+      [
+        0.0,
+        9.65
+      ],
+      [
+        9.65,
+        29.53
+      ],
+      [
+        29.53,
+        55.21
+      ],
+      [
+        55.21,
+        73.35
+      ],
+      [
+        73.35,
+        91.95
+      ],
+      [
+        91.95,
+        113.49
+      ]
+    ]
+  }
+}
