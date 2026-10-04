@@ -1,0 +1,20 @@
+slug: geo-silhouette-expert-003
+title: Expert silhouette geography quiz
+difficulty: expert
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-10-03'
+countries:
+- name: Tunisia
+  fact: The northernmost country in Africa.
+- name: Uruguay
+  fact: It sits between Brazil and Argentina on the Atlantic coast.
+- name: Zambia
+  fact: Victoria Falls sits on its border with Zimbabwe.
+- name: Zimbabwe
+  fact: Landlocked between Zambia, Mozambique, South Africa and Botswana.
+- name: Albania
+  fact: It faces Italy across the Adriatic, north of Greece.
+- name: Belize
+  fact: The only country in Central America with English as its official language.
+variant: silhouette

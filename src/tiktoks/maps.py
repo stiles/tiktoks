@@ -342,12 +342,21 @@ def prepare_region(
 GLOBE_RADIUS = 6_371_000
 GLOBE_RED = "#d5263d"
 
+# Locator ring radius as a share of the drawn window's width, so the ring holds
+# its on-screen size however the globe is cropped to fit its box.
+GLOBE_LOCATOR_RADIUS = 0.022
+
 
 def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
     """Clip to the visible hemisphere before orthographic projection.
 
     An intermediate equal-area disk keeps horizon-crossing polygons finite.
     The target sets orientation, while every globe retains a full hemisphere.
+
+    The window stays a full hemisphere on purpose. Framing less of it makes the
+    target bigger, but the horizon leaves the frame on all four sides and the
+    sphere stops reading as one. `draw_globe` crops this window to its box
+    instead, which keeps the left and right limbs in view.
     """
     selected = country_match(countries, [name])
     rough = selected.to_crs(laea_crs(*center_of(selected)))
@@ -391,18 +400,38 @@ def draw_globe(ax: Axes, view: MapView, *, aspect: float = 1.0) -> None:
     )
     view.base.plot(ax=ax, color="#faf5df", edgecolor="#7e8378", linewidth=0.45)
     view.target.plot(ax=ax, color=GLOBE_RED, edgecolor="#962637", linewidth=0.65)
-    frame_axes(ax, view.bounds, aspect)
-    if needs_locator(view):
+    bounds = crop_to_aspect(view.bounds, aspect)
+    frame_axes(ax, bounds, aspect)
+    if needs_locator(view, bounds=bounds):
         point = view.target.union_all().representative_point()
+        left, _, right, _ = bounds
         ax.add_patch(
             Circle(
                 (point.x, point.y),
-                GLOBE_RADIUS * 0.045,
+                (right - left) * GLOBE_LOCATOR_RADIUS,
                 facecolor="none",
                 edgecolor=GLOBE_RED,
                 linewidth=1.5,
             )
         )
+
+
+def crop_to_aspect(bounds, aspect: float):
+    """Trim bounds to a width/height ratio, the inverse of `frame_axes` padding.
+
+    Use when the data should fill the axes and overflow is fine, as with a globe
+    whose disk may run past the top and bottom of its box.
+    """
+    min_x, min_y, max_x, max_y = bounds
+    center_x, center_y = (min_x + max_x) / 2, (min_y + max_y) / 2
+    width = max(max_x - min_x, 1e-6)
+    height = max(max_y - min_y, 1e-6)
+    if width / height < aspect:
+        height = width / aspect
+    else:
+        width = height * aspect
+    half_w, half_h = width / 2, height / 2
+    return (center_x - half_w, center_y - half_h, center_x + half_w, center_y + half_h)
 
 
 def frame_axes(ax: Axes, bounds, aspect: float) -> None:
@@ -431,11 +460,11 @@ LOCATOR_THRESHOLD = 0.0035
 LOCATOR_RADIUS = 0.07
 
 
-def needs_locator(view: MapView, threshold: float = LOCATOR_THRESHOLD) -> bool:
+def needs_locator(view: MapView, threshold: float = LOCATOR_THRESHOLD, *, bounds=None) -> bool:
     """Whether the highlighted country is too small to find unaided."""
     if view.target is None or view.target.empty:
         return False
-    min_x, min_y, max_x, max_y = view.bounds
+    min_x, min_y, max_x, max_y = view.bounds if bounds is None else bounds
     window = max((max_x - min_x) * (max_y - min_y), 1e-6)
     return float(view.target.area.sum()) / window < threshold
 

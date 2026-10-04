@@ -1,0 +1,21 @@
+slug: geo-silhouette-medium-001
+title: Medium silhouette geography quiz
+difficulty: medium
+topic: world geography silhouettes
+built_from: content/countries.csv
+built_on: '2026-10-03'
+countries:
+- name: Morocco
+  fact: It faces both the Atlantic and the Mediterranean, across the strait from Spain.
+- name: New Zealand
+  fact: Two main islands in the South Pacific, southeast of Australia across the Tasman
+    Sea.
+- name: Norway
+  fact: Its western coast is cut by deep glacial fjords.
+- name: Philippines
+  fact: An archipelago of more than 7,000 islands in Southeast Asia.
+- name: South Korea
+  fact: It occupies the southern half of the Korean Peninsula.
+- name: Romania
+  fact: It curves around the Carpathian Mountains in eastern Europe.
+variant: silhouette

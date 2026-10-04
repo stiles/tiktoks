@@ -18,6 +18,8 @@ def pool(tmp_path) -> Path:
             {"name": "Charlie", "tier": "easy", "times_used": 2, "last_rendered": "2026-01-01"},
             {"name": "Delta", "tier": "easy", "times_used": 1, "last_rendered": "2026-06-01"},
             {"name": "Echo", "tier": "expert", "times_used": 0, "last_rendered": ""},
+            {"name": "Foxtrot", "tier": "hard", "times_used": 0, "last_rendered": ""},
+            {"name": "Golf", "tier": "hard", "times_used": 0, "last_rendered": ""},
         ]
     )
     for column in countries.COLUMNS:
@@ -67,7 +69,7 @@ def test_same_day_batches_rotate_before_repeating_low_usage_countries(pool):
 
     frame = countries.load(pool)
     frame["last_rendered"] = "2026-09-20"
-    frame["times_used"] = [1, 1, 20, 20, 1]
+    frame["times_used"] = [1, 1, 20, 20, 1, 1, 1]
     picks = []
     for hour in (10, 11):
         names = list(countries.select(frame, "easy", 2)["name"])
@@ -131,10 +133,12 @@ def test_batch_slugs_do_not_collide(pool, tmp_path):
     assert second.parent.name == "geo-easy-002"
 
 
-def test_silhouette_batches_use_global_selection_and_own_slug(pool, tmp_path):
+def test_silhouette_expert_draws_from_the_hard_tier(pool, tmp_path):
+    """Expert-tier micro-states have no readable outline, and the easy tier made an
+    expert silhouette quiz trivial. Both ends of the pool are off limits here."""
     root = tmp_path / "quizzes"
     path, names = batches.build("expert", 2, root=root, catalog_path=pool, variant="silhouette")
-    assert names == ["Alpha", "Bravo"]
+    assert names == ["Foxtrot", "Golf"]
     assert path.parent.name == "geo-silhouette-expert-001"
     config = path.read_text()
     assert "variant: silhouette" in config

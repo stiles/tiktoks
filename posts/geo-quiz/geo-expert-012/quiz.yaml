@@ -1,0 +1,21 @@
+slug: geo-expert-012
+title: Expert geography quiz
+difficulty: expert
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-10-03'
+countries:
+- name: Seychelles
+  fact: Islands in the Indian Ocean, northeast of Madagascar.
+  zoom: 16.0
+- name: The Gambia
+  fact: It follows a river inland, almost entirely surrounded by Senegal.
+- name: Timor-Leste
+  fact: It occupies the eastern half of an island north of Australia.
+- name: Togo
+  fact: One of Africa's narrowest countries, running inland from the Gulf of Guinea.
+- name: Turkmenistan
+  fact: It sits on the Caspian Sea, north of Iran and Afghanistan.
+- name: Vanuatu
+  fact: An island chain in the South Pacific, east of Australia.
+  zoom: 4.0

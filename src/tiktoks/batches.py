@@ -16,6 +16,12 @@ from tiktoks.io import write_yaml
 
 QUIZ_ROOT = POSTS_DIR / "geo-quiz"
 
+# Which pool tier a silhouette batch draws from. Expert-tier countries are
+# micro-states whose borderless outline is an indistinct speck, so the hard tier
+# is as far as this variant goes. Drawing a hard or expert label from the easy
+# tier gave Ireland and Italy on an expert quiz.
+SILHOUETTE_POOL = {"easy": "easy", "medium": "medium", "hard": "hard", "expert": "hard"}
+
 
 def build(
     tier: str,
@@ -36,8 +42,8 @@ def build(
         raise ValueError("Master uses isolated outlines; omit --variant.")
     root = Path(root or QUIZ_ROOT)
     pool = countries.load(catalog_path)
-    by_tier = variant != "silhouette"
-    chosen = countries.select(pool, tier if by_tier else None, count, by_tier=by_tier)
+    source_tier = SILHOUETTE_POOL.get(tier, tier) if variant == "silhouette" else tier
+    chosen = countries.select(pool, source_tier, count)
     names = list(chosen["name"])
 
     slug = slug or countries.next_slug(tier, root, variant=variant)

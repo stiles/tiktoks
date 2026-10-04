@@ -135,8 +135,9 @@ VARIANTS = {
         "topic": "world geography silhouettes",
         "mode": "two-beat",
         # This format is about orientation by shape and surrounding land, so the
-        # difficulty comes largely from how much context the frame keeps.
-        "frame_by_difficulty": {"easy": 1.9, "medium": 1.55, "hard": 1.25, "expert": 1.0},
+        # difficulty comes largely from how much context the frame keeps. Expert
+        # sits below classic's 1.0, or the tier only ever matches a normal quiz.
+        "frame_by_difficulty": {"easy": 1.7, "medium": 1.35, "hard": 1.05, "expert": 0.8},
     },
     "progressive": {
         "borders": False,
@@ -146,18 +147,22 @@ VARIANTS = {
         "mode": "three-beat",
         # Prompt starts tighter, then the hint and answer share a wider frame.
         "prompt_frame_by_difficulty": {"easy": 1.15, "medium": 1.0, "hard": 0.88, "expert": 0.76},
-        "reveal_frame_by_difficulty": {"easy": 2.1, "medium": 1.7, "hard": 1.35, "expert": 1.05},
+        "reveal_frame_by_difficulty": {"easy": 2.5, "medium": 2.05, "hard": 1.65, "expert": 1.3},
+        # Borders on every tier: without them the zoom-out is an unreadable blob of
+        # land, and the neighbors are the hint. Harder tiers get a thinner line.
         "reveal_borders_by_difficulty": {
             "easy": True,
             "medium": True,
-            "hard": False,
-            "expert": False,
+            "hard": True,
+            "expert": True,
         },
         "reveal_border_width_by_difficulty": {
             "easy": 0.9,
             "medium": 0.75,
+            "hard": 0.6,
+            "expert": 0.5,
         },
-        "reveal_border_color": "muted",
+        "reveal_border_color": "border",
         "hint_title": "A little more context.",
         "hint_cue": "Now take your best guess",
     },
@@ -249,45 +254,59 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
         title=cover_title,
     )
 
-    for index, item in enumerate(items, start=1):
-        if variant == "globe":
-            _add_globe_item(post, item, countries, theme, difficulty, color, index, total)
-        elif difficulty == "master":
-            _add_master_item(post, item, countries, theme, color, index, total)
-        elif variant_spec["mode"] == "three-beat":
-            _add_progressive_item(
-                post, item, countries, theme, difficulty, color, index, total, variant_spec
-            )
-        else:
-            _add_standard_item(
-                post, item, countries, theme, difficulty, color, index, total, variant_spec
-            )
+    if variant == "globe":
+        _add_globe_items(post, items, countries, theme, difficulty, color, total)
+    else:
+        for index, item in enumerate(items, start=1):
+            if difficulty == "master":
+                _add_master_item(post, item, countries, theme, color, index, total)
+            elif variant_spec["mode"] == "three-beat":
+                _add_progressive_item(
+                    post, item, countries, theme, difficulty, color, index, total, variant_spec
+                )
+            else:
+                _add_standard_item(
+                    post, item, countries, theme, difficulty, color, index, total, variant_spec
+                )
 
     post.add(_scorecard(theme, difficulty, color, total), kind="scorecard", alt=SCORECARD["dek"])
     post.finish()
     return post.paths
 
 
-def _add_globe_item(post, item, countries, theme, difficulty, color, index, total):
-    view = prepare_globe(countries, item.get("match_name") or item["name"])
-    prompt = _prompt(
-        {**item, "hook": "Name the country in red."},
-        theme,
-        difficulty,
-        color,
-        index,
-        total,
-        VARIANTS["globe"],
-    )
-    answer = _answer(item, theme, difficulty, color, index, total)
-    slot = shared_slot(prompt, answer)
-    for kind, slide in (("prompt", prompt), ("answer", answer)):
-        axes, aspect = slide.map_axes(slot=slot, data_aspect=1.0)
-        draw_globe(axes, view, aspect=aspect)
-        alt = "An unlabeled globe with one country highlighted in red."
-        if kind == "answer":
-            alt = f"{item['name']} highlighted in red on a globe."
-        post.add(slide, kind=kind, alt=alt, title=item["name"] if kind == "answer" else None)
+def _add_globe_items(post, items, countries, theme, difficulty, color, total) -> None:
+    spec = VARIANTS["globe"]
+    built = [
+        (
+            item,
+            _prompt(
+                {**item, "hook": "Name the country in red."},
+                theme,
+                difficulty,
+                color,
+                index,
+                total,
+                spec,
+            ),
+            _answer(item, theme, difficulty, color, index, total),
+        )
+        for index, item in enumerate(items, start=1)
+    ]
+    # One slot for the whole batch. Per-pair slots sized the globe by how long that
+    # country's hook and fact happened to run, so the disk jumped between swipes.
+    slot = shared_slot(*[slide for _, prompt, answer in built for slide in (prompt, answer)])
+
+    for item, prompt, answer in built:
+        view = prepare_globe(countries, item.get("match_name") or item["name"])
+        for kind, slide in (("prompt", prompt), ("answer", answer)):
+            # Safe to bleed: the projection centers on the target, so the country
+            # never lands in the margins or under TikTok's button rail.
+            axes, aspect = slide.map_axes(slot=slot, bleed=True)
+            draw_globe(axes, view, aspect=aspect)
+            alt = "An unlabeled globe with one country highlighted in red."
+            if kind == "answer":
+                alt = f"{item['name']} highlighted in red on a globe."
+            post.add(slide, kind=kind, alt=alt, title=item["name"] if kind == "answer" else None)
 
 
 def _view_for(item: dict, countries, frame_zoom: float) -> MapView:
@@ -384,9 +403,7 @@ def _add_progressive_item(
     prompt_view, reveal_view = _progressive_views(item, countries, difficulty, variant_spec)
     reveal_borders = variant_spec.get("reveal_borders_by_difficulty", {}).get(difficulty, False)
     reveal_border_width = variant_spec.get("reveal_border_width_by_difficulty", {}).get(difficulty)
-    reveal_border_color = (
-        theme.muted if variant_spec.get("reveal_border_color") == "muted" else None
-    )
+    reveal_border_color = getattr(theme, variant_spec.get("reveal_border_color", "border"))
     prompt = _prompt(item, theme, difficulty, color, index, total, variant_spec, salt=post.slug)
     hint = _hint(item, theme, difficulty, color, index, total, variant_spec)
     answer = _answer(item, theme, difficulty, color, index, total)

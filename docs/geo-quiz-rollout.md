@@ -93,7 +93,12 @@ country borders and lean on shape plus surrounding land for orientation:
 - Easy: generous regional context
 - Medium: some neighboring land, but not the whole answer
 - Hard: tighter framing
-- Expert: the shape has to do most of the work
+- Expert: tighter than a classic quiz, so the shape does most of the work
+
+The tier also picks the pool this variant draws from, which is not a straight
+match. Easy, medium and hard use their own tier. Expert uses the hard tier,
+because expert-tier countries are micro-states whose borderless outline reads as
+a speck rather than a shape.
 
 Progressive quizzes are the reveal variant:
 
