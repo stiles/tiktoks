@@ -1,0 +1,141 @@
+{
+  "slug": "geo-globe-hard-003",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "hard",
+  "topic": "world geography globe quiz",
+  "title": "Hard globe geography quiz",
+  "caption": "Hard globe geography quiz Difficulty: hard. #geography #geoguessr #quiz #maps",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps"
+  ],
+  "sources": [
+    "Boundaries: Natural Earth",
+    "Country geometry: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 14,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-globe-hard-003-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Name the country in red. Difficulty hard, 6 countries.",
+      "title": "Name the country in red."
+    },
+    {
+      "index": 2,
+      "file": "geo-globe-hard-003-02-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-globe-hard-003-03-answer.png",
+      "kind": "answer",
+      "alt": "Bolivia highlighted in red on a globe.",
+      "title": "Bolivia"
+    },
+    {
+      "index": 4,
+      "file": "geo-globe-hard-003-04-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-globe-hard-003-05-answer.png",
+      "kind": "answer",
+      "alt": "Croatia highlighted in red on a globe.",
+      "title": "Croatia"
+    },
+    {
+      "index": 6,
+      "file": "geo-globe-hard-003-06-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-globe-hard-003-07-answer.png",
+      "kind": "answer",
+      "alt": "Ecuador highlighted in red on a globe.",
+      "title": "Ecuador"
+    },
+    {
+      "index": 8,
+      "file": "geo-globe-hard-003-08-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-globe-hard-003-09-answer.png",
+      "kind": "answer",
+      "alt": "Eritrea highlighted in red on a globe.",
+      "title": "Eritrea"
+    },
+    {
+      "index": 10,
+      "file": "geo-globe-hard-003-10-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-globe-hard-003-11-answer.png",
+      "kind": "answer",
+      "alt": "Georgia highlighted in red on a globe.",
+      "title": "Georgia"
+    },
+    {
+      "index": 12,
+      "file": "geo-globe-hard-003-12-prompt.png",
+      "kind": "prompt",
+      "alt": "An unlabeled globe with one country highlighted in red.",
+      "title": null
+    },
+    {
+      "index": 13,
+      "file": "geo-globe-hard-003-13-answer.png",
+      "kind": "answer",
+      "alt": "Ghana highlighted in red on a globe.",
+      "title": "Ghana"
+    },
+    {
+      "index": 14,
+      "file": "geo-globe-hard-003-14-scorecard.png",
+      "kind": "scorecard",
+      "alt": "Tally your correct answers and put the number in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-10-05T15:12:37+00:00",
+  "git_sha": "002a86e3eb8947331ff123c237913026f0333d9b",
+  "config": "posts/geo-quiz/geo-globe-hard-003/quiz.yaml",
+  "config_hash": "bf8bb0baec2739ba",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": null,
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

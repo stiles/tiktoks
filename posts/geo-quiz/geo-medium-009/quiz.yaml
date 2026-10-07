@@ -1,0 +1,19 @@
+slug: geo-medium-009
+title: Medium geography quiz
+difficulty: medium
+topic: world geography
+built_from: content/countries.csv
+built_on: '2026-10-05'
+countries:
+- name: Cambodia
+  fact: It wraps around the lower Mekong and the Tonle Sap in mainland Southeast Asia.
+- name: Colombia
+  fact: The only South American country with both Pacific and Caribbean coasts.
+- name: Cuba
+  fact: The largest island in the Caribbean.
+- name: Ethiopia
+  fact: It lost its coastline when Eritrea became independent in 1993.
+- name: Greece
+  fact: Thousands of islands scatter across the Aegean and Ionian seas.
+- name: Madagascar
+  fact: The world's fourth largest island, off the southeast coast of Africa.
