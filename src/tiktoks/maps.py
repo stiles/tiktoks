@@ -117,6 +117,11 @@ def world_lines(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
     return read_geography(str(path_or_url or GIS_URLS["country_lines"]))
 
 
+def world_land(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
+    """All land as one dissolved shape, for maps that should show no borders."""
+    return read_geography(str(path_or_url or GIS_URLS["world_land"]))
+
+
 def disputed_lines(path_or_url: str | Path | None = None) -> gpd.GeoDataFrame:
     return read_geography(str(path_or_url or GIS_URLS["disputed_lines"]))
 
@@ -168,6 +173,8 @@ class MapView:
     bounds: tuple[float, float, float, float]
     target: gpd.GeoDataFrame | None = None
     crs: str | None = None
+    # A projected point to mark, for maps that pin a city rather than fill a country.
+    marker: Point | None = None
 
     @property
     def aspect(self) -> float:
@@ -345,6 +352,9 @@ GLOBE_RED = "#d5263d"
 # Locator ring radius as a share of the drawn window's width, so the ring holds
 # its on-screen size however the globe is cropped to fit its box.
 GLOBE_LOCATOR_RADIUS = 0.022
+# The city dot, on the same scale. Big enough to find at thumbnail size, small
+# enough that it does not cover a whole small country.
+CITY_DOT_RADIUS = 0.009
 
 
 def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
@@ -361,8 +371,19 @@ def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
     selected = country_match(countries, [name])
     rough = selected.to_crs(laea_crs(*center_of(selected)))
     lon, lat = center_of(core_parts(rough).to_crs("EPSG:4326"))
-    # A little northward tilt puts the target below the globe's center.
-    lat = float(np.clip(lat + 15, -70, 70))
+    project, ortho = _globe_projector(lon, lat)
+    base = project(near_center(countries, (lon, lat)))
+    target = project(selected)
+    radius = GLOBE_RADIUS * 1.025
+    return MapView(base, (-radius, -radius, radius, radius), target, crs=ortho)
+
+
+def _globe_projector(lon: float, lat: float, tilt: float = 15):
+    """A function that projects a frame onto a globe facing (lon, lat), and its CRS.
+
+    A little northward tilt puts the target below the globe's center.
+    """
+    lat = float(np.clip(lat + tilt, -70, 70))
     common = f"+lat_0={lat} +lon_0={lon} +R={GLOBE_RADIUS} +units=m +no_defs"
     intermediate = f"+proj=laea {common}"
     ortho = f"+proj=ortho {common}"
@@ -372,6 +393,7 @@ def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
         projected = frame.to_crs(intermediate).copy()
         projected.geometry = projected.geometry.make_valid().intersection(disk)
         projected = projected.loc[~projected.geometry.is_empty]
+
         # Both projections use the same sphere and center. Convert the radial
         # coordinates directly, avoiding an unstable longitude at the poles.
         def to_ortho(x, y, z=None):
@@ -385,10 +407,85 @@ def prepare_globe(countries: gpd.GeoDataFrame, name: str) -> MapView:
         projected.geometry = projected.geometry.make_valid()
         return projected
 
-    base = project(near_center(countries, (lon, lat)))
-    target = project(selected)
+    return project, ortho
+
+
+def containing_country(countries: gpd.GeoDataFrame, lon: float, lat: float) -> gpd.GeoDataFrame:
+    """The country a point sits in, or the nearest one for a city on the coastline.
+
+    Natural Earth's coast is generalized enough that a port city can land a few
+    kilometers offshore. Anything farther than ~50 km out is a bad coordinate.
+    """
+    point = Point(lon, lat)
+    inside = countries.loc[countries.geometry.contains(point)]
+    if not inside.empty:
+        return inside.head(1)
+    projected = countries.to_crs(laea_crs(lon, lat))
+    distance = projected.distance(Point(0, 0))
+    if distance.min() > 50_000:
+        raise ValueError(f"No country within 50 km of {lon:.3f}, {lat:.3f}")
+    return countries.loc[[distance.idxmin()]]
+
+
+def prepare_city_globe(
+    land: gpd.GeoDataFrame,
+    lon: float,
+    lat: float,
+    country: gpd.GeoDataFrame | None = None,
+) -> MapView:
+    """A borderless globe facing a city. `country`, if given, becomes the target.
+
+    No tilt: the city globe is cropped to a wide strip once the answer text takes
+    its share of the slide, and a tilted center pushes the dot to the strip's edge.
+    """
+    project, ortho = _globe_projector(lon, lat, tilt=0)
+    parts = land.explode(index_parts=False, ignore_index=True)
+    base = project(near_center(parts, (lon, lat)))
+    target = project(country) if country is not None else None
+    marker = project(gpd.GeoDataFrame(geometry=[Point(lon, lat)], crs="EPSG:4326"))
     radius = GLOBE_RADIUS * 1.025
-    return MapView(base, (-radius, -radius, radius, radius), target, crs=ortho)
+    return MapView(
+        base, (-radius, -radius, radius, radius), target, crs=ortho, marker=marker.geometry.iloc[0]
+    )
+
+
+def draw_city_globe(ax: Axes, view: MapView, *, aspect: float = 1.0) -> None:
+    """Land without borders and a city dot. The reveal adds the containing country."""
+    ax.add_patch(
+        Circle(
+            (0, 0), GLOBE_RADIUS, facecolor="#b8dfea", edgecolor="#79a7b8", linewidth=1.2, zorder=0
+        )
+    )
+    view.base.plot(ax=ax, color="#faf5df", edgecolor="#7e8378", linewidth=0.45)
+    if view.target is not None:
+        view.target.plot(ax=ax, color="#f3c4ca", edgecolor="#962637", linewidth=0.9)
+    bounds = crop_to_aspect(view.bounds, aspect)
+    frame_axes(ax, bounds, aspect)
+    left, _, right, _ = bounds
+    point = view.marker
+    if view.target is None:
+        # The ring finds the dot on the prompt. On the answer it would cover a
+        # small country's fill, which is the thing being revealed.
+        ax.add_patch(
+            Circle(
+                (point.x, point.y),
+                (right - left) * GLOBE_LOCATOR_RADIUS * 1.6,
+                facecolor="none",
+                edgecolor=GLOBE_RED,
+                linewidth=2.0,
+                zorder=5,
+            )
+        )
+    ax.add_patch(
+        Circle(
+            (point.x, point.y),
+            (right - left) * CITY_DOT_RADIUS,
+            facecolor=GLOBE_RED,
+            edgecolor="white",
+            linewidth=2.0,
+            zorder=5,
+        )
+    )
 
 
 def draw_globe(ax: Axes, view: MapView, *, aspect: float = 1.0) -> None:

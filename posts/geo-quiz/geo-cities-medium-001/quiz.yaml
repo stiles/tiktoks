@@ -1,0 +1,33 @@
+slug: geo-cities-medium-001
+title: Medium city globe quiz
+difficulty: medium
+topic: world geography city globe quiz
+variant: cities
+built_from: content/cities.csv
+built_on: '2026-10-06'
+cities:
+- name: Athens
+  country: Greece
+  lon: 23.653
+  lat: 37.944
+  fact: Greece's capital sits on the Attica peninsula, near the Aegean Sea.
+- name: Bangkok
+  country: Thailand
+  lon: 100.5167
+  lat: 13.75
+  fact: Thailand's capital sits on the Chao Phraya River near the Gulf of Thailand.
+- name: Beijing
+  country: China
+  lon: 116.388
+  lat: 39.9062
+  fact: China's capital sits in the north, about 100 miles from the sea.
+- name: Berlin
+  country: Germany
+  lon: 13.3276
+  lat: 52.5163
+  fact: Germany's capital sits in the northeast, about 50 miles from Poland.
+- name: Buenos Aires
+  country: Argentina
+  lon: -58.4498
+  lat: -34.6225
+  fact: "Argentina's capital sits on the R\xEDo de la Plata, across from Uruguay."

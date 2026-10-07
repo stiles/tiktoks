@@ -1,0 +1,129 @@
+{
+  "slug": "geo-cities-medium-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "medium",
+  "topic": "world geography city globe quiz",
+  "title": "Medium city globe quiz",
+  "caption": "Medium city globe quiz Difficulty: medium. #geography #geoguessr #quiz #maps #cities",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps",
+    "cities"
+  ],
+  "sources": [
+    "City locations: Esri World Cities",
+    "Land: Natural Earth, 1:50 million",
+    "Answer country: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 12,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-cities-medium-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Name the country. Then name the city. Difficulty medium, 5 cities.",
+      "title": "Name the country. Then name the city."
+    },
+    {
+      "index": 2,
+      "file": "geo-cities-medium-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-cities-medium-001-03-answer.png",
+      "kind": "answer",
+      "alt": "Athens, Greece, marked on a globe with Greece outlined. Greece's capital sits on the Attica peninsula, near the Aegean Sea.",
+      "title": "Athens, Greece"
+    },
+    {
+      "index": 4,
+      "file": "geo-cities-medium-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-cities-medium-001-05-answer.png",
+      "kind": "answer",
+      "alt": "Bangkok, Thailand, marked on a globe with Thailand outlined. Thailand's capital sits on the Chao Phraya River near the Gulf of Thailand.",
+      "title": "Bangkok, Thailand"
+    },
+    {
+      "index": 6,
+      "file": "geo-cities-medium-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-cities-medium-001-07-answer.png",
+      "kind": "answer",
+      "alt": "Beijing, China, marked on a globe with China outlined. China's capital sits in the north, about 100 miles from the sea.",
+      "title": "Beijing, China"
+    },
+    {
+      "index": 8,
+      "file": "geo-cities-medium-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-cities-medium-001-09-answer.png",
+      "kind": "answer",
+      "alt": "Berlin, Germany, marked on a globe with Germany outlined. Germany's capital sits in the northeast, about 50 miles from Poland.",
+      "title": "Berlin, Germany"
+    },
+    {
+      "index": 10,
+      "file": "geo-cities-medium-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-cities-medium-001-11-answer.png",
+      "kind": "answer",
+      "alt": "Buenos Aires, Argentina, marked on a globe with Argentina outlined. Argentina's capital sits on the R\u00edo de la Plata, across from Uruguay.",
+      "title": "Buenos Aires, Argentina"
+    },
+    {
+      "index": 12,
+      "file": "geo-cities-medium-001-12-scorecard.png",
+      "kind": "scorecard",
+      "alt": "1 point for the country. 2 more for the city. Add it up out of 15 and put your score in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-10-07T04:56:04+00:00",
+  "git_sha": "db77804fa95bf767ac67820e2ae63d8179537274",
+  "config": "posts/geo-quiz/geo-cities-medium-001/quiz.yaml",
+  "config_hash": "a786191b16a1c252",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": "2026-10-06",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

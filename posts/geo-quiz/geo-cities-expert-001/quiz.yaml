@@ -1,0 +1,33 @@
+slug: geo-cities-expert-001
+title: Expert city globe quiz
+difficulty: expert
+topic: world geography city globe quiz
+variant: cities
+built_from: content/cities.csv
+built_on: '2026-10-06'
+cities:
+- name: Ashgabat
+  country: Turkmenistan
+  lon: 58.3901
+  lat: 37.9504
+  fact: Turkmenistan's capital holds a Guinness record for white marble buildings.
+- name: Astana
+  country: Kazakhstan
+  lon: 71.432
+  lat: 51.189
+  fact: Kazakhstan moved its capital here from Almaty in 1997.
+- name: Baku
+  country: Azerbaijan
+  lon: 49.816
+  lat: 40.324
+  fact: Azerbaijan's capital sits on the Caspian Sea, below sea level.
+- name: Bamako
+  country: Mali
+  lon: -7.9865
+  lat: 12.653
+  fact: Mali's capital sits on the Niger River.
+- name: Bishkek
+  country: Kyrgyzstan
+  lon: 74.77
+  lat: 42.88
+  fact: Kyrgyzstan's capital sits near the border with Kazakhstan.

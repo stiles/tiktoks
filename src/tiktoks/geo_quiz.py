@@ -198,6 +198,12 @@ def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -
     theme = get_theme(theme or config.get("theme"))
     difficulty = config.get("difficulty", "medium")
     variant = config.get("variant", "classic")
+    if variant == "cities":
+        # Saved city batches live beside country batches, so `geo-quiz` and
+        # `make rebuild` render them too.
+        from tiktoks.city_quiz import render_city_quiz
+
+        return render_city_quiz(config_path, theme)
     if variant == "globe":
         theme = replace(theme, map_panel=False)
     if difficulty == "master" and variant != "classic":
@@ -504,7 +510,15 @@ def _answer(
 
 
 def _cover(
-    config: dict, theme: Theme, difficulty: str, color: str, total: int, variant_spec: dict
+    config: dict,
+    theme: Theme,
+    difficulty: str,
+    color: str,
+    total: int,
+    variant_spec: dict,
+    *,
+    unit: str = "countries",
+    cue: str = "Comment your score below",
 ) -> Slide:
     slide = Slide(theme, source=BOUNDARY_SOURCE)
     slide.centered_stack(
@@ -530,14 +544,14 @@ def _cover(
                 "kind": "cover difficulty",
             },
             {
-                "text": f"{total} countries",
+                "text": f"{total} {unit}",
                 "size": 36,
                 "color": theme.text,
                 "gap_after": 40,
                 "kind": "cover count",
             },
             {
-                "text": "Comment your score below",
+                "text": cue,
                 "size": 32,
                 "color": theme.muted,
                 "kind": "cover cue",
@@ -547,11 +561,19 @@ def _cover(
     return slide
 
 
-def _scorecard(theme: Theme, difficulty: str, color: str, total: int) -> Slide:
+def _scorecard(
+    theme: Theme,
+    difficulty: str,
+    color: str,
+    total: int,
+    *,
+    unit: str = "countries",
+    dek: str = SCORECARD["dek"],
+) -> Slide:
     slide = Slide(theme, cue=SCORECARD["cue"], badge=difficulty, badge_color=color)
-    slide.kicker(f"{total} countries")
+    slide.kicker(f"{total} {unit}")
     slide.title(SCORECARD["title"])
-    slide.dek(SCORECARD["dek"])
+    slide.dek(dek)
     return slide
 
 

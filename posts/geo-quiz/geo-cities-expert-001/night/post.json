@@ -1,0 +1,129 @@
+{
+  "slug": "geo-cities-expert-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "expert",
+  "topic": "world geography city globe quiz",
+  "title": "Expert city globe quiz",
+  "caption": "Expert city globe quiz Difficulty: expert. #geography #geoguessr #quiz #maps #cities",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps",
+    "cities"
+  ],
+  "sources": [
+    "City locations: Esri World Cities",
+    "Land: Natural Earth, 1:50 million",
+    "Answer country: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 12,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-cities-expert-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Name the country. Then name the city. Difficulty expert, 5 cities.",
+      "title": "Name the country. Then name the city."
+    },
+    {
+      "index": 2,
+      "file": "geo-cities-expert-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-cities-expert-001-03-answer.png",
+      "kind": "answer",
+      "alt": "Ashgabat, Turkmenistan, marked on a globe with Turkmenistan outlined. Turkmenistan's capital holds a Guinness record for white marble buildings.",
+      "title": "Ashgabat, Turkmenistan"
+    },
+    {
+      "index": 4,
+      "file": "geo-cities-expert-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-cities-expert-001-05-answer.png",
+      "kind": "answer",
+      "alt": "Astana, Kazakhstan, marked on a globe with Kazakhstan outlined. Kazakhstan moved its capital here from Almaty in 1997.",
+      "title": "Astana, Kazakhstan"
+    },
+    {
+      "index": 6,
+      "file": "geo-cities-expert-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-cities-expert-001-07-answer.png",
+      "kind": "answer",
+      "alt": "Baku, Azerbaijan, marked on a globe with Azerbaijan outlined. Azerbaijan's capital sits on the Caspian Sea, below sea level.",
+      "title": "Baku, Azerbaijan"
+    },
+    {
+      "index": 8,
+      "file": "geo-cities-expert-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-cities-expert-001-09-answer.png",
+      "kind": "answer",
+      "alt": "Bamako, Mali, marked on a globe with Mali outlined. Mali's capital sits on the Niger River.",
+      "title": "Bamako, Mali"
+    },
+    {
+      "index": 10,
+      "file": "geo-cities-expert-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-cities-expert-001-11-answer.png",
+      "kind": "answer",
+      "alt": "Bishkek, Kyrgyzstan, marked on a globe with Kyrgyzstan outlined. Kyrgyzstan's capital sits near the border with Kazakhstan.",
+      "title": "Bishkek, Kyrgyzstan"
+    },
+    {
+      "index": 12,
+      "file": "geo-cities-expert-001-12-scorecard.png",
+      "kind": "scorecard",
+      "alt": "1 point for the country. 2 more for the city. Add it up out of 15 and put your score in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-10-07T04:56:42+00:00",
+  "git_sha": "db77804fa95bf767ac67820e2ae63d8179537274",
+  "config": "posts/geo-quiz/geo-cities-expert-001/quiz.yaml",
+  "config_hash": "4e79f6abb810237b",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": "2026-10-06",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

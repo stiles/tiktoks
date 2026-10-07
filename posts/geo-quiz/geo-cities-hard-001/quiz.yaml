@@ -1,0 +1,33 @@
+slug: geo-cities-hard-001
+title: Hard city globe quiz
+difficulty: hard
+topic: world geography city globe quiz
+variant: cities
+built_from: content/cities.csv
+built_on: '2026-10-06'
+cities:
+- name: Beirut
+  country: Lebanon
+  lon: 35.5
+  lat: 33.8833
+  fact: Lebanon's capital sits on a headland on the Mediterranean.
+- name: Bratislava
+  country: Slovakia
+  lon: 17.13
+  lat: 48.15
+  fact: Slovakia's capital borders both Austria and Hungary.
+- name: Dhaka
+  country: Bangladesh
+  lon: 90.4071
+  lat: 23.7099
+  fact: Bangladesh is almost surrounded by India. Its capital sits near the center.
+- name: Hanoi
+  country: Vietnam
+  lon: 105.82
+  lat: 21.03
+  fact: Vietnam's capital sits in the Red River Delta in the north.
+- name: Islamabad
+  country: Pakistan
+  lon: 73.0605
+  lat: 33.7182
+  fact: Pakistan built its capital in the 1960s, next to the older city of Rawalpindi.

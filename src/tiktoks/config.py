@@ -13,6 +13,7 @@ REFERENCE_DIR = DATA_DIR / "reference"
 REVIEW_DIR = ROOT / "review"
 
 COUNTRY_POOL_PATH = CONTENT_DIR / "countries.csv"
+CITY_POOL_PATH = CONTENT_DIR / "cities.csv"
 GUESS_MAP_CATALOG_PATH = CONTENT_DIR / "guess-map.yaml"
 STORIES_DIR = CONTENT_DIR / "stories"
 CROSSWALK_PATH = REFERENCE_DIR / "country_crosswalk.csv"
@@ -34,3 +35,8 @@ GIS_URLS = {
     "us_states": "https://stilesdata.com/gis/us_states.geojson",
     "us_counties": "https://stilesdata.com/gis/us_counties.zip",
 }
+
+# Esri Living Atlas: national and provincial capitals plus other major cities.
+WORLD_CITIES_URL = (
+    "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0"
+)

@@ -24,6 +24,11 @@ quiz-progressive:
 quiz-globe:
 	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant globe
 
+# City globe: a dot on a borderless globe, drawn from content/cities.csv.
+.PHONY: quiz-cities
+quiz-cities:
+	uv run tiktoks quiz next --tier $(TIER) --count $(or $(COUNT),3) --variant cities
+
 quiz-status:
 	uv run tiktoks quiz status --validate
 

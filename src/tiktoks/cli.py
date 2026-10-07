@@ -4,7 +4,7 @@ from shutil import copytree
 
 import click
 
-from tiktoks import batches, catalog, countries, publish, stage, video, voiceover, youtube
+from tiktoks import batches, catalog, cities, countries, publish, stage, video, voiceover, youtube
 from tiktoks.area_quiz import render_area_quiz
 from tiktoks.config import ROOT, STORIES_DIR
 from tiktoks.geo_quiz import render_geo_quiz
@@ -100,12 +100,13 @@ def quiz() -> None:
 @click.option("--slug", default=None, help="Batch directory name. Auto-numbered by default.")
 @click.option(
     "--variant",
-    type=click.Choice(["classic", "silhouette", "progressive", "globe"]),
+    type=click.Choice(["classic", "silhouette", "progressive", "globe", "cities"]),
     default="classic",
     show_default=True,
     help=(
         "Quiz format. Silhouette is borderless; progressive adds a wider hint slide "
-        "before the answer; globe highlights a country in red on a hemisphere."
+        "before the answer; globe highlights a country in red on a hemisphere; "
+        "cities marks a city from content/cities.csv on a borderless globe."
     ),
 )
 @click.option("--dry-run", is_flag=True, help="Show the picks without writing anything.")
@@ -120,7 +121,7 @@ def quiz_next(
     no_render: bool,
     theme: str | None,
 ) -> None:
-    """Pick the least-recently-used countries in a tier and build a batch."""
+    """Pick the least-recently-used countries (or cities) in a tier and build a batch."""
     config_path, names = batches.build(tier, count, slug=slug, variant=variant, commit=not dry_run)
     for position, name in enumerate(names, start=1):
         click.echo(f"{position:2}. {name}")
@@ -135,8 +136,19 @@ def quiz_next(
 
 @quiz.command("status")
 @click.option("--validate", is_flag=True, help="Check every name against the boundary file.")
-def quiz_status(validate: bool) -> None:
+@click.option("--cities", "city_pool", is_flag=True, help="Report on the city pool instead.")
+def quiz_status(validate: bool, city_pool: bool) -> None:
     """Show pool depth per tier."""
+    if city_pool:
+        pool = cities.load()
+        click.echo(cities.status(pool).to_string(index=False))
+        if validate:
+            problems = cities.validate(pool)
+            click.echo("")
+            for problem in problems:
+                click.echo(problem)
+            click.echo(f"{len(problems)} problem(s) in {len(pool)} cities")
+        return
     pool = countries.load()
     click.echo(countries.status(pool).to_string(index=False))
     if validate:
@@ -145,6 +157,17 @@ def quiz_status(validate: bool) -> None:
         for problem in problems:
             click.echo(problem)
         click.echo(f"{len(problems)} name problem(s) in {len(pool)} countries")
+
+
+@quiz.command("locate-cities")
+def quiz_locate_cities() -> None:
+    """Fill blank city coordinates in content/cities.csv from Esri World Cities."""
+    pool = cities.load()
+    problems = cities.locate(pool)
+    cities.save(pool)
+    for problem in problems:
+        click.echo(problem)
+    click.echo(f"{len(problems)} unresolved; set esri_name or esri_country on those rows")
 
 
 post_dir_option = click.option(

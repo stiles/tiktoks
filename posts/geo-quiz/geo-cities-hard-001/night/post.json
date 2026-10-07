@@ -1,0 +1,129 @@
+{
+  "slug": "geo-cities-hard-001",
+  "format": "geo-quiz",
+  "theme": "night",
+  "difficulty": "hard",
+  "topic": "world geography city globe quiz",
+  "title": "Hard city globe quiz",
+  "caption": "Hard city globe quiz Difficulty: hard. #geography #geoguessr #quiz #maps #cities",
+  "hashtags": [
+    "geography",
+    "geoguessr",
+    "quiz",
+    "maps",
+    "cities"
+  ],
+  "sources": [
+    "City locations: Esri World Cities",
+    "Land: Natural Earth, 1:50 million",
+    "Answer country: Natural Earth Admin 0 Countries, 1:10 million",
+    "Cover geometry: CNN country polygons, 1:50 million"
+  ],
+  "canvas": [
+    1080,
+    1920
+  ],
+  "slide_count": 12,
+  "slides": [
+    {
+      "index": 1,
+      "file": "geo-cities-hard-001-01-cover.png",
+      "kind": "cover",
+      "alt": "A world map behind the words: Name the country. Then name the city. Difficulty hard, 5 cities.",
+      "title": "Name the country. Then name the city."
+    },
+    {
+      "index": 2,
+      "file": "geo-cities-hard-001-02-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 3,
+      "file": "geo-cities-hard-001-03-answer.png",
+      "kind": "answer",
+      "alt": "Beirut, Lebanon, marked on a globe with Lebanon outlined. Lebanon's capital sits on a headland on the Mediterranean.",
+      "title": "Beirut, Lebanon"
+    },
+    {
+      "index": 4,
+      "file": "geo-cities-hard-001-04-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 5,
+      "file": "geo-cities-hard-001-05-answer.png",
+      "kind": "answer",
+      "alt": "Bratislava, Slovakia, marked on a globe with Slovakia outlined. Slovakia's capital borders both Austria and Hungary.",
+      "title": "Bratislava, Slovakia"
+    },
+    {
+      "index": 6,
+      "file": "geo-cities-hard-001-06-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 7,
+      "file": "geo-cities-hard-001-07-answer.png",
+      "kind": "answer",
+      "alt": "Dhaka, Bangladesh, marked on a globe with Bangladesh outlined. Bangladesh is almost surrounded by India. Its capital sits near the center.",
+      "title": "Dhaka, Bangladesh"
+    },
+    {
+      "index": 8,
+      "file": "geo-cities-hard-001-08-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 9,
+      "file": "geo-cities-hard-001-09-answer.png",
+      "kind": "answer",
+      "alt": "Hanoi, Vietnam, marked on a globe with Vietnam outlined. Vietnam's capital sits in the Red River Delta in the north.",
+      "title": "Hanoi, Vietnam"
+    },
+    {
+      "index": 10,
+      "file": "geo-cities-hard-001-10-prompt.png",
+      "kind": "prompt",
+      "alt": "A globe with no borders and one city marked with a red dot.",
+      "title": null
+    },
+    {
+      "index": 11,
+      "file": "geo-cities-hard-001-11-answer.png",
+      "kind": "answer",
+      "alt": "Islamabad, Pakistan, marked on a globe with Pakistan outlined. Pakistan built its capital in the 1960s, next to the older city of Rawalpindi.",
+      "title": "Islamabad, Pakistan"
+    },
+    {
+      "index": 12,
+      "file": "geo-cities-hard-001-12-scorecard.png",
+      "kind": "scorecard",
+      "alt": "1 point for the country. 2 more for the city. Add it up out of 15 and put your score in the comments",
+      "title": null
+    }
+  ],
+  "rendered_at": "2026-10-07T04:56:16+00:00",
+  "git_sha": "db77804fa95bf767ac67820e2ae63d8179537274",
+  "config": "posts/geo-quiz/geo-cities-hard-001/quiz.yaml",
+  "config_hash": "d6747fb0aeed7e67",
+  "layout_problems": [],
+  "publish": {
+    "post_id": null,
+    "url": null,
+    "posted_at": "2026-10-06",
+    "notes": null,
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "posted_at": null
+    }
+  }
+}

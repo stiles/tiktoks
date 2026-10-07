@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import date
 from pathlib import Path
 
-from tiktoks import countries
+from tiktoks import cities, countries
 from tiktoks.config import POSTS_DIR
 from tiktoks.io import write_yaml
 
@@ -38,6 +38,10 @@ def build(
     Returns the config path and the names chosen. With `commit=False` nothing is
     written, which is what `--dry-run` uses.
     """
+    if variant == "cities":
+        return build_cities(
+            tier, count, slug=slug, root=root, catalog_path=catalog_path, commit=commit
+        )
     if tier == "master" and variant != "classic":
         raise ValueError("Master uses isolated outlines; omit --variant.")
     root = Path(root or QUIZ_ROOT)
@@ -80,4 +84,41 @@ def build(
     destination.parent.mkdir(parents=True, exist_ok=True)
     write_yaml(destination, config)
     countries.save(countries.mark_rendered(pool, names), catalog_path)
+    return destination, names
+
+
+def build_cities(
+    tier: str,
+    count: int,
+    *,
+    slug: str | None = None,
+    root: Path | None = None,
+    catalog_path: Path | None = None,
+    commit: bool = True,
+) -> tuple[Path, list[str]]:
+    """The city-pool counterpart of `build`, with its own usage counters."""
+    root = Path(root or QUIZ_ROOT)
+    pool = cities.load(catalog_path)
+    chosen = cities.select(pool, tier, count)
+    names = list(chosen["name"])
+
+    slug = slug or countries.next_slug(tier, root, variant="cities")
+    config = {
+        "slug": slug,
+        "title": f"{tier.capitalize()} city globe quiz",
+        "difficulty": tier,
+        "topic": "world geography city globe quiz",
+        "variant": "cities",
+        "built_from": "content/cities.csv",
+        "built_on": date.today().isoformat(),
+        "cities": cities.to_entries(chosen),
+    }
+
+    destination = root / slug / "quiz.yaml"
+    if not commit:
+        return destination, names
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    write_yaml(destination, config)
+    cities.save(countries.mark_rendered(pool, names), catalog_path)
     return destination, names

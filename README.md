@@ -16,12 +16,13 @@ provides the answers and decides what the maps should show.
 | Workflow | Formats | Code handles | Editorial control |
 | --- | --- | --- | --- |
 | Country pool | Classic, globe, silhouette, progressive, Master outline | Country rotation, batch config, framing defaults, slides and scorecard | Maintain country tiers, facts and overrides; choose format and tier; review each batch |
+| City pool | City globe | City rotation, Esri coordinates, batch config, slides and scorecard | Maintain city tiers and facts; review each batch |
 | Curated question configs | Land-area comparison, neighbors | Render a supplied question list; compute land-area winners from saved values | Select comparisons, source values and wording; explicitly set neighbors answers, explanations and map labels |
 | Query catalog or local CSV | Mystery maps (`guess-map`) | Fetch/cache data, join countries, validate expected counts and draw maps | Choose the premise, query, definitions, corrections, answer and explanation; verify the mapped result |
 | Custom story | Data stories, including SSA name stories | Run story-specific fetch, process and render scripts | Define the angle, analysis, sequence, charts and copy |
 
-The country pool is the only workflow with automatic next-batch selection and
-shared country usage tracking. A list of ideas in `docs/` is a planning aid;
+The country and city pools are the only workflows with automatic next-batch
+selection and usage tracking. A list of ideas in `docs/` is a planning aid;
 it does not become a runnable post until a config or story implementation exists.
 Every workflow still needs editorial and visual review before publishing.
 
@@ -111,6 +112,31 @@ Edit a saved batch's `quiz.yaml` to control that post's country order, facts,
 hooks, framing or `cover_title`. Manual batch edits do not reconcile the pool's
 usage counters. See [the rendering and config reference](docs/rendering-guide.md)
 for override syntax, map sources and layout behavior.
+
+### City globe
+
+A red dot on a globe with no borders. Viewers name the country for 1 point and
+the city for 2 more, so a three-city post is scored out of 9. The answer slide
+fills in the containing country.
+
+```bash
+make quiz-cities TIER=hard COUNT=3
+# Equivalent CLI:
+uv run tiktoks quiz next --tier hard --count 3 --variant cities --theme night
+uv run tiktoks quiz status --cities --validate
+```
+
+Cities come from `content/cities.csv`, a separate pool with its own usage
+counters. Tiers are `easy` through `expert` (no master) and reflect how hard the
+dot is to place, not how famous the city is: anything in the United States is
+easy, while Lahore is hard because it sits beside the Indian border. Display
+names and countries are editorial; coordinates come from
+[Esri World Cities](https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Cities/FeatureServer/0).
+To add a city, add a row with blank `lon` and `lat` and run
+`uv run tiktoks quiz locate-cities`. Set `esri_name` when Esri spells the name
+differently (`T'Bilisi`, `Ndjamena`) and `esri_country` when a name repeats.
+Batches save as `posts/geo-quiz/geo-cities-<tier>-NNN/quiz.yaml` with the
+coordinates, so re-renders and `make rebuild` work offline.
 
 ## Curated comparison quizzes
 
@@ -330,6 +356,7 @@ keeps it.
 | Path | Purpose | What to preserve |
 | --- | --- | --- |
 | `content/countries.csv` | Authored country pool plus code-updated usage | Facts, overrides and rotation history |
+| `content/cities.csv` | Authored city pool, Esri coordinates and code-updated usage | Tiers, facts and rotation history |
 | `content/area-quiz/<slug>/`, `content/neighbors-quiz/<slug>/` | Curated questions, saved evidence and methodology | Configs and source evidence |
 | `content/guess-map.yaml`, CSV-backed config directories | Mystery-map definitions and data inputs | Queries, copy, corrections and local data |
 | `content/stories/<slug>/` | Story config and scripts | Reporting and implementation |
