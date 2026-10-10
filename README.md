@@ -105,7 +105,8 @@ slugs look like `geo-medium-001` or `geo-globe-hard-001`.
 
 Edit `content/countries.csv` for future picks: display `name`, polygon
 `match_name`, `tier`, `fact`, source notes, hooks and optional framing overrides
-(`center_lon`, `center_lat`, `zoom`, `context`). Validate after changing names.
+(`center_lon`, `center_lat`, `zoom`, `context`) and the `region` that a progressive
+hint slide names. Validate after changing names.
 Pool edits do not rewrite existing batch configs.
 
 Edit a saved batch's `quiz.yaml` to control that post's country order, facts,
@@ -314,7 +315,9 @@ suggested as 1:1. They have no API. These slides are 9:16 and a three-country
 quiz is already eight frames, so Shorts here means a video.
 
 `tiktoks video` holds each slide by kind (longer on the prompt, a cut on the
-answer) and writes `{slug}.mp4` next to the PNGs. ffmpeg has to be on PATH.
+answer), pushes slowly in on the map and writes `{slug}.mp4` next to the PNGs.
+The map box comes from `post.json`, so re-render a post that predates it; slides
+without one get a gentle whole-frame push. ffmpeg has to be on PATH.
 
 Music requires clean, licensed recordings, with source/license evidence,
 a checksum, and an explicit match to the post's format. Artlist, YouTube Audio Library, CC BY and CC0 tracks are supported.

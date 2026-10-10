@@ -42,6 +42,8 @@ class SlideRecord:
     kind: str
     alt: str
     title: str | None = None
+    # [x0, y0, x1, y1] in canvas pixels; video assembly pushes in on this region.
+    map: list[int] | None = None
 
 
 @dataclass
@@ -71,11 +73,16 @@ class Post:
         for problem in slide.check_layout():
             self.problems.append(f"{self.slug} slide {index:02d} ({kind}): {problem}")
 
+        rect = slide.map_rect
+        map_box = [round(v) for v in (rect.x0, rect.y0, rect.x1, rect.y1)] if rect else None
+
         name = f"{self.slug}-{index:02d}-{kind}.png"
         path = slide.save(Path(self.output_dir) / name)
         validate_export(path)
 
-        self.slides.append(SlideRecord(index=index, file=name, kind=kind, alt=alt, title=title))
+        self.slides.append(
+            SlideRecord(index=index, file=name, kind=kind, alt=alt, title=title, map=map_box)
+        )
         self.paths.append(path)
         return path
 

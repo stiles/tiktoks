@@ -75,7 +75,9 @@ before the answer. Its tier controls both country selection and framing.
 `name` is what the answer slide says. `match_name` is the polygon to look up, and
 is only needed when the two differ: the boundary file still calls Eswatini
 "Swaziland". `center_lon`, `center_lat`, `zoom` and `context` override the default
-framing. `times_used` and `last_rendered` are written by the renderer.
+framing. `region` is the clue a progressive hint slide gives ("It's in Southeast
+Asia."), written as it reads in the sentence; a batch entry's own `hint` overrides
+it. `times_used` and `last_rendered` are written by the renderer.
 
 Selection is least-recently-used, recency first. Never-used countries come before
 used ones, and a country posted last week sorts behind one posted twice a year ago.
@@ -103,7 +105,7 @@ a speck rather than a shape.
 Progressive quizzes are the reveal variant:
 
 - Prompt: a tighter frame
-- Hint: a wider view of the same country
+- Hint: a wider view of the same country, with a line naming its region
 - Answer: the same wider frame, now labeled
 
 Globe quizzes (`--variant globe`, or `make quiz-globe TIER=hard`) use an

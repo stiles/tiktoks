@@ -35,6 +35,7 @@ COLUMNS = [
     "fact",
     "source",
     "hook",
+    "region",
     "center_lon",
     "center_lat",
     "zoom",
@@ -116,6 +117,8 @@ def to_entries(rows: pd.DataFrame) -> list[dict]:
             entry["match_name"] = row["match_name"]
         if row["hook"]:
             entry["hook"] = row["hook"]
+        if row["region"]:
+            entry["region"] = row["region"]
         if row["context"]:
             entry["context"] = row["context"]
         if row["zoom"]:

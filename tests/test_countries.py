@@ -169,12 +169,18 @@ def test_entries_carry_overrides_that_are_set():
     frame = pd.DataFrame(
         [
             {column: "" for column in countries.COLUMNS}
-            | {"name": "X", "zoom": "2.5", "context": "world"}
+            | {"name": "X", "zoom": "2.5", "context": "world", "region": "the Caribbean"}
         ]
     )
     entry = countries.to_entries(frame)[0]
     assert entry["zoom"] == 2.5
     assert entry["context"] == "world"
+    assert entry["region"] == "the Caribbean"
+
+
+def test_shipped_pool_has_a_region_for_every_country():
+    frame = countries.load()
+    assert frame.loc[frame["region"] == "", "name"].tolist() == []
 
 
 def test_shipped_pool_names_all_resolve():

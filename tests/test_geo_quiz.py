@@ -87,3 +87,12 @@ def test_progressive_world_override_still_allows_a_regional_zoom_out():
     assert prompt.base.crs == hint.base.crs
     assert "laea" in prompt.base.crs.to_string()
     assert hint.bounds[2] - hint.bounds[0] > prompt.bounds[2] - prompt.bounds[0]
+
+
+def test_hint_prefers_explicit_text_then_region_then_default():
+    from tiktoks.geo_quiz import hint_for
+
+    spec = VARIANTS["progressive"]
+    assert hint_for({"hint": "Think bigger.", "region": "Oceania"}, spec) == "Think bigger."
+    assert hint_for({"region": "the Caribbean"}, spec) == "It's in the Caribbean."
+    assert hint_for({}, spec) == spec["hint_title"]

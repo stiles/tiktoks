@@ -23,14 +23,19 @@ from pathlib import Path
 
 import requests
 
-from tiktoks.config import CANVAS_SIZE, ROOT
+from tiktoks.config import ROOT
 from tiktoks.io import read_yaml
 from tiktoks.paths import ensure_dir
-from tiktoks.video import _ffmpeg, load_manifest, slide_files
+from tiktoks.video import (
+    FPS,
+    VideoError,
+    _ffmpeg,
+    load_manifest,
+    map_rects,
+    render_segment,
+    slide_files,
+)
 
-FPS = 30
-# Slow push-in per slide, as a fraction of the frame.
-ZOOM = 0.035
 # Bands quieter than this, for at least this long, count as a pause.
 NOISE_DB = -40
 MIN_PAUSE = 0.35
@@ -220,9 +225,14 @@ def build(config_path: Path | str, *, tts: bool = False, voice: str | None = Non
     work = ensure_dir(config.post_dir / ".voiceover")
     voice_mix = _mix(tracks, config, work / "voice.wav")
     segments = []
-    for index, (png, frames) in enumerate(zip(slides, frame_counts(windows), strict=True)):
+    for index, (png, frames, rect) in enumerate(
+        zip(slides, frame_counts(windows), map_rects(manifest), strict=True)
+    ):
         segment = work / f"slide-{index + 1:02d}.mp4"
-        _segment(png, frames, segment)
+        try:
+            render_segment(png, max(frames, 1), segment, map_rect=rect)
+        except VideoError as exc:
+            raise VoiceoverError(str(exc)) from exc
         segments.append(segment)
 
     listing = work / "concat.txt"
@@ -324,31 +334,6 @@ def _mix(tracks: list[Track], config: Voiceover, path: Path) -> Path:
     chain += f"concat=n={count}:v=0:a=1,highpass=f=80,{LOUDNESS}[out]"
     _run(*inputs, "-filter_complex", chain, "-map", "[out]", "-ar", "48000", str(path))
     return path
-
-
-def _segment(png: Path, frames: int, path: Path) -> None:
-    width, height = CANVAS_SIZE
-    zoom = f"1+{ZOOM}*on/{max(frames, 1)}"
-    _run(
-        "-loop",
-        "1",
-        "-i",
-        str(png),
-        "-filter_complex",
-        f"scale={width * 2}:{height * 2},zoompan=z='{zoom}':x='iw/2-iw/zoom/2'"
-        f":y='ih/2-ih/zoom/2':d=1:s={width}x{height}:fps={FPS},format=yuv420p",
-        "-frames:v",
-        str(frames),
-        "-c:v",
-        "libx264",
-        "-preset",
-        "medium",
-        "-crf",
-        "18",
-        "-r",
-        str(FPS),
-        str(path),
-    )
 
 
 def _record(

@@ -103,6 +103,11 @@ class Slide:
         if cue:
             self._draw_cue(cue)
 
+    @property
+    def map_rect(self) -> Box | None:
+        """The last map box placed on this slide, in canvas pixels."""
+        return self._map_rect
+
     def _margins(self) -> tuple[float, float, float, float]:
         theme = self.theme
         if not self.safe_area:

@@ -130,7 +130,10 @@ Also folded in: the dead `templates/geo_quiz` and `templates/guess_map`, which
 nothing had referenced since the pool and catalog landed, and `docs/roadmap.md`,
 which duplicated this file. Its metrics design moved to `docs/metrics.md`.
 
-## 8. Metrics collector — `open`
+## 8. Metrics collector — `deferred`
+
+TikTok Studio's built-in analytics cover this for now. The design below stays for
+when that stops being enough.
 
 Scoped in detail in `docs/metrics.md`. TikTok analytics do not backfill, so this
 comes before a posting schedule, not after it.
@@ -143,19 +146,25 @@ Build order: `metrics auth` to store the TikAPI key, `metrics pull` for one date
 snapshot, a daily GitHub Action shaped like the bots repo, then `metrics report`
 to rank formats by finish rate.
 
-## 9. Video assembly — `partly done`
+## 9. Video assembly — `done`
 
 The rig already produces the frames. `tiktoks video` turns a slide sequence into
 a 9:16 MP4 with a hold per kind and a cut on the reveal. `tiktoks youtube upload`
 sends that file through `videos.insert`. Default privacy is private.
 
-A slow push on the map is still open. Holds are enough to post.
+Each slide is now its own clip. `post.json` records the map box per slide, and the
+map zooms inside that box while the text and panel border stay put. Slides with no
+map push the whole frame by half as much. Narrated builds share the same renderer.
+A post rendered before this has no map box, so re-render it first.
 
-## 10. Delay the reveal — `open`
+## 10. Delay the reveal — `done`
 
-Prompt to answer is one swipe. Prompt, then a zoomed-out regional view, then the
-answer is two, with an escalation between them. `prepare_country` already takes a
-`zoom`, so the middle frame is mostly a config change.
+The progressive variant is the two-swipe version: prompt, a wider regional hint,
+then the answer. The hint used to say "A little more context." It now names the
+region ("It's in Southeast Asia.") from a `region` column in the pool, so the second
+beat escalates in words as well as in framing. A batch entry's `hint` still wins.
+
+Other variants stay two-beat.
 
 ## 11. US geography — `open`
 

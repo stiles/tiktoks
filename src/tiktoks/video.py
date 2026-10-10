@@ -1,8 +1,8 @@
 """Assemble a vertical MP4 from a rendered post's PNG sequence.
 
-Shorts are video. The slides already exist; this is an ffmpeg concat with a hold
-per slide kind so a prompt sits long enough to read and the answer cuts in.
-A Ken Burns push on the map is still open.
+Shorts are video. The slides already exist; each one becomes a clip held for its
+kind, with a slow push-in on the map so the frame is never dead. Clips are then
+joined under the music bed.
 """
 
 from __future__ import annotations
@@ -15,6 +15,16 @@ from pathlib import Path
 
 from tiktoks.config import AUDIO_CATALOG_PATH, AUDIO_DIR, CANVAS_SIZE
 from tiktoks.io import read_yaml
+from tiktoks.paths import ensure_dir
+
+FPS = 30
+# Zoom gained over a slide's hold, as a fraction. The map pushes harder than a
+# whole frame can: text stays put, and 3.5% on type drifts it toward the margins.
+MAP_PUSH = 0.07
+FRAME_PUSH = 0.035
+# Keeps the map panel's own border out of the zoomed crop.
+MAP_INSET = 2
+SEGMENT_DIR = ".segments"
 
 # Seconds on screen. Prompt and mystery are the guess beats; answers cut sooner.
 HOLD = {
@@ -32,7 +42,6 @@ DEFAULT_HOLD = 2.5
 AUDIO_VOLUME = 0.28
 AUDIO_FADE_IN = 0.4
 AUDIO_FADE_OUT = 1.0
-CONCAT_NAME = ".concat.txt"
 
 
 class VideoError(RuntimeError):
@@ -80,18 +89,94 @@ def slide_files(
     return rows
 
 
-def concat_script(rows: list[tuple[Path, str, float]]) -> str:
-    """ffmpeg concat demuxer list. The last file is repeated so its duration sticks."""
-    lines = []
-    for path, _, duration in rows:
-        lines.append(_file_line(path))
-        lines.append(f"duration {duration}")
-    lines.append(_file_line(rows[-1][0]))
-    return "\n".join(lines) + "\n"
+def map_rects(manifest: dict) -> list[list[int] | None]:
+    """Map box per slide, aligned with `slide_files`. None for slides without a map."""
+    return [record.get("map") for record in manifest.get("slides") or []]
+
+
+def frame_count(seconds: float) -> int:
+    return max(round(seconds * FPS), 1)
 
 
 def total_duration(rows: list[tuple[Path, str, float]]) -> float:
-    return sum(duration for _, _, duration in rows)
+    return sum(frame_count(duration) for _, _, duration in rows) / FPS
+
+
+def push_graph(frames: int, map_rect: list[int] | None = None) -> str:
+    """ffmpeg filter graph for one slide: the map zooms inside its own box, or, with no
+    map, the whole frame pushes gently. zoompan jitters at integer crops, so it works
+    on a 2x upscale."""
+    width, height = CANVAS_SIZE
+    base = f"[0:v]scale={width}:{height}"
+    if map_rect is None:
+        zoom = f"1+{FRAME_PUSH}*on/{frames}"
+        return (
+            f"{base},scale={width * 2}:{height * 2},"
+            f"zoompan=z='{zoom}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2'"
+            f":d=1:s={width}x{height}:fps={FPS},format=yuv420p"
+        )
+    x0, y0, w, h = _push_box(map_rect)
+    zoom = f"1+{MAP_PUSH}*on/{frames}"
+    return (
+        f"{base},split[bg][m];"
+        f"[m]crop={w}:{h}:{x0}:{y0},scale={w * 2}:{h * 2},"
+        f"zoompan=z='{zoom}':x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2'"
+        f":d=1:s={w}x{h}:fps={FPS}[z];"
+        f"[bg][z]overlay={x0}:{y0},format=yuv420p"
+    )
+
+
+def _push_box(rect: list[int]) -> tuple[int, int, int, int]:
+    """(x, y, w, h) inset from the map box and snapped to even pixels for 4:2:0."""
+    width, height = CANVAS_SIZE
+    x0 = max(int(rect[0]) + MAP_INSET, 0)
+    y0 = max(int(rect[1]) + MAP_INSET, 0)
+    x1 = min(int(rect[2]) - MAP_INSET, width)
+    y1 = min(int(rect[3]) - MAP_INSET, height)
+    x0, y0 = x0 + x0 % 2, y0 + y0 % 2
+    x1, y1 = x1 - x1 % 2, y1 - y1 % 2
+    return x0, y0, x1 - x0, y1 - y0
+
+
+def render_segment(
+    png: Path,
+    frames: int,
+    destination: Path,
+    *,
+    map_rect: list[int] | None = None,
+) -> Path:
+    """One slide as a silent clip of exactly `frames` frames."""
+    _encode(
+        "-framerate",
+        str(FPS),
+        "-loop",
+        "1",
+        "-i",
+        str(png),
+        "-filter_complex",
+        push_graph(frames, map_rect),
+        "-frames:v",
+        str(frames),
+        "-c:v",
+        "libx264",
+        "-preset",
+        "fast",
+        "-crf",
+        "18",
+        "-r",
+        str(FPS),
+        str(destination),
+    )
+    return destination
+
+
+def _encode(*args: str) -> None:
+    result = subprocess.run(
+        [_ffmpeg(), "-y", "-v", "error", *args], capture_output=True, text=True, check=False
+    )
+    if result.returncode != 0:
+        tail = "\n".join((result.stderr or result.stdout or "").strip().splitlines()[-12:])
+        raise VideoError(f"ffmpeg failed:\n{tail or 'no ffmpeg output'}")
 
 
 def load_catalog(path: Path | str | None = None) -> dict:
@@ -139,9 +224,8 @@ def assemble(
     duration = total_duration(rows)
     audio_path, audio_meta = resolve_bed(audio, manifest=manifest)
 
-    concat_path = directory / CONCAT_NAME
-    concat_path.write_text(concat_script(rows), encoding="utf-8")
-    width, height = CANVAS_SIZE
+    work = ensure_dir(directory / SEGMENT_DIR)
+    concat_path = work / "concat.txt"
     command = [
         ffmpeg,
         "-y",
@@ -154,15 +238,9 @@ def assemble(
         *_audio_input(audio_path, duration),
         "-t",
         f"{duration:.3f}",
-        "-vf",
-        f"scale={width}:{height},fps=30,format=yuv420p",
         *_audio_filters(audio_path, duration),
         "-c:v",
-        "libx264",
-        "-preset",
-        "fast",
-        "-crf",
-        "18",
+        "copy",
         "-c:a",
         "aac",
         "-b:a",
@@ -179,9 +257,18 @@ def assemble(
         str(destination),
     ]
     try:
+        names = []
+        for index, ((png, _, hold), rect) in enumerate(
+            zip(rows, map_rects(manifest), strict=True), start=1
+        ):
+            segment = render_segment(
+                png, frame_count(hold), work / f"slide-{index:02d}.mp4", map_rect=rect
+            )
+            names.append(segment.name)
+        concat_path.write_text("".join(f"file '{name}'\n" for name in names), encoding="utf-8")
         result = subprocess.run(command, capture_output=True, text=True, check=False)
     finally:
-        concat_path.unlink(missing_ok=True)
+        shutil.rmtree(work, ignore_errors=True)
     if result.returncode != 0:
         detail = (result.stderr or result.stdout or "").strip().splitlines()
         tail = "\n".join(detail[-12:]) if detail else "no ffmpeg output"
@@ -313,11 +400,6 @@ def _record_audio(manifest_path: Path, meta: dict | None, video_path: Path) -> N
     else:
         payload["audio"] = None
     manifest_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-
-
-def _file_line(path: Path) -> str:
-    text = str(path.resolve()).replace("'", r"'\''")
-    return f"file '{text}'"
 
 
 def _ffmpeg() -> str:

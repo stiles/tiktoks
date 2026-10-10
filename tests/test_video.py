@@ -13,9 +13,11 @@ from tiktoks.video import (
     VideoError,
     assemble,
     beds,
-    concat_script,
+    frame_count,
     hold_for,
+    map_rects,
     music_attribution,
+    push_graph,
     resolve_bed,
     slide_files,
     total_duration,
@@ -36,7 +38,7 @@ def _post(tmp_path: Path) -> Path:
           "slug": "demo",
           "slides": [
             {"file": "cover.png", "kind": "cover"},
-            {"file": "prompt.png", "kind": "prompt"},
+            {"file": "prompt.png", "kind": "prompt", "map": [60, 400, 1020, 1300]},
             {"file": "answer.png", "kind": "answer"}
           ]
         }
@@ -52,13 +54,26 @@ def test_holds_differ_by_kind():
     assert hold_for("unknown") == hold_for("slide")
 
 
-def test_concat_repeats_the_last_file(tmp_path):
+def test_total_duration_sums_whole_frames(tmp_path):
     rows = slide_files(_post(tmp_path))
-    script = concat_script(rows)
-    assert script.count("cover.png") == 1
-    assert script.count("answer.png") == 2
-    assert "duration 4.0" in script
     assert total_duration(rows) == 2.5 + 4.0 + 2.5
+    assert frame_count(2.5) == 75
+
+
+def test_map_slides_push_the_map_and_others_push_the_frame():
+    on_map = push_graph(120, [60, 400, 1020, 1300])
+    assert "crop=" in on_map and "overlay=" in on_map
+    assert "crop=" not in push_graph(120)
+
+
+def test_push_box_is_inset_and_even():
+    graph = push_graph(120, [61, 401, 1019, 1301])
+    assert "crop=952:894:64:404" in graph
+
+
+def test_map_rects_align_with_slides():
+    manifest = {"slides": [{"file": "a.png"}, {"file": "b.png", "map": [0, 1, 2, 3]}]}
+    assert map_rects(manifest) == [None, [0, 1, 2, 3]]
 
 
 def test_missing_slide_fails_before_ffmpeg(tmp_path):

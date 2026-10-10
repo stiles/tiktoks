@@ -192,6 +192,15 @@ def hook_for(item: dict, difficulty: str, index: int, *, salt: str = "") -> str:
     return pool[(start + index - 1) % len(pool)]
 
 
+def hint_for(item: dict, variant_spec: dict) -> str:
+    """An explicit `hint` wins, then the country's `region`, then the generic line."""
+    if item.get("hint"):
+        return item["hint"]
+    if item.get("region"):
+        return f"It's in {item['region']}."
+    return variant_spec.get("hint_title", "A little more context.")
+
+
 def render_geo_quiz(config_path: Path | str, theme: Theme | str | None = None) -> list[Path]:
     config_path = Path(config_path)
     config = read_yaml(config_path)
@@ -490,7 +499,7 @@ def _hint(
         badge_color=color,
     )
     slide.kicker(f"Hint · {difficulty}")
-    slide.title(item.get("hint", variant_spec.get("hint_title", "A little more context.")))
+    slide.title(hint_for(item, variant_spec))
     return slide
 
 
